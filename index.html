@@ -4173,7 +4173,7 @@
                         <i class="fa-regular fa-eye"></i> <span>Hiện số thứ tự</span>
                     </button>
                     <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#1D4ED8; background:#EFF6FF; padding:5px 10px; border-radius:8px; border:1px solid #BFDBFE;">
-                        <i class="fa-solid fa-graduation-cap"></i> Bài đào tạo
+                        <i class="fa-solid fa-graduation-cap"></i> Thử thách từ chuyên gia
                     </span>
                 </div>
 
@@ -4251,7 +4251,7 @@
                     </div>
                     <div class="zip-doc-info">
                         <div class="zip-doc-name" id="zipDocName">Tài liệu hướng dẫn quy trình.pdf</div>
-                        <div class="zip-doc-sub">Tài liệu đính kèm từ giảng viên</div>
+                        <div class="zip-doc-sub">Tài liệu từ chuyên gia</div>
                     </div>
                     <a id="zipDocDownloadBtn" href="#" target="_blank" rel="noopener" download class="zip-doc-dl-btn">
                         <i class="fa-solid fa-download"></i> Tải về
@@ -15160,7 +15160,7 @@ window.addEventListener('message', async function(event) {
                     badge.classList.toggle('hidden', !level.isCustom);
                     badge.innerHTML = level.partnerName
                         ? `<i class="fa-solid fa-building"></i> ${level.partnerName}`
-                        : `<i class="fa-solid fa-graduation-cap"></i> Bài đào tạo`;
+                        : `<i class="fa-solid fa-graduation-cap"></i> Thử thách từ chuyên gia`;
                 }
 
                 const startCp = level.checkpoints.find(cp => cp.num === 1);
