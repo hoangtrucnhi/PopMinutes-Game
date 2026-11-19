@@ -14974,7 +14974,8 @@ window.addEventListener('message', async function(event) {
 
         const ZIP_STORAGE_KEY = 'popminutes_custom_zip_levels_v1';
         const ZIP_PROGRESS_KEY = 'popminutes_zip_progress_v1';
-        const ZIP_USER_SEED_KEY = 'popminutes_zip_user_seed_v1';        // Dán URL Google Apps Script Web App của bạn vào đây để mọi máy tự động đồng bộ bài đào tạo mới
+        const ZIP_USER_SEED_KEY = 'popminutes_zip_user_seed_v1';
+        const ZIP_LAST_ACTIVE_KEY = 'popminutes_zip_last_active_v1';
         const ZIP_CLOUD_SYNC_URL = 'https://script.google.com/macros/s/AKfycbx2GgGfkpCzgS40yZ2Xrip2NtPwujYx9cwE-t2ci3rpbBLac-uepqbXMEe24pGBASZ0yA/exec';
 
         let ZIP_LEVELS = [];
@@ -15205,6 +15206,7 @@ window.addEventListener('message', async function(event) {
             seconds: 0,
             timerInterval: null,
             initialized: false,
+            catchUpExpanded: false,
             sharedLevelFromUrl: null,
             progress: {
                 completedIds: [],
@@ -15332,30 +15334,24 @@ window.addEventListener('message', async function(event) {
             findResumeLevelIndex() {
                 if (!ZIP_LEVELS.length) return 0;
 
-                // 1. Nếu đang trong chuỗi bắt nhịp của một chuyên gia mới
-                if (this.progress.activeCatchUpPartner) {
-                    const catchUpIdx = ZIP_LEVELS.findIndex(lv =>
-                        lv.partnerName === this.progress.activeCatchUpPartner &&
-                        lv.levelNum < this.progress.highestMilestone &&
-                        !this.isLevelCompleted(lv.id)
-                    );
-                    if (catchUpIdx !== -1) return catchUpIdx;
-                    this.progress.activeCatchUpPartner = '';
-                    this.saveProgress();
+                const lastActiveId = localStorage.getItem(ZIP_LAST_ACTIVE_KEY) || '';
+                if (lastActiveId) {
+                    const savedIdx = ZIP_LEVELS.findIndex(lv => lv.id === lastActiveId);
+                    if (savedIdx !== -1) {
+                        // 1. Nếu màn đang chơi trước khi F5 vẫn chưa giải xong -> giữ nguyên màn này
+                        if (!this.isLevelCompleted(ZIP_LEVELS[savedIdx].id)) {
+                            return savedIdx;
+                        }
+                        // 2. Nếu màn đó vừa giải xong -> mở tiếp màn chưa giải liền sau nó
+                        for (let i = savedIdx + 1; i < ZIP_LEVELS.length; i++) {
+                            if (!this.isLevelCompleted(ZIP_LEVELS[i].id)) return i;
+                        }
+                    }
                 }
 
-                // 2. Mở bài chưa hoàn thành đầu tiên tại mốc highestMilestone trở lên
-                const milestoneIdx = ZIP_LEVELS.findIndex(lv =>
-                    lv.levelNum >= this.progress.highestMilestone &&
-                    !this.isLevelCompleted(lv.id)
-                );
-                if (milestoneIdx !== -1) return milestoneIdx;
-
-                // 3. Nếu đã xong các bài từ mốc hiện tại trở lên, tìm bất kỳ bài nào chưa chơi
-                const anyUncompleted = ZIP_LEVELS.findIndex(lv => !this.isLevelCompleted(lv.id));
-                if (anyUncompleted !== -1) return anyUncompleted;
-
-                return 0;
+                // 3. Mặc định: tìm màn chưa hoàn thành đầu tiên
+                const firstUncompleted = ZIP_LEVELS.findIndex(lv => !this.isLevelCompleted(lv.id));
+                return firstUncompleted !== -1 ? firstUncompleted : 0;
             },
 
             toggleLevelMenu(e) {
@@ -15406,57 +15402,67 @@ window.addEventListener('message', async function(event) {
                 }).join('');
             },
 
+            toggleCatchUpExpand() {
+                this.catchUpExpanded = !this.catchUpExpanded;
+                this.renderCatchUpBanner();
+            },
+
             renderCatchUpBanner() {
                 const banner = document.getElementById('zipCatchUpBanner');
-                if (!banner || !ZIP_LEVELS.length) {
-                    if (banner) banner.classList.add('hidden');
+                if (!banner || !ZIP_LEVELS.length) return;
+
+                const curLv = ZIP_LEVELS[this.currentLevelIdx];
+                const maxCompletedLv = ZIP_LEVELS.reduce((max, lv) =>
+                    this.isLevelCompleted(lv.id) ? Math.max(max, lv.levelNum) : max, 1
+                );
+                const referenceLvNum = Math.max(maxCompletedLv, curLv ? curLv.levelNum : 1);
+
+                // Lọc TẤT CẢ màn chưa giải có cấp thấp hơn mốc hiện tại (hoặc cùng cấp nhưng đứng trước)
+                const catchUpList = ZIP_LEVELS
+                    .map((lv, idx) => ({ lv, idx }))
+                    .filter(({ lv, idx }) =>
+                        (!curLv || lv.id !== curLv.id) &&
+                        !this.isLevelCompleted(lv.id) &&
+                        (lv.levelNum < referenceLvNum || (lv.levelNum === referenceLvNum && idx < this.currentLevelIdx))
+                    );
+
+                if (!catchUpList.length) {
+                    banner.style.display = 'none';
+                    banner.innerHTML = '';
                     return;
                 }
 
-                const milestone = this.progress.highestMilestone;
+                const visibleItems = this.catchUpExpanded ? catchUpList : catchUpList.slice(0, 2);
+                const hasMore = catchUpList.length > 2;
 
-                // Nếu Sales đang chủ động chơi chuỗi bắt nhịp của chuyên gia mới
-                if (this.progress.activeCatchUpPartner) {
-                    const partner = this.progress.activeCatchUpPartner;
-                    const remaining = ZIP_LEVELS.filter(lv =>
-                        lv.partnerName === partner &&
-                        lv.levelNum < milestone &&
-                        !this.isLevelCompleted(lv.id)
-                    );
-                    if (remaining.length > 0) {
-                        banner.innerHTML = `
-                            <span style="line-height:1.4;">
-                                <i class="fa-solid fa-bolt"></i> Đang bắt nhịp chuyên gia <strong>${partner}</strong> · Còn <strong>${remaining.length}</strong> bài trước mốc Level ${milestone}
-                            </span>
-                            <button type="button" class="zip-catchup-btn is-secondary" onclick="ZipGame.exitCatchUpMode()">Về Level ${milestone}</button>
-                        `;
-                        banner.classList.remove('hidden');
-                        return;
-                    } else {
-                        this.progress.activeCatchUpPartner = '';
-                        this.saveProgress();
-                    }
-                }
-
-                // Kiểm tra xem có chuyên gia mới nào có bài chưa chơi ở Level thấp hơn mốc hiện tại của Sales không
-                const lowerUncompleted = ZIP_LEVELS.filter(lv =>
-                    lv.levelNum < milestone && !this.isLevelCompleted(lv.id)
-                );
-
-                if (lowerUncompleted.length > 0) {
-                    const firstNew = lowerUncompleted[0];
-                    banner.innerHTML = `
-                        <span style="line-height:1.4;">
-                            <i class="fa-solid fa-sparkles"></i> Thử thách mới từ chuyên gia <strong>${firstNew.partnerName}</strong> (Level ${firstNew.displayCode})
+                banner.style.display = 'block';
+                banner.innerHTML = `
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px;">
+                        <span style="font-size:12px; font-weight:800; color:var(--navy);">
+                            <i class="fa-solid fa-sparkles" style="color:#2563EB; margin-right:4px;"></i>
+                            Có ${catchUpList.length} bài mới từ chuyên gia ở cấp trước
                         </span>
-                        <button type="button" class="zip-catchup-btn" onclick="ZipGame.startCatchUp('${firstNew.partnerName.replace(/'/g, "\\'")}')">Chơi ngay</button>
-                    `;
-                    banner.classList.remove('hidden');
-                } else {
-                    banner.classList.add('hidden');
-                }
+                        ${hasMore ? `
+                            <button type="button" onclick="ZipGame.toggleCatchUpExpand()" style="border:none; background:transparent; color:#2563EB; font-family:inherit; font-size:11.5px; font-weight:700; cursor:pointer; padding:2px 4px;">
+                                ${this.catchUpExpanded ? 'Thu gọn' : `Xem tất cả (${catchUpList.length})`}
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                        ${visibleItems.map(({ lv, idx }) => `
+                            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; background:#FFFFFF; border:1px solid #DBEAFE; border-radius:10px; padding:6px 10px;">
+                                <div style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; color:#1E293B;">
+                                    <strong style="color:var(--navy);">[${lv.displayCode}]</strong> ${lv.rawTitle}
+                                    <span style="color:#64748B; font-weight:600;">· ${lv.partnerName}</span>
+                                </div>
+                                <button type="button" onclick="ZipGame.loadLevel(${idx})" style="flex-shrink:0; border:none; background:var(--navy); color:#FFFFFF; font-family:inherit; font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:8px; cursor:pointer;">
+                                    Chơi ngay
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
             },
-
             startCatchUp(partnerName) {
                 this.progress.activeCatchUpPartner = partnerName;
                 this.saveProgress();
@@ -15531,6 +15537,10 @@ window.addEventListener('message', async function(event) {
                 this.renderEmptyState(false);
 
                 this.currentLevelIdx = Math.max(0, Math.min(ZIP_LEVELS.length - 1, idx));
+                const curLv = ZIP_LEVELS[this.currentLevelIdx];
+                if (curLv && curLv.id) {
+                    try { localStorage.setItem(ZIP_LAST_ACTIVE_KEY, curLv.id); } catch (e) {}
+                }
                 this.refreshLevelDropdown();
 
                 const level = ZIP_LEVELS[this.currentLevelIdx];
