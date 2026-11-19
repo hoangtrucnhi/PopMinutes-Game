@@ -15985,19 +15985,21 @@ if (covEl) covEl.textContent = `${this.path.length}/${totalCells}`;
                         banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
-            },
+            }
+        };
 
         window.addEventListener('DOMContentLoaded', () => {
             if (extractZipParamFromUrl('zip_data')) {
                 setTimeout(() => openGamePage('zip'), 150);
             }
         });
+
         document.addEventListener('click', (e) => {
-    const dropdown = document.getElementById('zipCustomDropdown');
-    if (dropdown && !dropdown.contains(e.target)) {
-        dropdown.classList.remove('open');
-    }
-});
+            const dropdown = document.getElementById('zipCustomDropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
     </script>
         <!-- LIGHTBOX XEM ẢNH -->
     <div id="imageLightbox" class="modal-overlay" style="background: rgba(0,0,0,0.9); z-index: 99999; padding: 0;" onclick="closeLightbox(event)">
