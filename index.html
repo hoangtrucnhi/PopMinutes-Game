@@ -15407,7 +15407,7 @@ window.addEventListener('message', async function(event) {
                 this.renderCatchUpBanner();
             },
 
-            renderCatchUpBanner() {
+            renderCatchUpBanner(highlight = false) {
                 const banner = document.getElementById('zipCatchUpBanner');
                 if (!banner || !ZIP_LEVELS.length) return;
 
@@ -15417,7 +15417,7 @@ window.addEventListener('message', async function(event) {
                 );
                 const referenceLvNum = Math.max(maxCompletedLv, curLv ? curLv.levelNum : 1);
 
-                // Lọc TẤT CẢ màn chưa giải có cấp thấp hơn mốc hiện tại (hoặc cùng cấp nhưng đứng trước)
+                // Lọc tất cả màn chưa giải ở cấp thấp hơn mốc hiện tại
                 const catchUpList = ZIP_LEVELS
                     .map((lv, idx) => ({ lv, idx }))
                     .filter(({ lv, idx }) =>
@@ -15426,7 +15426,11 @@ window.addEventListener('message', async function(event) {
                         (lv.levelNum < referenceLvNum || (lv.levelNum === referenceLvNum && idx < this.currentLevelIdx))
                     );
 
-                if (!catchUpList.length) {
+                const isPlayingCatchUpNow = Boolean(
+                    curLv && !this.isLevelCompleted(curLv.id) && curLv.levelNum < maxCompletedLv
+                );
+
+                if (!catchUpList.length && !isPlayingCatchUpNow) {
                     banner.style.display = 'none';
                     banner.innerHTML = '';
                     return;
@@ -15436,32 +15440,62 @@ window.addEventListener('message', async function(event) {
                 const hasMore = catchUpList.length > 2;
 
                 banner.style.display = 'block';
-                banner.innerHTML = `
-                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px;">
-                        <span style="font-size:12px; font-weight:800; color:var(--navy);">
-                            <i class="fa-solid fa-sparkles" style="color:#2563EB; margin-right:4px;"></i>
-                            Có ${catchUpList.length} bài mới từ chuyên gia ở cấp trước
-                        </span>
-                        ${hasMore ? `
-                            <button type="button" onclick="ZipGame.toggleCatchUpExpand()" style="border:none; background:transparent; color:#2563EB; font-family:inherit; font-size:11.5px; font-weight:700; cursor:pointer; padding:2px 4px;">
-                                ${this.catchUpExpanded ? 'Thu gọn' : `Xem tất cả (${catchUpList.length})`}
+                banner.style.transition = 'box-shadow 0.25s ease, border-color 0.25s ease';
+                if (highlight) {
+                    banner.style.borderColor = '#2563EB';
+                    banner.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.18)';
+                    setTimeout(() => {
+                        banner.style.borderColor = '';
+                        banner.style.boxShadow = '';
+                    }, 1600);
+                }
+
+                let html = '';
+
+                if (isPlayingCatchUpNow) {
+                    html += `
+                        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; ${catchUpList.length ? 'margin-bottom:8px; padding-bottom:8px; border-bottom:1px dashed #BFDBFE;' : ''}">
+                            <span style="font-size:12px; font-weight:700; color:var(--navy);">
+                                <i class="fa-solid fa-award" style="color:#2563EB; margin-right:4px;"></i>
+                                Đang làm thử thách bổ sung từ chuyên gia (Mốc đã đạt: Level ${maxCompletedLv})
+                            </span>
+                            <button type="button" onclick="ZipGame.loadLevel(${ZIP_LEVELS.length - 1})" style="flex-shrink:0; border:1px solid #BFDBFE; background:#FFFFFF; color:var(--navy); font-family:inherit; font-size:11px; font-weight:700; padding:4px 9px; border-radius:8px; cursor:pointer;">
+                                Về màn cuối
                             </button>
-                        ` : ''}
-                    </div>
-                    <div style="display:flex; flex-direction:column; gap:6px;">
-                        ${visibleItems.map(({ lv, idx }) => `
-                            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; background:#FFFFFF; border:1px solid #DBEAFE; border-radius:10px; padding:6px 10px;">
-                                <div style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; color:#1E293B;">
-                                    <strong style="color:var(--navy);">[${lv.displayCode}]</strong> ${lv.rawTitle}
-                                    <span style="color:#64748B; font-weight:600;">· ${lv.partnerName}</span>
-                                </div>
-                                <button type="button" onclick="ZipGame.loadLevel(${idx})" style="flex-shrink:0; border:none; background:var(--navy); color:#FFFFFF; font-family:inherit; font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:8px; cursor:pointer;">
-                                    Chơi ngay
+                        </div>
+                    `;
+                }
+
+                if (catchUpList.length) {
+                    html += `
+                        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px;">
+                            <span style="font-size:12px; font-weight:800; color:var(--navy);">
+                                <i class="fa-solid fa-sparkles" style="color:#2563EB; margin-right:4px;"></i>
+                                Đề xuất ${catchUpList.length} thử thách mới từ chuyên gia ở cấp trước
+                            </span>
+                            ${hasMore ? `
+                                <button type="button" onclick="ZipGame.toggleCatchUpExpand()" style="border:none; background:transparent; color:#2563EB; font-family:inherit; font-size:11.5px; font-weight:700; cursor:pointer; padding:2px 4px;">
+                                    ${this.catchUpExpanded ? 'Thu gọn' : `Xem tất cả (${catchUpList.length})`}
                                 </button>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
+                            ` : ''}
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            ${visibleItems.map(({ lv, idx }) => `
+                                <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; background:#FFFFFF; border:1px solid #DBEAFE; border-radius:10px; padding:6px 10px;">
+                                    <div style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; color:#1E293B;">
+                                        <strong style="color:var(--navy);">[${lv.displayCode}]</strong> ${lv.rawTitle}
+                                        <span style="color:#64748B; font-weight:600;">· ${lv.partnerName}</span>
+                                    </div>
+                                    <button type="button" onclick="ZipGame.loadLevel(${idx})" style="flex-shrink:0; border:none; background:var(--navy); color:#FFFFFF; font-family:inherit; font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:8px; cursor:pointer;">
+                                        Chơi ngay
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                banner.innerHTML = html;
             },
             startCatchUp(partnerName) {
                 this.progress.activeCatchUpPartner = partnerName;
@@ -15915,48 +15949,43 @@ if (covEl) covEl.textContent = `${this.path.length}/${totalCells}`;
             nextLevel() {
                 if (!ZIP_LEVELS.length) return;
 
-                // 1. Nếu đang trong chuỗi bắt nhịp của chuyên gia mới -> đi tiếp bài tiếp theo của chuyên gia đó
-                if (this.progress.activeCatchUpPartner) {
-                    const partner = this.progress.activeCatchUpPartner;
-                    const nextCatchUpIdx = ZIP_LEVELS.findIndex(lv =>
-                        lv.partnerName === partner &&
-                        lv.levelNum < this.progress.highestMilestone &&
-                        !this.isLevelCompleted(lv.id)
-                    );
-                    if (nextCatchUpIdx !== -1) {
-                        this.loadLevel(nextCatchUpIdx);
+                // 1. Chỉ tìm màn chưa giải NẰM PHÍA SAU màn hiện tại (tiến lên, không lùi cấp)
+                for (let i = this.currentLevelIdx + 1; i < ZIP_LEVELS.length; i++) {
+                    if (!this.isLevelCompleted(ZIP_LEVELS[i].id)) {
+                        this.loadLevel(i);
                         return;
                     }
-                    // Đã bắt kịp mốc của Sales -> thoát chế độ bắt nhịp và hòa vào luồng chung
-                    this.progress.activeCatchUpPartner = '';
-                    this.saveProgress();
-                    if (typeof showToast === 'function') {
-                        showToast(`Đã bắt kịp Level ${this.progress.highestMilestone}!`, true);
+                }
+
+                // 2. Nếu chưa phải màn cuối cùng của danh sách thì tiến sang màn kế tiếp
+                if (this.currentLevelIdx + 1 < ZIP_LEVELS.length) {
+                    this.loadLevel(this.currentLevelIdx + 1);
+                    return;
+                }
+
+                // 3. Đang ở MÀN CUỐI CÙNG: giữ nguyên màn hiện tại & bật đề xuất thử thách mới
+                this.renderCatchUpBanner(true);
+
+                const curLv = ZIP_LEVELS[this.currentLevelIdx];
+                const catchUpCount = ZIP_LEVELS.filter(lv =>
+                    (!curLv || lv.id !== curLv.id) &&
+                    !this.isLevelCompleted(lv.id) &&
+                    lv.levelNum < (curLv ? curLv.levelNum : 1)
+                ).length;
+
+                const msg = catchUpCount > 0
+                    ? `Bạn đã xong màn cuối! Có ${catchUpCount} thử thách mới từ chuyên gia ở cấp trước.`
+                    : 'Chúc mừng! Bạn đã hoàn thành tất cả màn chơi hiện có.';
+
+                if (typeof showToast === 'function') {
+                    showToast(msg);
+                } else {
+                    const banner = document.getElementById('zipCatchUpBanner');
+                    if (banner && banner.style.display !== 'none') {
+                        banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
-
-                // 2. Đi tiếp theo thứ tự mix ngẫu nhiên từ mốc hiện tại trở lên
-                const nextInMilestone = ZIP_LEVELS.findIndex((lv, i) =>
-                    i > this.currentLevelIdx &&
-                    lv.levelNum >= this.progress.highestMilestone &&
-                    !this.isLevelCompleted(lv.id)
-                );
-                if (nextInMilestone !== -1) {
-                    this.loadLevel(nextInMilestone);
-                    return;
-                }
-
-                const resumeIdx = this.findResumeLevelIndex();
-                if (resumeIdx !== this.currentLevelIdx) {
-                    this.loadLevel(resumeIdx);
-                    return;
-                }
-
-                // 3. Nếu đã hoàn thành toàn bộ thư viện hiện có -> chuyển vòng lặp tiếp theo
-                const nextWrapIdx = (this.currentLevelIdx + 1) % ZIP_LEVELS.length;
-                this.loadLevel(nextWrapIdx);
-            }
-        };
+            },
 
         window.addEventListener('DOMContentLoaded', () => {
             if (extractZipParamFromUrl('zip_data')) {
