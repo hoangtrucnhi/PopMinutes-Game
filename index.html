@@ -3376,7 +3376,6 @@
       /* ===== TRÒ CHƠI ZIP (XANH CHỦ ĐẠO + ĐƯỜNG HẦM #4D3B9C) ===== */
         #zip-game-page .page-content {
             padding-top: 76px;
-            padding-bottom: 115px;
         }
         .zip-topbar {
             display: flex;
@@ -4425,54 +4424,6 @@
             </div>
         </div>
 
-        <!-- POPUP VIDEO BÀI HỌC SAU KHI GIẢI XONG GAME -->
-        <div id="zipVideoModal" class="zip-video-backdrop hidden" onclick="if(event.target===this) ZipGame.closeVideoModal()">
-            <div class="zip-video-modal">
-                <div class="zip-video-header">
-                    <div>
-                        <div class="zip-video-badge"><i class="fa-solid fa-circle-check"></i> Hoàn thành quy trình · Video tổng kết</div>
-                        <div class="zip-video-title" id="zipVideoModalTitle">Video hướng dẫn chi tiết</div>
-                    </div>
-                    <button type="button" onclick="ZipGame.closeVideoModal()" style="border:none; background:#F1F5F9; width:32px; height:32px; border-radius:50%; color:#475569; cursor:pointer; flex-shrink:0;">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div id="zipVideoContainer" class="zip-video-frame-wrap"></div>
-                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-                    <a id="zipVideoExternalLink" href="#" target="_blank" rel="noopener" style="font-size:12.5px; font-weight:700; color:#4D3B9C; text-decoration:none;">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở video trong tab mới
-                    </a>
-                    <button type="button" class="btn-primary" style="padding:10px 18px; font-size:13.5px; background:#4D3B9C;" onclick="ZipGame.closeVideoModal()">
-                        Tiếp tục
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- POPUP VIDEO BÀI HỌC SAU KHI GIẢI XONG GAME -->
-        <div id="zipVideoModal" class="zip-video-backdrop hidden" onclick="if(event.target===this) ZipGame.closeVideoModal()">
-            <div class="zip-video-modal">
-                <div class="zip-video-header">
-                    <div>
-                        <div class="zip-video-badge"><i class="fa-solid fa-circle-check"></i> Hoàn thành quy trình · Video tổng kết</div>
-                        <div class="zip-video-title" id="zipVideoModalTitle">Video hướng dẫn chi tiết</div>
-                    </div>
-                    <button type="button" onclick="ZipGame.closeVideoModal()" style="border:none; background:#F1F5F9; width:32px; height:32px; border-radius:50%; color:#475569; cursor:pointer; flex-shrink:0;">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div id="zipVideoContainer" class="zip-video-frame-wrap"></div>
-                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-                    <a id="zipVideoExternalLink" href="#" target="_blank" rel="noopener" style="font-size:12.5px; font-weight:700; color:#4D3B9C; text-decoration:none;">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở video trong tab mới
-                    </a>
-                    <button type="button" class="btn-primary" style="padding:10px 18px; font-size:13.5px; background:#4D3B9C;" onclick="ZipGame.closeVideoModal()">
-                        Tiếp tục
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <!-- ========== CROSSWORD GAME PAGE (PLACEHOLDER) ========== -->
         <div id="crossword-game-page" class="page hidden">
             <div class="page-header">
@@ -5296,8 +5247,7 @@
                     <!-- ↓↓↓ CẢNH BÁO MỚI THÊM ↓↓↓ -->
                     <div style="margin-top: 10px; padding: 10px 12px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; font-size: 12.5px; color: #B45309; line-height: 1.5; display: flex; gap: 8px; align-items: flex-start;">
                         <i class="fa-solid fa-triangle-exclamation" style="margin-top: 2px; flex-shrink: 0;"></i>
-                        <span data-i18n="timezone_warning"
-</span>
+                        <span data-i18n="timezone_warning"></span>
                     </div>
                 </div>
             </div>
@@ -6936,7 +6886,7 @@
                 const isHidden = document.getElementById('ccFields').classList.contains('hidden');
                 const label = isHidden ? t('add_cc_btn') : t('hide_cc_btn');
                 const icon = isHidden ? 'fa-circle-plus' : 'fa-circle-minus';
-                toggleCcBtn.innerHTML = label;
+                toggleCcBtn.innerHTML = `<i class="fa-solid ${icon}"></i> ${label}`;
             }
 
             const recordBtn = document.getElementById('recordBtn');
@@ -8260,7 +8210,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
                     permission = await Notification.requestPermission();
                 }
                 if (permission !== 'granted') {
-                    if (!silent) showToast('notif_denied', false);
+                    if (!silent) showToast(t('notif_denied'), false);
                     return false;
                 }
 
