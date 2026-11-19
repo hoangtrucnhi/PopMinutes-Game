@@ -15900,57 +15900,63 @@ window.addEventListener('message', async function(event) {
             },
 
             updateVisuals() {
-                const level = ZIP_LEVELS[this.currentLevelIdx];
-                if (!level) return;
-                const totalCells = level.size * level.size;
-                const visitedSet = new Set(this.path.map(p => `${p.r},${p.c}`));
-                const head = this.path[this.path.length - 1];
-                const highestCp = this.getHighestVisitedCheckpoint();
-                const nextCpNum = Math.min(highestCp + 1, level.checkpoints.length);
+    const level = ZIP_LEVELS[this.currentLevelIdx];
+    if (!level || !this.path || this.path.length === 0) return;
 
-                document.querySelectorAll('#zipGrid .zip-cell').forEach(cell => {
-                    const r = Number(cell.dataset.r);
-                    const c = Number(cell.dataset.c);
-                    const key = `${r},${c}`;
-                    cell.classList.toggle('visited', visitedSet.has(key));
-                    cell.classList.toggle('head', head.r === r && head.c === c);
+    const totalCells = level.size * level.size;
+    const visitedSet = new Set(this.path.map(p => `${p.r},${p.c}`));
+    const head = this.path[this.path.length - 1];
+    const highestCp = this.getHighestVisitedCheckpoint();
+    const nextCpNum = Math.min(highestCp + 1, level.checkpoints.length);
 
-                    const cp = this.getCheckpointAt(r, c);
-                    cell.classList.toggle('next-target', Boolean(cp && cp.num === nextCpNum && !this.isWon && !this.hideNumbers));
-                });
+    document.querySelectorAll('#zipGrid .zip-cell').forEach(cell => {
+        const r = Number(cell.dataset.r);
+        const c = Number(cell.dataset.c);
+        const key = `${r},${c}`;
+        cell.classList.toggle('visited', visitedSet.has(key));
+        cell.classList.toggle('head', head.r === r && head.c === c);
 
-                renderDugTunnelSvg(
-                    document.getElementById('zipTunnelOuter'),
-                    document.getElementById('zipTunnelInner'),
-                    this.path,
-                    level.size
-                );
+        const cp = this.getCheckpointAt(r, c);
+        cell.classList.toggle('next-target', Boolean(cp && cp.num === nextCpNum && !this.isWon && !this.hideNumbers));
+    });
 
-                const step = 100 / level.size;
-                const headDot = document.getElementById('zipHeadDot');
-                const headOnCheckpoint = Boolean(this.getCheckpointAt(head.r, head.c));
-                if (headOnCheckpoint || this.isWon) {
-                    headDot.setAttribute('opacity', '0');
-                } else {
-                    headDot.setAttribute('cx', (head.c + 0.5) * step);
-                    headDot.setAttribute('cy', (head.r + 0.5) * step);
-                    headDot.setAttribute('opacity', '1');
-                }
+    const outerEl = document.getElementById('zipTunnelOuter');
+    const innerEl = document.getElementById('zipTunnelInner');
+    if (outerEl && innerEl) {
+        renderDugTunnelSvg(outerEl, innerEl, this.path, level.size);
+    }
 
-                const covEl = document.getElementById('zipCoverage');
-                if (covEl) covEl.textContent = `${this.path.length}/${totalCells}`;
-                document.getElementById('zipCheckpointProgress').textContent = `${highestCp}/${level.checkpoints.length}`;
+    const headDot = document.getElementById('zipHeadDot');
+    if (headDot) {
+        const step = 100 / level.size;
+        const headOnCheckpoint = Boolean(this.getCheckpointAt(head.r, head.c));
+        if (headOnCheckpoint || this.isWon) {
+            headDot.setAttribute('opacity', '0');
+        } else {
+            headDot.setAttribute('cx', (head.c + 0.5) * step);
+            headDot.setAttribute('cy', (head.r + 0.5) * step);
+            headDot.setAttribute('opacity', '1');
+        }
+    }
 
-                const stepLabelEl = document.getElementById('zipStepLabel');
-                if (this.isReviewMode) {
-                    stepLabelEl.innerHTML = zipT('reviewStepBanner', { total: level.checkpoints.length });
-                } else if (this.hideNumbers) {
-                    stepLabelEl.innerHTML = zipT('practiceStepPrompt', { next: nextCpNum, total: level.checkpoints.length });
-                } else {
-                    const targetCp = level.checkpoints.find(cp => cp.num === nextCpNum) || level.checkpoints[level.checkpoints.length - 1];
-                    stepLabelEl.innerHTML = zipT('nextStepPrompt', { label: targetCp.label });
-                }
-            },
+    const covEl = document.getElementById('zipCoverage');
+    if (covEl) covEl.textContent = `${this.path.length}/${totalCells}`;
+
+    const cpProgEl = document.getElementById('zipCheckpointProgress');
+    if (cpProgEl) cpProgEl.textContent = `${highestCp}/${level.checkpoints.length}`;
+
+    const stepLabelEl = document.getElementById('zipStepLabel');
+    if (stepLabelEl) {
+        if (this.isReviewMode) {
+            stepLabelEl.innerHTML = zipT('reviewStepBanner', { total: level.checkpoints.length });
+        } else if (this.hideNumbers) {
+            stepLabelEl.innerHTML = zipT('practiceStepPrompt', { next: nextCpNum, total: level.checkpoints.length });
+        } else {
+            const targetCp = level.checkpoints.find(cp => cp.num === nextCpNum) || level.checkpoints[level.checkpoints.length - 1];
+            stepLabelEl.innerHTML = zipT('nextStepPrompt', { label: targetCp ? targetCp.label : '' });
+        }
+    }
+},
 
             renderWinCatchUpBox(level) {
                 const box = document.getElementById('zipWinCatchUpBox');
