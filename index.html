@@ -4090,7 +4090,7 @@
                 </div>
             </div>
         </div>
-        <d<!-- ========== ZIP GAME PAGE (LEARNER VIEW) ========== -->
+        <!-- ========== ZIP GAME PAGE (LEARNER VIEW) ========== -->
         <div id="zip-game-page" class="page hidden">
             <div class="page-header">
                 <button class="page-back-btn" onclick="switchBottomNav('home')">
@@ -4172,6 +4172,30 @@
                             <span data-i18n="zip_next_level">Màn tiếp theo</span> <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POPUP VIDEO BÀI HỌC SAU KHI GIẢI XONG GAME -->
+        <div id="zipVideoModal" class="zip-video-backdrop hidden" onclick="if(event.target===this) ZipGame.closeVideoModal()">
+            <div class="zip-video-modal">
+                <div class="zip-video-header">
+                    <div>
+                        <div class="zip-video-badge"><i class="fa-solid fa-circle-check"></i> Hoàn thành quy trình · Video tổng kết</div>
+                        <div class="zip-video-title" id="zipVideoModalTitle">Video hướng dẫn chi tiết</div>
+                    </div>
+                    <button type="button" onclick="ZipGame.closeVideoModal()" style="border:none; background:#F1F5F9; width:32px; height:32px; border-radius:50%; color:#475569; cursor:pointer; flex-shrink:0;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="zipVideoContainer" class="zip-video-frame-wrap"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                    <a id="zipVideoExternalLink" href="#" target="_blank" rel="noopener" style="font-size:12.5px; font-weight:700; color:#4D3B9C; text-decoration:none;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở video trong tab mới
+                    </a>
+                    <button type="button" class="btn-primary" style="padding:10px 18px; font-size:13.5px; background:#4D3B9C;" onclick="ZipGame.closeVideoModal()">
+                        Tiếp tục
+                    </button>
                 </div>
             </div>
         </div>
