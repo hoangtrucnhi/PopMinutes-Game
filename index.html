@@ -3373,7 +3373,7 @@
             color: var(--muted);
             font-weight: 500;
         }
-      /* ===== TRÒ CHƠI ZIP (MODERN FLAT + DUG TUNNEL #4D3B9C) ===== */
+      /* ===== TRÒ CHƠI ZIP (XANH CHỦ ĐẠO + ĐƯỜNG HẦM #4D3B9C) ===== */
         #zip-game-page .page-content {
             padding-top: 76px;
             padding-bottom: 115px;
@@ -3399,8 +3399,8 @@
             font-family: inherit;
             font-size: 13px;
             font-weight: 700;
-            color: #4D3B9C;
-            background: #F5F3FF;
+            color: var(--navy);
+            background: var(--navy-pale);
             outline: none;
             cursor: pointer;
         }
@@ -3446,13 +3446,13 @@
             transition: all 0.15s ease;
         }
         .zip-mode-toggle.active {
-            background: #4D3B9C;
-            border-color: #4D3B9C;
+            background: var(--navy);
+            border-color: var(--navy);
             color: var(--white);
         }
         .zip-step-banner {
-            background: #F5F3FF;
-            border: 1px solid #DDD6FE;
+            background: #EFF6FF;
+            border: 1px solid #DBEAFE;
             border-radius: 12px;
             padding: 10px 14px;
             margin-bottom: 14px;
@@ -3461,11 +3461,11 @@
             justify-content: space-between;
             gap: 8px;
             font-size: 12.5px;
-            color: #3B2D7A;
+            color: var(--navy);
         }
         .zip-step-banner strong {
             font-weight: 800;
-            color: #4D3B9C;
+            color: #1D4ED8;
         }
         .zip-board-wrap {
             position: relative;
@@ -3488,7 +3488,7 @@
             height: 100%;
             border-radius: 16px;
             overflow: hidden;
-            background: #FAF9FE;
+            background: #F8FAFC;
             border: 1px solid #E2E8F0;
         }
         .zip-grid {
@@ -3498,8 +3498,8 @@
         }
         .zip-cell {
             position: relative;
-            border-right: 1px solid rgba(203, 213, 225, 0.45);
-            border-bottom: 1px solid rgba(203, 213, 225, 0.45);
+            border-right: 1px solid rgba(203, 213, 225, 0.5);
+            border-bottom: 1px solid rgba(203, 213, 225, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -3510,10 +3510,9 @@
         }
         @keyframes zipHintPulse {
             0%, 100% { background-color: transparent; }
-            50% { background-color: rgba(251, 191, 36, 0.25); }
+            50% { background-color: rgba(37, 99, 235, 0.18); }
         }
 
-        /* Lớp SVG đường hầm & vách ngăn */
         .zip-svg-overlay {
             position: absolute;
             inset: 0;
@@ -3531,7 +3530,7 @@
             z-index: 3;
         }
 
-        /* Thẻ bước quy trình: Thiết kế phẳng, tinh gọn, hiện đại */
+        /* Thẻ bước quy trình phẳng, tông xanh chủ đạo */
         .zip-node-step {
             position: relative;
             z-index: 4;
@@ -3556,35 +3555,29 @@
             pointer-events: none;
             transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
         }
-        /* Điểm bắt đầu */
         .zip-node-step.is-start {
-            background: #F3E8FF;
-            border-color: #4D3B9C;
-            color: #4D3B9C;
+            background: #EFF6FF;
+            border-color: #2563EB;
+            color: var(--navy);
         }
-        /* Điểm đích */
         .zip-node-step.is-end {
             border-style: dashed;
-            border-color: #7C3AED;
+            border-color: #2563EB;
         }
-        /* Trạng thái đã nối dây qua: Phẳng, sắc nét, hòa vào đường hầm #4D3B9C */
         .zip-cell.visited .zip-node-step {
-            background: #4D3B9C;
+            background: var(--navy);
             border-style: solid;
-            border-color: rgba(255, 255, 255, 0.85);
+            border-color: rgba(255, 255, 255, 0.9);
             color: #FFFFFF;
             transform: scale(1.02);
         }
-        /* Ô đầu dây hiện tại */
         .zip-cell.head .zip-node-step {
-            outline: 3px solid rgba(77, 59, 156, 0.25);
+            outline: 3px solid rgba(37, 99, 235, 0.25);
         }
-        /* Gợi ý bước kế tiếp */
         .zip-cell.next-target .zip-node-step {
-            border-color: #4D3B9C;
-            outline: 3px solid rgba(77, 59, 156, 0.15);
+            border-color: #2563EB;
+            outline: 3px solid rgba(37, 99, 235, 0.16);
         }
-        /* Số thứ tự tích hợp gọn bên trong thẻ */
         .zip-step-num {
             display: inline-block;
             font-size: 8.5px;
@@ -3596,8 +3589,8 @@
             color: #64748B;
         }
         .zip-node-step.is-start .zip-step-num {
-            background: rgba(77, 59, 156, 0.14);
-            color: #4D3B9C;
+            background: rgba(37, 99, 235, 0.14);
+            color: #1D4ED8;
         }
         .zip-cell.visited .zip-step-num {
             background: rgba(255, 255, 255, 0.2);
@@ -3628,12 +3621,12 @@
             transition: all 0.15s ease;
         }
         .zip-ctrl-btn:hover {
-            border-color: #4D3B9C;
-            color: #4D3B9C;
+            border-color: var(--navy);
+            color: var(--navy);
         }
         .zip-win-card {
-            background: #F5F3FF;
-            border: 1.5px solid #C4B5FD;
+            background: #EFF6FF;
+            border: 1.5px solid #BFDBFE;
             border-radius: 16px;
             padding: 18px;
             text-align: center;
@@ -3644,17 +3637,17 @@
         .zip-win-title {
             font-size: 17px;
             font-weight: 800;
-            color: #4D3B9C;
+            color: var(--navy);
             margin-bottom: 4px;
         }
         .zip-win-sub {
             font-size: 13px;
-            color: #5B21B6;
+            color: #1E40AF;
             margin-bottom: 14px;
         }
 
-        /* ===== POPUP VIDEO BÀI HỌC SAU KHI GIẢI XONG ===== */
-        .zip-video-backdrop {
+        /* ===== POPUP VIDEO & TÀI LIỆU PDF SAU KHI GIẢI XONG ===== */
+        .zip-reward-backdrop {
             position: fixed;
             inset: 0;
             background: rgba(15, 23, 42, 0.65);
@@ -3666,10 +3659,10 @@
             z-index: 9999;
             animation: fadeIn 0.2s ease-out;
         }
-        .zip-video-backdrop.hidden {
+        .zip-reward-backdrop.hidden {
             display: none;
         }
-        .zip-video-modal {
+        .zip-reward-modal {
             width: 100%;
             max-width: 460px;
             background: #FFFFFF;
@@ -3678,26 +3671,26 @@
             box-shadow: 0 24px 48px rgba(15, 23, 42, 0.24);
             border: 1px solid #E2E8F0;
         }
-        .zip-video-header {
+        .zip-reward-header {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
             gap: 10px;
             margin-bottom: 12px;
         }
-        .zip-video-badge {
+        .zip-reward-badge {
             display: inline-flex;
             align-items: center;
             gap: 5px;
             font-size: 11px;
             font-weight: 800;
-            color: #4D3B9C;
-            background: #F3E8FF;
+            color: #1D4ED8;
+            background: #EFF6FF;
             padding: 4px 10px;
             border-radius: 20px;
             margin-bottom: 6px;
         }
-        .zip-video-title {
+        .zip-reward-title {
             font-size: 16px;
             font-weight: 800;
             color: #0F172A;
@@ -3710,7 +3703,7 @@
             border-radius: 14px;
             overflow: hidden;
             background: #0F172A;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             border: 1px solid #E2E8F0;
         }
         .zip-video-frame-wrap iframe,
@@ -3719,6 +3712,63 @@
             height: 100%;
             border: 0;
             display: block;
+        }
+        .zip-doc-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #F8FAFC;
+            border: 1.5px solid #DBEAFE;
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+        }
+        .zip-doc-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: #EFF6FF;
+            color: #1D4ED8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .zip-doc-info {
+            min-width: 0;
+            flex: 1;
+        }
+        .zip-doc-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: #0F172A;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+        .zip-doc-sub {
+            font-size: 11.5px;
+            color: #64748B;
+        }
+        .zip-doc-dl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: var(--navy);
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+            transition: background 0.15s ease;
+        }
+        .zip-doc-dl-btn:hover {
+            background: #2563EB;
         }
     </style>
 </head>
@@ -4104,8 +4154,8 @@
                 <div class="zip-topbar">
                     <select id="zipLevelSelect" class="zip-level-select" onchange="ZipGame.loadLevel(Number(this.value))"></select>
                     <div class="zip-stats">
-                        <span class="zip-stat-pill"><i class="fa-regular fa-clock" style="color:#4D3B9C;"></i> <span id="zipTimer">00:00</span></span>
-                        <span class="zip-stat-pill"><i class="fa-solid fa-border-all" style="color:#4D3B9C;"></i> <span id="zipCoverage">1/25</span></span>
+                        <span class="zip-stat-pill"><i class="fa-regular fa-clock" style="color:var(--navy);"></i> <span id="zipTimer">00:00</span></span>
+                        <span class="zip-stat-pill"><i class="fa-solid fa-border-all" style="color:var(--navy);"></i> <span id="zipCoverage">1/25</span></span>
                     </div>
                 </div>
 
@@ -4114,7 +4164,7 @@
                     <button type="button" id="zipHideNumBtn" class="zip-mode-toggle" onclick="ZipGame.toggleHideNumbers()">
                         <i class="fa-regular fa-eye-slash"></i> <span>Ẩn số thứ tự (Thực chiến)</span>
                     </button>
-                    <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#4D3B9C; background:#F3E8FF; padding:5px 10px; border-radius:8px; border:1px solid #DDD6FE;">
+                    <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#1D4ED8; background:#EFF6FF; padding:5px 10px; border-radius:8px; border:1px solid #BFDBFE;">
                         <i class="fa-solid fa-graduation-cap"></i> Bài đào tạo
                     </span>
                 </div>
@@ -4131,13 +4181,13 @@
                 <div class="zip-board-wrap">
                     <div class="zip-board-inner" id="zipBoardContainer">
                         <div class="zip-grid" id="zipGrid"></div>
-                        <!-- Đường hầm màu #4D3B9C lõm ra vào như đào đất -->
+                        <!-- Đường hầm đào đất màu #4D3B9C (duy nhất phần này màu tím) -->
                         <svg class="zip-svg-overlay" id="zipSvgOverlay" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <g id="zipTunnelOuter" opacity="0.26"></g>
                             <g id="zipTunnelInner" opacity="0.14"></g>
-                            <circle id="zipHeadDot" cx="-10" cy="-10" r="3" fill="rgba(77, 59, 156, 0.75)" opacity="0" />
+                            <circle id="zipHeadDot" cx="-10" cy="-10" r="3" fill="rgba(77, 59, 156, 0.78)" opacity="0" />
                         </svg>
-                        <!-- Vách ngăn họa tiết chuẩn game -->
+                        <!-- Vách ngăn họa tiết -->
                         <svg class="zip-walls-overlay" id="zipWallsOverlay" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
                     </div>
                 </div>
@@ -4165,13 +4215,57 @@
                     <div class="zip-win-title"><i class="fa-solid fa-trophy"></i> <span data-i18n="zip_win_title">Hoàn thành xuất sắc!</span></div>
                     <div class="zip-win-sub" id="zipWinStats">Thời gian: 00:24</div>
                     <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                        <button type="button" id="zipRewatchVideoBtn" class="zip-ctrl-btn hidden" style="border-color:#4D3B9C; color:#4D3B9C;" onclick="ZipGame.openVideoModal()">
-                            <i class="fa-solid fa-circle-play"></i> Xem video bài học
+                        <button type="button" id="zipReopenRewardBtn" class="zip-ctrl-btn hidden" style="border-color:var(--navy); color:var(--navy);" onclick="ZipGame.openRewardModal()">
+                            <i class="fa-solid fa-folder-open"></i> <span id="zipReopenRewardText">Xem tài liệu</span>
                         </button>
-                        <button type="button" class="btn-primary" style="padding:11px 18px; font-size:14px; background:#4D3B9C;" onclick="ZipGame.nextLevel()">
+                        <button type="button" class="btn-primary" style="padding:11px 18px; font-size:14px;" onclick="ZipGame.nextLevel()">
                             <span data-i18n="zip_next_level">Màn tiếp theo</span> <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POPUP VIDEO & TÀI LIỆU PDF SAU KHI GIẢI XONG GAME -->
+        <div id="zipRewardModal" class="zip-reward-backdrop hidden" onclick="if(event.target===this) ZipGame.closeRewardModal()">
+            <div class="zip-reward-modal">
+                <div class="zip-reward-header">
+                    <div>
+                        <div class="zip-reward-badge" id="zipRewardBadge">
+                            <i class="fa-solid fa-circle-check"></i> Hoàn thành quy trình
+                        </div>
+                        <div class="zip-reward-title" id="zipRewardModalTitle">Tài liệu tổng kết quy trình</div>
+                    </div>
+                    <button type="button" onclick="ZipGame.closeRewardModal()" style="border:none; background:#F1F5F9; width:32px; height:32px; border-radius:50%; color:#475569; cursor:pointer; flex-shrink:0;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Khung Video (Chỉ hiện khi bài có link video) -->
+                <div id="zipVideoContainer" class="zip-video-frame-wrap hidden"></div>
+
+                <!-- Khung Tài liệu PDF đính kèm (Hiện ngay dưới video nếu có cả 2, hoặc hiện chính giữa nếu chỉ có tài liệu) -->
+                <div id="zipDocCard" class="zip-doc-card hidden">
+                    <div class="zip-doc-icon">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <div class="zip-doc-info">
+                        <div class="zip-doc-name" id="zipDocName">Tài liệu hướng dẫn quy trình.pdf</div>
+                        <div class="zip-doc-sub">Tài liệu đính kèm từ giảng viên</div>
+                    </div>
+                    <a id="zipDocDownloadBtn" href="#" target="_blank" rel="noopener" download class="zip-doc-dl-btn">
+                        <i class="fa-solid fa-download"></i> Tải về
+                    </a>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                    <a id="zipVideoExternalLink" href="#" target="_blank" rel="noopener" class="hidden" style="font-size:12.5px; font-weight:700; color:#1D4ED8; text-decoration:none;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở video tab mới
+                    </a>
+                    <span id="zipRewardSpacer"></span>
+                    <button type="button" class="btn-primary" style="padding:10px 18px; font-size:13.5px;" onclick="ZipGame.closeRewardModal()">
+                        Hoàn tất
+                    </button>
                 </div>
             </div>
         </div>
@@ -14702,7 +14796,8 @@ window.addEventListener('message', async function(event) {
             }
         }
       // ========================================================================
-        //  GAME ROUTER & ZIP LEARNER ENGINE (TUNNEL #4D3B9C + VIDEO REWARD POPUP)
+        // ========================================================================
+        //  GAME ROUTER & ZIP LEARNER ENGINE (BLUE THEME + TUNNEL #4D3B9C + PDF/VIDEO)
         // ========================================================================
         function openGamePage(gameType) {
             const app = document.querySelector('.app');
@@ -14741,6 +14836,8 @@ window.addEventListener('message', async function(event) {
                 isCustom: false,
                 videoUrl: '',
                 videoTitle: '',
+                docUrl: '',
+                docTitle: '',
                 checkpoints: [
                     { r: 0, c: 0, num: 1, shortLabel: 'Tiếp nhận', label: '1. Tiếp nhận yêu cầu khách hàng' },
                     { r: 0, c: 4, num: 2, shortLabel: 'Khảo sát', label: '2. Khảo sát & Phân tích hiện trạng' },
@@ -14765,6 +14862,8 @@ window.addEventListener('message', async function(event) {
                 isCustom: false,
                 videoUrl: '',
                 videoTitle: '',
+                docUrl: '',
+                docTitle: '',
                 checkpoints: [
                     { r: 2, c: 2, num: 1, shortLabel: 'Lắng nghe', label: '1. Lắng nghe trọn vẹn, không ngắt lời' },
                     { r: 1, c: 2, num: 2, shortLabel: 'Đồng cảm', label: '2. Ghi nhận & Đồng cảm góc nhìn' },
@@ -14795,6 +14894,8 @@ window.addEventListener('message', async function(event) {
                 isCustom: false,
                 videoUrl: '',
                 videoTitle: '',
+                docUrl: '',
+                docTitle: '',
                 checkpoints: [
                     { r: 0, c: 0, num: 1, shortLabel: 'Mục tiêu', label: '1. Xác định rõ mục tiêu cuộc họp' },
                     { r: 3, c: 0, num: 2, shortLabel: 'Mở đầu', label: '2. Thống nhất Agenda & thời lượng' },
@@ -14841,6 +14942,8 @@ window.addEventListener('message', async function(event) {
                     partnerName: raw.pn || '',
                     videoUrl: raw.v || '',
                     videoTitle: raw.vt || '',
+                    docUrl: raw.d || '',
+                    docTitle: raw.dt || '',
                     size: Number(raw.s),
                     isCustom: true,
                     checkpoints: raw.c.map(item => ({
@@ -14858,39 +14961,43 @@ window.addEventListener('message', async function(event) {
             }
         }
 
-        // Bộ chuyển đổi URL video sang trình phát nhúng (YouTube, Google Drive, Vimeo, MP4)
         function buildVideoEmbedHtml(rawUrl) {
             const url = (rawUrl || '').trim();
             if (!url) return '';
 
-            // YouTube (watch, youtu.be, shorts)
             const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
             if (ytMatch && ytMatch[1]) {
                 return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
             }
 
-            // Google Drive
             const gdMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
             if (gdMatch && gdMatch[1]) {
                 return `<iframe src="https://drive.google.com/file/d/${gdMatch[1]}/preview" allow="autoplay" allowfullscreen></iframe>`;
             }
 
-            // Vimeo
             const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
             if (vimeoMatch && vimeoMatch[1]) {
                 return `<iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
             }
 
-            // File video trực tiếp (.mp4, .webm, .ogg)
             if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) {
                 return `<video src="${url.replace(/"/g, '&quot;')}" controls autoplay playsinline></video>`;
             }
 
-            // Các nền tảng LMS / Loom / khác -> thử nhúng iframe
             return `<iframe src="${url.replace(/"/g, '&quot;')}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
         }
 
-        // Vẽ đường hầm màu #4D3B9C có độ lõm ra vào hữu cơ theo từng tọa độ ô
+        function getDocumentDownloadUrl(rawUrl) {
+            const url = (rawUrl || '').trim();
+            if (!url) return '#';
+            const gdMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (gdMatch && gdMatch[1]) {
+                return `https://drive.google.com/uc?export=download&id=${gdMatch[1]}`;
+            }
+            return url;
+        }
+
+        // Đường hầm màu #4D3B9C lõm ra vào hữu cơ theo từng ô
         function renderDugTunnelSvg(outerGroup, innerGroup, pathCoords, size) {
             if (!outerGroup || !innerGroup) return;
             if (!pathCoords || !pathCoords.length) {
@@ -14902,7 +15009,6 @@ window.addEventListener('message', async function(event) {
             const step = 100 / size;
             const pts = pathCoords.map(p => `${(p.c + 0.5) * step},${(p.r + 0.5) * step}`).join(' ');
 
-            // Tạo hàm băm cố định theo tọa độ (r, c) để vách đất lõm ra vào tự nhiên nhưng không rung lắc
             const cellHash = (r, c, salt) => {
                 const x = Math.sin(r * 127.1 + c * 311.7 + salt * 74.7) * 43758.5453;
                 return x - Math.floor(x);
@@ -14918,13 +15024,11 @@ window.addEventListener('message', async function(event) {
                 const h2 = cellHash(r, c, 2);
                 const h3 = cellHash(r, c, 3);
 
-                // Hốc đào chính tại tâm ô (lõm ra vào theo h1)
                 const mainRadius = step * (0.29 + h1 * 0.085);
                 const offX = (h2 - 0.5) * step * 0.08;
                 const offY = (h3 - 0.5) * step * 0.08;
                 blobsMarkup += `<circle cx="${(cx + offX).toFixed(2)}" cy="${(cy + offY).toFixed(2)}" r="${mainRadius.toFixed(2)}" fill="#4D3B9C" />`;
 
-                // Hốc đào phụ ở đoạn nối sang ô kế tiếp tạo hiệu ứng gồ ghề như đào đất
                 if (i < pathCoords.length - 1) {
                     const next = pathCoords[i + 1];
                     const midX = (cx + (next.c + 0.5) * step) / 2;
@@ -14937,13 +15041,11 @@ window.addEventListener('message', async function(event) {
                 }
             }
 
-            // Toàn bộ polyline + các hốc đào nằm chung trong <g opacity="0.26"> nên hòa làm một khối đồng nhất
             outerGroup.innerHTML = `
                 <polyline fill="none" stroke="#4D3B9C" stroke-width="${(step * 0.58).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round" points="${pts}" />
                 ${blobsMarkup}
             `;
 
-            // Lõi đường hầm bên trong tạo chiều sâu
             innerGroup.innerHTML = `
                 <polyline fill="none" stroke="#4D3B9C" stroke-width="${(step * 0.26).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round" points="${pts}" />
             `;
@@ -15019,11 +15121,9 @@ window.addEventListener('message', async function(event) {
                 const badge = document.getElementById('zipAssignedBadge');
                 if (badge) {
                     badge.classList.toggle('hidden', !level.isCustom);
-                    if (level.partnerName) {
-                        badge.innerHTML = `<i class="fa-solid fa-building"></i> ${level.partnerName}`;
-                    } else {
-                        badge.innerHTML = `<i class="fa-solid fa-graduation-cap"></i> Bài đào tạo`;
-                    }
+                    badge.innerHTML = level.partnerName
+                        ? `<i class="fa-solid fa-building"></i> ${level.partnerName}`
+                        : `<i class="fa-solid fa-graduation-cap"></i> Bài đào tạo`;
                 }
 
                 const startCp = level.checkpoints.find(cp => cp.num === 1);
@@ -15033,7 +15133,7 @@ window.addEventListener('message', async function(event) {
                 this.seconds = 0;
 
                 document.getElementById('zipWinCard').classList.add('hidden');
-                this.closeVideoModal();
+                this.closeRewardModal();
                 this.startTimer();
                 this.renderBoard();
                 this.updateVisuals();
@@ -15092,7 +15192,7 @@ window.addEventListener('message', async function(event) {
                 }
                 gridEl.innerHTML = html;
 
-                // Vẽ vách ngăn họa tiết chuẩn game (màu nhạt tinh tế, không viền đen)
+                // Vách ngăn họa tiết tông xám-xanh nhạt tinh tế
                 const wallsSvg = document.getElementById('zipWallsOverlay');
                 const step = 100 / level.size;
                 const pad = step * 0.1;
@@ -15219,7 +15319,6 @@ window.addEventListener('message', async function(event) {
                     cell.classList.toggle('next-target', Boolean(cp && cp.num === nextCpNum && !this.isWon && !this.hideNumbers));
                 });
 
-                // Render đường hầm màu #4D3B9C lõm ra vào hữu cơ
                 renderDugTunnelSvg(
                     document.getElementById('zipTunnelOuter'),
                     document.getElementById('zipTunnelInner'),
@@ -15261,34 +15360,84 @@ window.addEventListener('message', async function(event) {
                     document.getElementById('zipWinCard').classList.remove('hidden');
 
                     const hasVideo = Boolean(level.videoUrl && level.videoUrl.trim());
-                    const rewatchBtn = document.getElementById('zipRewatchVideoBtn');
-                    if (rewatchBtn) rewatchBtn.classList.toggle('hidden', !hasVideo);
+                    const hasDoc = Boolean(level.docUrl && level.docUrl.trim());
+                    const reopenBtn = document.getElementById('zipReopenRewardBtn');
+                    const reopenText = document.getElementById('zipReopenRewardText');
+
+                    if (reopenBtn) {
+                        reopenBtn.classList.toggle('hidden', !hasVideo && !hasDoc);
+                        if (reopenText) {
+                            if (hasVideo && hasDoc) reopenText.textContent = 'Xem video & tài liệu';
+                            else if (hasVideo) reopenText.textContent = 'Xem video bài học';
+                            else if (hasDoc) reopenText.textContent = 'Tải tài liệu PDF';
+                        }
+                    }
 
                     if (typeof showToast === 'function') {
                         showToast('Hoàn thành xuất sắc!', true);
                     }
 
-                    // Tự động bật Popup Video nếu giảng viên có đính kèm link video
-                    if (hasVideo) {
-                        setTimeout(() => this.openVideoModal(), 450);
+                    // Bật popup nếu có Video hoặc Tài liệu PDF đính kèm
+                    if (hasVideo || hasDoc) {
+                        setTimeout(() => this.openRewardModal(), 450);
                     }
                 }
             },
 
-            openVideoModal() {
+            openRewardModal() {
                 const level = ZIP_LEVELS[this.currentLevelIdx];
-                if (!level || !level.videoUrl) return;
-                document.getElementById('zipVideoModalTitle').textContent = level.videoTitle || level.name;
-                document.getElementById('zipVideoExternalLink').href = level.videoUrl;
-                document.getElementById('zipVideoContainer').innerHTML = buildVideoEmbedHtml(level.videoUrl);
-                document.getElementById('zipVideoModal').classList.remove('hidden');
+                if (!level) return;
+
+                const hasVideo = Boolean(level.videoUrl && level.videoUrl.trim());
+                const hasDoc = Boolean(level.docUrl && level.docUrl.trim());
+                if (!hasVideo && !hasDoc) return;
+
+                const badgeEl = document.getElementById('zipRewardBadge');
+                const titleEl = document.getElementById('zipRewardModalTitle');
+                const videoWrap = document.getElementById('zipVideoContainer');
+                const extLink = document.getElementById('zipVideoExternalLink');
+                const docCard = document.getElementById('zipDocCard');
+
+                if (hasVideo && hasDoc) {
+                    badgeEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> Video bài học & Tài liệu đính kèm`;
+                    titleEl.textContent = level.videoTitle || level.name;
+                } else if (hasVideo) {
+                    badgeEl.innerHTML = `<i class="fa-solid fa-circle-play"></i> Video tổng kết quy trình`;
+                    titleEl.textContent = level.videoTitle || level.name;
+                } else {
+                    badgeEl.innerHTML = `<i class="fa-solid fa-file-pdf"></i> Tài liệu hướng dẫn quy trình`;
+                    titleEl.textContent = level.docTitle || level.name;
+                }
+
+                // Hiển thị khung Video nếu có
+                if (hasVideo) {
+                    videoWrap.innerHTML = buildVideoEmbedHtml(level.videoUrl);
+                    videoWrap.classList.remove('hidden');
+                    extLink.href = level.videoUrl;
+                    extLink.classList.remove('hidden');
+                } else {
+                    videoWrap.innerHTML = '';
+                    videoWrap.classList.add('hidden');
+                    extLink.classList.add('hidden');
+                }
+
+                // Hiển thị khung Tài liệu PDF đính kèm (nằm bên dưới video nếu có cả 2, hoặc nằm chính nếu chỉ có tài liệu)
+                if (hasDoc) {
+                    document.getElementById('zipDocName').textContent = level.docTitle || 'Tài liệu hướng dẫn quy trình (PDF)';
+                    document.getElementById('zipDocDownloadBtn').href = getDocumentDownloadUrl(level.docUrl);
+                    docCard.classList.remove('hidden');
+                } else {
+                    docCard.classList.add('hidden');
+                }
+
+                document.getElementById('zipRewardModal').classList.remove('hidden');
             },
 
-            closeVideoModal() {
-                const modal = document.getElementById('zipVideoModal');
+            closeRewardModal() {
+                const modal = document.getElementById('zipRewardModal');
                 if (modal) modal.classList.add('hidden');
-                const container = document.getElementById('zipVideoContainer');
-                if (container) container.innerHTML = '';
+                const videoWrap = document.getElementById('zipVideoContainer');
+                if (videoWrap) videoWrap.innerHTML = '';
             },
 
             undo() {
