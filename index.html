@@ -3770,6 +3770,36 @@
         .zip-doc-dl-btn:hover {
             background: #2563EB;
         }
+        .zip-catchup-banner {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border: 1.5px solid #93C5FD;
+            border-radius: 13px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--navy);
+        }
+        .zip-catchup-btn {
+            background: var(--navy);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 9px;
+            padding: 6px 11px;
+            font-family: inherit;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .zip-catchup-btn.is-secondary {
+            background: #FFFFFF;
+            color: var(--navy);
+            border: 1px solid #93C5FD;
+        }
     </style>
 </head>
 <body>
@@ -4159,6 +4189,9 @@
                     </div>
                 </div>
 
+                <!-- Thẻ bắt nhịp khi có Chuyên gia mới tham gia ở các Level thấp hơn -->
+                <div id="zipCatchUpBanner" class="zip-catchup-banner hidden"></div>
+
                 <!-- 1. Block mô tả các bước thực chiến (Nằm TRÊN) -->
                 <div class="zip-step-banner">
                     <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
@@ -4167,14 +4200,21 @@
                     <span id="zipCheckpointProgress" style="font-weight:800; flex-shrink:0;">1/6</span>
                 </div>
 
-                <!-- 2. Block ẩn/hiện số thứ tự & tên đối tác đào tạo (Nằm DƯỚI) -->
+                <!-- 2. Block ẩn/hiện số thứ tự & tên chuyên gia (Nằm DƯỚI) -->
                 <div class="zip-toolbar-row">
                     <button type="button" id="zipHideNumBtn" class="zip-mode-toggle" onclick="ZipGame.toggleHideNumbers()">
                         <i class="fa-regular fa-eye"></i> <span>Hiện số thứ tự</span>
                     </button>
                     <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#1D4ED8; background:#EFF6FF; padding:5px 10px; border-radius:8px; border:1px solid #BFDBFE;">
-                        <i class="fa-solid fa-graduation-cap"></i> Thử thách từ chuyên gia
+                        <i class="fa-solid fa-award"></i> Thử thách từ chuyên gia
                     </span>
+                </div>
+
+                <!-- Trạng thái chờ khi chưa có bài nào từ chuyên gia -->
+                <div id="zipEmptyState" class="hidden" style="text-align:center; padding:32px 18px; background:#F8FAFC; border:1.5px dashed #CBD5E1; border-radius:20px; margin-bottom:14px;">
+                    <div style="font-size:28px; color:#2563EB; margin-bottom:8px;"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div style="font-size:14.5px; font-weight:800; color:var(--navy); margin-bottom:4px;">Chưa có thử thách từ chuyên gia</div>
+                    <div style="font-size:12.5px; color:#64748B; line-height:1.5;">Các quy trình thực chiến mới sẽ tự động hiển thị tại đây ngay khi chuyên gia xuất bản.</div>
                 </div>
 
                 <!-- Bàn chơi Zip -->
@@ -14828,109 +14868,91 @@ window.addEventListener('message', async function(event) {
         }
 
         const ZIP_STORAGE_KEY = 'popminutes_custom_zip_levels_v1';
-        // Dán URL Google Apps Script Web App của bạn vào đây để mọi máy tự động đồng bộ bài đào tạo mới
+        const ZIP_PROGRESS_KEY = 'popminutes_zip_progress_v1';
+        const ZIP_USER_SEED_KEY = 'popminutes_zip_user_seed_v1';        // Dán URL Google Apps Script Web App của bạn vào đây để mọi máy tự động đồng bộ bài đào tạo mới
         const ZIP_CLOUD_SYNC_URL = 'https://script.google.com/macros/s/AKfycbx2GgGfkpCzgS40yZ2Xrip2NtPwujYx9cwE-t2ci3rpbBLac-uepqbXMEe24pGBASZ0yA/exec';
-
-        const DEFAULT_ZIP_LEVELS = [
-            {
-                name: 'Mẫu 1 · Quy trình Tư vấn Giải pháp (5×5)',
-                size: 5,
-                isCustom: false,
-                videoUrl: '',
-                videoTitle: '',
-                docUrl: '',
-                docTitle: '',
-                checkpoints: [
-                    { r: 0, c: 0, num: 1, shortLabel: 'Tiếp nhận', label: '1. Tiếp nhận yêu cầu khách hàng' },
-                    { r: 0, c: 4, num: 2, shortLabel: 'Khảo sát', label: '2. Khảo sát & Phân tích hiện trạng' },
-                    { r: 1, c: 2, num: 3, shortLabel: 'Lộ trình', label: '3. Thiết kế lộ trình đào tạo' },
-                    { r: 2, c: 0, num: 4, shortLabel: 'Demo', label: '4. Trình bày & Demo giải pháp' },
-                    { r: 3, c: 4, num: 5, shortLabel: 'Chốt KPI', label: '5. Thống nhất chỉ số đánh giá KPI' },
-                    { r: 3, c: 1, num: 6, shortLabel: 'Ký kết', label: '6. Ký kết hợp đồng triển khai' },
-                    { r: 4, c: 4, num: 7, shortLabel: 'Nghiệm thu', label: '7. Nghiệm thu & Bàn giao' }
-                ],
-                walls: [],
-                solution: [
-                    [0,0],[0,1],[0,2],[0,3],[0,4],
-                    [1,4],[1,3],[1,2],[1,1],[1,0],
-                    [2,0],[2,1],[2,2],[2,3],[2,4],
-                    [3,4],[3,3],[3,2],[3,1],[3,0],
-                    [4,0],[4,1],[4,2],[4,3],[4,4]
-                ]
-            },
-            {
-                name: 'Mẫu 2 · Xử lý Phản đối Khách hàng (5×5)',
-                size: 5,
-                isCustom: false,
-                videoUrl: '',
-                videoTitle: '',
-                docUrl: '',
-                docTitle: '',
-                checkpoints: [
-                    { r: 2, c: 2, num: 1, shortLabel: 'Lắng nghe', label: '1. Lắng nghe trọn vẹn, không ngắt lời' },
-                    { r: 1, c: 2, num: 2, shortLabel: 'Đồng cảm', label: '2. Ghi nhận & Đồng cảm góc nhìn' },
-                    { r: 3, c: 3, num: 3, shortLabel: 'Làm rõ', label: '3. Đặt câu hỏi cô lập rào cản thật' },
-                    { r: 4, c: 0, num: 4, shortLabel: 'Chứng minh', label: '4. Đưa dẫn chứng & Case study' },
-                    { r: 0, c: 0, num: 5, shortLabel: 'Đề xuất', label: '5. Đề xuất phương án linh hoạt' },
-                    { r: 0, c: 4, num: 6, shortLabel: 'Xác nhận', label: '6. Kiểm tra mức độ hài lòng' },
-                    { r: 4, c: 2, num: 7, shortLabel: 'Chốt bước', label: '7. Chốt hành động tiếp theo' }
-                ],
-                walls: [
-                    [[2,2],[2,3]],
-                    [[2,2],[3,2]],
-                    [[3,1],[3,0]],
-                    [[4,1],[4,2]],
-                    [[1,3],[1,4]]
-                ],
-                solution: [
-                    [2,2],[2,1],[1,1],[1,2],[1,3],
-                    [2,3],[3,3],[3,2],[3,1],[4,1],
-                    [4,0],[3,0],[2,0],[1,0],[0,0],
-                    [0,1],[0,2],[0,3],[0,4],[1,4],
-                    [2,4],[3,4],[4,4],[4,3],[4,2]
-                ]
-            },
-            {
-                name: 'Mẫu 3 · Điều hành Cuộc họp Hiệu quả (6×6)',
-                size: 6,
-                isCustom: false,
-                videoUrl: '',
-                videoTitle: '',
-                docUrl: '',
-                docTitle: '',
-                checkpoints: [
-                    { r: 0, c: 0, num: 1, shortLabel: 'Mục tiêu', label: '1. Xác định rõ mục tiêu cuộc họp' },
-                    { r: 3, c: 0, num: 2, shortLabel: 'Mở đầu', label: '2. Thống nhất Agenda & thời lượng' },
-                    { r: 3, c: 1, num: 3, shortLabel: 'Thảo luận', label: '3. Khai thác góc nhìn các bên' },
-                    { r: 0, c: 3, num: 4, shortLabel: 'Phân tích', label: '4. Đánh giá phương án & rủi ro' },
-                    { r: 1, c: 3, num: 5, shortLabel: 'Quyết định', label: '5. Chốt phương án thống nhất' },
-                    { r: 2, c: 4, num: 6, shortLabel: 'Giao việc', label: '6. Phân công Action Items & Deadline' },
-                    { r: 3, c: 3, num: 7, shortLabel: 'Biên bản', label: '7. Tổng hợp tóm tắt biên bản' },
-                    { r: 5, c: 3, num: 8, shortLabel: 'Đồng bộ', label: '8. Đồng bộ lịch & công cụ quản lý' },
-                    { r: 4, c: 5, num: 9, shortLabel: 'Theo dõi', label: '9. Theo dõi tiến độ sau họp' }
-                ],
-                walls: [
-                    [[1,1],[1,2]],
-                    [[2,1],[2,2]],
-                    [[3,1],[3,2]],
-                    [[4,1],[4,2]],
-                    [[3,4],[4,4]],
-                    [[3,5],[4,5]]
-                ],
-                solution: [
-                    [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],
-                    [5,1],[4,1],[3,1],[2,1],[1,1],[0,1],
-                    [0,2],[0,3],[0,4],[0,5],[1,5],[1,4],
-                    [1,3],[1,2],[2,2],[2,3],[2,4],[2,5],
-                    [3,5],[3,4],[3,3],[3,2],[4,2],[5,2],
-                    [5,3],[4,3],[4,4],[5,4],[5,5],[4,5]
-                ]
-            }
-        ];
 
         let ZIP_LEVELS = [];
 
-        // Đọc tham số zip_data kể cả khi nằm ở query (?zip_data=) hoặc sau dấu # (#game-zip?zip_data=)
+        function getUserRandomSeed() {
+            let seed = localStorage.getItem(ZIP_USER_SEED_KEY);
+            if (!seed) {
+                seed = String(Math.floor(Math.random() * 1000000000));
+                try { localStorage.setItem(ZIP_USER_SEED_KEY, seed); } catch (e) {}
+            }
+            return Number(seed) || 12345;
+        }
+
+        // Tạo trọng số ngẫu nhiên ổn định theo từng máy Sales cho cặp (Level, Chuyên gia)
+        function getPartnerRandomWeight(seed, levelNum, partnerName) {
+            const str = `${seed}_${levelNum}_${(partnerName || '').trim().toLowerCase()}`;
+            let h = 2166136261;
+            for (let i = 0; i < str.length; i++) {
+                h ^= str.charCodeAt(i);
+                h = Math.imul(h, 16777619);
+            }
+            return (h >>> 0) / 4294967295;
+        }
+
+        function slugifyPartner(str) {
+            return (str || 'partner')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '') || 'partner';
+        }
+
+        function normalizeZipLevel(rawLv) {
+            const levelNum = Math.max(1, Math.min(25, Number(rawLv.levelNum || rawLv.lv) || 1));
+            const partnerName = (rawLv.partnerName || rawLv.pn || '').trim() || 'Chuyên gia';
+            const rawTitle = (rawLv.rawTitle || rawLv.rt || rawLv.name || 'Quy trình thực chiến').trim();
+            const id = rawLv.id || `lv_${levelNum}_${slugifyPartner(partnerName)}`;
+            return {
+                ...rawLv,
+                id,
+                levelNum,
+                partnerName,
+                rawTitle,
+                name: rawLv.name || `${partnerName} · ${rawTitle}`,
+                isCustom: true
+            };
+        }
+
+        // Gom bài theo từng Level (1..25), xáo trộn ngẫu nhiên chuyên gia trong mỗi Level và đánh mã 1.1, 1.2...
+        function buildMixedLevels(rawList) {
+            const seed = getUserRandomSeed();
+            const byId = new Map();
+            (rawList || []).forEach(item => {
+                const norm = normalizeZipLevel(item);
+                byId.set(norm.id, norm);
+            });
+
+            const groups = new Map();
+            byId.forEach(lv => {
+                if (!groups.has(lv.levelNum)) groups.set(lv.levelNum, []);
+                groups.get(lv.levelNum).push(lv);
+            });
+
+            const sortedLevelNums = Array.from(groups.keys()).sort((a, b) => a - b);
+            const result = [];
+
+            sortedLevelNums.forEach(lvNum => {
+                const bucket = groups.get(lvNum);
+                bucket.sort((a, b) => {
+                    const wa = getPartnerRandomWeight(seed, lvNum, a.partnerName);
+                    const wb = getPartnerRandomWeight(seed, lvNum, b.partnerName);
+                    return wa - wb;
+                });
+                bucket.forEach((lv, idx) => {
+                    lv.displayCode = `${lvNum}.${idx + 1}`;
+                    result.push(lv);
+                });
+            });
+
+            return result;
+        }
+
         function extractZipParamFromUrl(paramName) {
             const searchParams = new URLSearchParams(window.location.search);
             if (searchParams.get(paramName)) return searchParams.get(paramName);
@@ -14953,9 +14975,12 @@ window.addEventListener('message', async function(event) {
                 for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
                 const raw = JSON.parse(new TextDecoder().decode(bytes));
                 if (!raw || !raw.s || !Array.isArray(raw.c)) return null;
-                return {
-                    name: raw.t || 'Bài đào tạo được giao',
-                    partnerName: raw.pn || '',
+                return normalizeZipLevel({
+                    id: raw.id,
+                    levelNum: raw.lv || 1,
+                    name: raw.t || 'Quy trình thực chiến',
+                    rawTitle: raw.rt || raw.t || 'Quy trình thực chiến',
+                    partnerName: raw.pn || 'Chuyên gia',
                     videoUrl: raw.v || '',
                     videoTitle: raw.vt || '',
                     docUrl: raw.d || '',
@@ -14971,7 +14996,7 @@ window.addEventListener('message', async function(event) {
                     })),
                     walls: raw.w || [],
                     solution: raw.p || []
-                };
+                });
             } catch (e) {
                 return null;
             }
@@ -15063,10 +15088,55 @@ window.addEventListener('message', async function(event) {
             path: [],
             isDragging: false,
             isWon: false,
-            hideNumbers: true, // Mặc định ẩn số thứ tự khi mở game
+            hideNumbers: true,
             seconds: 0,
             timerInterval: null,
             initialized: false,
+            progress: {
+                completedIds: [],
+                highestMilestone: 1,
+                activeCatchUpPartner: ''
+            },
+
+            loadProgress() {
+                try {
+                    const raw = localStorage.getItem(ZIP_PROGRESS_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        this.progress.completedIds = Array.isArray(parsed.completedIds) ? parsed.completedIds : [];
+                        this.progress.highestMilestone = Math.max(1, Number(parsed.highestMilestone) || 1);
+                        this.progress.activeCatchUpPartner = parsed.activeCatchUpPartner || '';
+                    }
+                } catch (e) {}
+            },
+
+            saveProgress() {
+                try {
+                    localStorage.setItem(ZIP_PROGRESS_KEY, JSON.stringify(this.progress));
+                } catch (e) {}
+            },
+
+            isLevelCompleted(id) {
+                return this.progress.completedIds.includes(id);
+            },
+
+            recomputeMilestone() {
+                if (!ZIP_LEVELS.length) return;
+                let maxCompletedLv = 0;
+                ZIP_LEVELS.forEach(lv => {
+                    if (this.isLevelCompleted(lv.id) && lv.levelNum > maxCompletedLv) {
+                        maxCompletedLv = lv.levelNum;
+                    }
+                });
+                // Nếu đã xong hết các bài ở mốc maxCompletedLv thì mở mốc tiếp theo
+                if (maxCompletedLv > 0) {
+                    const remainingAtMax = ZIP_LEVELS.some(lv => lv.levelNum === maxCompletedLv && !this.isLevelCompleted(lv.id));
+                    const nextMilestone = remainingAtMax ? maxCompletedLv : Math.min(25, maxCompletedLv + 1);
+                    if (nextMilestone > this.progress.highestMilestone) {
+                        this.progress.highestMilestone = nextMilestone;
+                    }
+                }
+            },
 
             loadSavedLevels() {
                 let custom = [];
@@ -15076,10 +15146,12 @@ window.addEventListener('message', async function(event) {
                 } catch (e) {}
 
                 const sharedData = extractZipParamFromUrl('zip_data');
+                let sharedLevelId = null;
                 if (sharedData) {
                     const sharedLevel = decodeSharedZipLevel(sharedData);
                     if (sharedLevel) {
-                        const existsIdx = custom.findIndex(lv => lv.name === sharedLevel.name);
+                        sharedLevelId = sharedLevel.id;
+                        const existsIdx = custom.findIndex(lv => (lv.id || '') === sharedLevel.id);
                         if (existsIdx !== -1) custom.splice(existsIdx, 1);
                         custom.unshift(sharedLevel);
                         try {
@@ -15088,7 +15160,9 @@ window.addEventListener('message', async function(event) {
                     }
                 }
 
-                ZIP_LEVELS = [...custom, ...DEFAULT_ZIP_LEVELS];
+                ZIP_LEVELS = buildMixedLevels(custom);
+                this.recomputeMilestone();
+                return sharedLevelId;
             },
 
             async syncLevelsFromCloud() {
@@ -15098,25 +15172,146 @@ window.addEventListener('message', async function(event) {
                     const res = await fetch(cloudUrl);
                     if (!res.ok) return;
                     const remoteLevels = await res.json();
-                    if (!Array.isArray(remoteLevels) || !remoteLevels.length) return;
+                    if (!Array.isArray(remoteLevels)) return;
 
-                    const activeName = ZIP_LEVELS[this.currentLevelIdx] ? ZIP_LEVELS[this.currentLevelIdx].name : '';
+                    const activeId = ZIP_LEVELS[this.currentLevelIdx] ? ZIP_LEVELS[this.currentLevelIdx].id : '';
                     localStorage.setItem(ZIP_STORAGE_KEY, JSON.stringify(remoteLevels));
-                    ZIP_LEVELS = [...remoteLevels, ...DEFAULT_ZIP_LEVELS];
+                    ZIP_LEVELS = buildMixedLevels(remoteLevels);
+                    this.recomputeMilestone();
+                    this.saveProgress();
 
-                    const newIdx = ZIP_LEVELS.findIndex(lv => lv.name === activeName);
-                    if (newIdx !== -1) this.currentLevelIdx = newIdx;
-                    this.refreshLevelDropdown();
+                    if (!ZIP_LEVELS.length) {
+                        this.renderEmptyState(true);
+                        return;
+                    }
+
+                    const sameIdx = ZIP_LEVELS.findIndex(lv => lv.id === activeId);
+                    if (sameIdx !== -1) {
+                        this.currentLevelIdx = sameIdx;
+                        this.refreshLevelDropdown();
+                        this.renderCatchUpBanner();
+                    } else {
+                        const startIdx = this.findResumeLevelIndex();
+                        this.refreshLevelDropdown();
+                        this.loadLevel(startIdx);
+                    }
                 } catch (e) {}
+            },
+
+            // Tìm bài chưa hoàn thành phù hợp nhất khi mở app
+            findResumeLevelIndex() {
+                if (!ZIP_LEVELS.length) return 0;
+
+                // 1. Nếu đang trong chuỗi bắt nhịp của một chuyên gia mới
+                if (this.progress.activeCatchUpPartner) {
+                    const catchUpIdx = ZIP_LEVELS.findIndex(lv =>
+                        lv.partnerName === this.progress.activeCatchUpPartner &&
+                        lv.levelNum < this.progress.highestMilestone &&
+                        !this.isLevelCompleted(lv.id)
+                    );
+                    if (catchUpIdx !== -1) return catchUpIdx;
+                    this.progress.activeCatchUpPartner = '';
+                    this.saveProgress();
+                }
+
+                // 2. Mở bài chưa hoàn thành đầu tiên tại mốc highestMilestone trở lên
+                const milestoneIdx = ZIP_LEVELS.findIndex(lv =>
+                    lv.levelNum >= this.progress.highestMilestone &&
+                    !this.isLevelCompleted(lv.id)
+                );
+                if (milestoneIdx !== -1) return milestoneIdx;
+
+                // 3. Nếu đã xong các bài từ mốc hiện tại trở lên, tìm bất kỳ bài nào chưa chơi
+                const anyUncompleted = ZIP_LEVELS.findIndex(lv => !this.isLevelCompleted(lv.id));
+                if (anyUncompleted !== -1) return anyUncompleted;
+
+                return 0;
             },
 
             refreshLevelDropdown() {
                 const select = document.getElementById('zipLevelSelect');
                 if (!select) return;
-                select.innerHTML = ZIP_LEVELS.map((lv, idx) =>
-                    `<option value="${idx}">${lv.name}</option>`
-                ).join('');
+                if (!ZIP_LEVELS.length) {
+                    select.innerHTML = `<option value="0">Chưa có bài từ chuyên gia</option>`;
+                    return;
+                }
+                select.innerHTML = ZIP_LEVELS.map((lv, idx) => {
+                    const doneMark = this.isLevelCompleted(lv.id) ? '✓ ' : '';
+                    return `<option value="${idx}">${doneMark}[${lv.displayCode}] ${lv.rawTitle} — ${lv.partnerName}</option>`;
+                }).join('');
                 select.value = String(this.currentLevelIdx);
+            },
+
+            renderCatchUpBanner() {
+                const banner = document.getElementById('zipCatchUpBanner');
+                if (!banner || !ZIP_LEVELS.length) {
+                    if (banner) banner.classList.add('hidden');
+                    return;
+                }
+
+                const milestone = this.progress.highestMilestone;
+
+                // Nếu Sales đang chủ động chơi chuỗi bắt nhịp của chuyên gia mới
+                if (this.progress.activeCatchUpPartner) {
+                    const partner = this.progress.activeCatchUpPartner;
+                    const remaining = ZIP_LEVELS.filter(lv =>
+                        lv.partnerName === partner &&
+                        lv.levelNum < milestone &&
+                        !this.isLevelCompleted(lv.id)
+                    );
+                    if (remaining.length > 0) {
+                        banner.innerHTML = `
+                            <span style="line-height:1.4;">
+                                <i class="fa-solid fa-bolt"></i> Đang bắt nhịp chuyên gia <strong>${partner}</strong> · Còn <strong>${remaining.length}</strong> bài trước mốc Level ${milestone}
+                            </span>
+                            <button type="button" class="zip-catchup-btn is-secondary" onclick="ZipGame.exitCatchUpMode()">Về Level ${milestone}</button>
+                        `;
+                        banner.classList.remove('hidden');
+                        return;
+                    } else {
+                        this.progress.activeCatchUpPartner = '';
+                        this.saveProgress();
+                    }
+                }
+
+                // Kiểm tra xem có chuyên gia mới nào có bài chưa chơi ở Level thấp hơn mốc hiện tại của Sales không
+                const lowerUncompleted = ZIP_LEVELS.filter(lv =>
+                    lv.levelNum < milestone && !this.isLevelCompleted(lv.id)
+                );
+
+                if (lowerUncompleted.length > 0) {
+                    const firstNew = lowerUncompleted[0];
+                    banner.innerHTML = `
+                        <span style="line-height:1.4;">
+                            <i class="fa-solid fa-sparkles"></i> Thử thách mới từ chuyên gia <strong>${firstNew.partnerName}</strong> (Level ${firstNew.displayCode})
+                        </span>
+                        <button type="button" class="zip-catchup-btn" onclick="ZipGame.startCatchUp('${firstNew.partnerName.replace(/'/g, "\\'")}')">Chơi ngay</button>
+                    `;
+                    banner.classList.remove('hidden');
+                } else {
+                    banner.classList.add('hidden');
+                }
+            },
+
+            startCatchUp(partnerName) {
+                this.progress.activeCatchUpPartner = partnerName;
+                this.saveProgress();
+                const idx = this.findResumeLevelIndex();
+                this.loadLevel(idx);
+            },
+
+            exitCatchUpMode() {
+                this.progress.activeCatchUpPartner = '';
+                this.saveProgress();
+                const idx = this.findResumeLevelIndex();
+                this.loadLevel(idx);
+            },
+
+            renderEmptyState(isEmpty) {
+                const emptyEl = document.getElementById('zipEmptyState');
+                const boardEl = document.getElementById('zipBoardContainer');
+                if (emptyEl) emptyEl.classList.toggle('hidden', !isEmpty);
+                if (boardEl) boardEl.classList.toggle('hidden', isEmpty);
             },
 
             syncHideNumButton() {
@@ -15133,12 +15328,27 @@ window.addEventListener('message', async function(event) {
 
             init() {
                 if (!this.initialized) {
-                    this.loadSavedLevels();
+                    this.loadProgress();
+                    const sharedId = this.loadSavedLevels();
                     this.refreshLevelDropdown();
                     this.bindPointerEvents();
                     this.initialized = true;
+
+                    if (sharedId && ZIP_LEVELS.length) {
+                        const sharedIdx = ZIP_LEVELS.findIndex(lv => lv.id === sharedId);
+                        this.currentLevelIdx = sharedIdx !== -1 ? sharedIdx : this.findResumeLevelIndex();
+                    } else {
+                        this.currentLevelIdx = this.findResumeLevelIndex();
+                    }
+
                     this.syncLevelsFromCloud();
                 }
+
+                if (!ZIP_LEVELS.length) {
+                    this.renderEmptyState(true);
+                    return;
+                }
+                this.renderEmptyState(false);
                 this.loadLevel(this.currentLevelIdx);
             },
 
@@ -15150,17 +15360,23 @@ window.addEventListener('message', async function(event) {
             },
 
             loadLevel(idx) {
-                this.currentLevelIdx = idx;
-                const select = document.getElementById('zipLevelSelect');
-                if (select) select.value = String(idx);
+                if (!ZIP_LEVELS.length) {
+                    this.renderEmptyState(true);
+                    return;
+                }
+                this.renderEmptyState(false);
 
-                const level = ZIP_LEVELS[idx];
+                this.currentLevelIdx = Math.max(0, Math.min(ZIP_LEVELS.length - 1, idx));
+                const select = document.getElementById('zipLevelSelect');
+                if (select) select.value = String(this.currentLevelIdx);
+
+                const level = ZIP_LEVELS[this.currentLevelIdx];
                 const badge = document.getElementById('zipAssignedBadge');
                 if (badge) {
-                    badge.classList.toggle('hidden', !level.isCustom);
+                    badge.classList.remove('hidden');
                     badge.innerHTML = level.partnerName
-                        ? `<i class="fa-solid fa-building"></i> ${level.partnerName}`
-                        : `<i class="fa-solid fa-graduation-cap"></i> Thử thách từ chuyên gia`;
+                        ? `<i class="fa-solid fa-user-tie"></i> [${level.displayCode}] ${level.partnerName}`
+                        : `<i class="fa-solid fa-award"></i> Thử thách từ chuyên gia`;
                 }
 
                 const startCp = level.checkpoints.find(cp => cp.num === 1);
@@ -15170,6 +15386,7 @@ window.addEventListener('message', async function(event) {
                 this.seconds = 0;
 
                 this.syncHideNumButton();
+                this.renderCatchUpBanner();
                 document.getElementById('zipWinCard').classList.add('hidden');
                 this.closeRewardModal();
                 this.startTimer();
@@ -15392,8 +15609,18 @@ window.addEventListener('message', async function(event) {
                 if (this.path.length === totalCells && this.getHighestVisitedCheckpoint() === level.checkpoints.length) {
                     this.isWon = true;
                     this.updateVisuals();
+
+                    // Lưu tiến độ hoàn thành bài chơi
+                    if (!this.isLevelCompleted(level.id)) {
+                        this.progress.completedIds.push(level.id);
+                    }
+                    this.recomputeMilestone();
+                    this.saveProgress();
+                    this.refreshLevelDropdown();
+                    this.renderCatchUpBanner();
+
                     const timerText = document.getElementById('zipTimer').textContent;
-                    document.getElementById('zipWinStats').textContent = `Hoàn thành quy trình trong ${timerText}`;
+                    document.getElementById('zipWinStats').textContent = `Hoàn thành Level ${level.displayCode} trong ${timerText}`;
                     document.getElementById('zipWinCard').classList.remove('hidden');
 
                     const hasVideo = Boolean(level.videoUrl && level.videoUrl.trim());
@@ -15435,13 +15662,13 @@ window.addEventListener('message', async function(event) {
                 const docCard = document.getElementById('zipDocCard');
 
                 if (hasVideo && hasDoc) {
-                    badgeEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> Video bài học & Tài liệu đính kèm`;
+                    badgeEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> Video bài học & Tài liệu từ chuyên gia`;
                     titleEl.textContent = level.videoTitle || level.name;
                 } else if (hasVideo) {
                     badgeEl.innerHTML = `<i class="fa-solid fa-circle-play"></i> Video tổng kết quy trình`;
                     titleEl.textContent = level.videoTitle || level.name;
                 } else {
-                    badgeEl.innerHTML = `<i class="fa-solid fa-file-pdf"></i> Tài liệu hướng dẫn quy trình`;
+                    badgeEl.innerHTML = `<i class="fa-solid fa-file-pdf"></i> Tài liệu từ chuyên gia`;
                     titleEl.textContent = level.docTitle || level.name;
                 }
 
@@ -15457,7 +15684,7 @@ window.addEventListener('message', async function(event) {
                 }
 
                 if (hasDoc) {
-                    document.getElementById('zipDocName').textContent = level.docTitle || 'Tài liệu hướng dẫn quy trình (PDF)';
+                    document.getElementById('zipDocName').textContent = level.docTitle || 'Tài liệu từ chuyên gia (PDF)';
                     document.getElementById('zipDocDownloadBtn').href = getDocumentDownloadUrl(level.docUrl);
                     docCard.classList.remove('hidden');
                 } else {
@@ -15485,7 +15712,7 @@ window.addEventListener('message', async function(event) {
             },
 
             hint() {
-                if (this.isWon) return;
+                if (this.isWon || !ZIP_LEVELS.length) return;
                 const level = ZIP_LEVELS[this.currentLevelIdx];
                 const sol = level.solution;
                 if (!sol || !sol.length) return;
@@ -15512,8 +15739,48 @@ window.addEventListener('message', async function(event) {
             },
 
             nextLevel() {
-                const nextIdx = (this.currentLevelIdx + 1) % ZIP_LEVELS.length;
-                this.loadLevel(nextIdx);
+                if (!ZIP_LEVELS.length) return;
+
+                // 1. Nếu đang trong chuỗi bắt nhịp của chuyên gia mới -> đi tiếp bài tiếp theo của chuyên gia đó
+                if (this.progress.activeCatchUpPartner) {
+                    const partner = this.progress.activeCatchUpPartner;
+                    const nextCatchUpIdx = ZIP_LEVELS.findIndex(lv =>
+                        lv.partnerName === partner &&
+                        lv.levelNum < this.progress.highestMilestone &&
+                        !this.isLevelCompleted(lv.id)
+                    );
+                    if (nextCatchUpIdx !== -1) {
+                        this.loadLevel(nextCatchUpIdx);
+                        return;
+                    }
+                    // Đã bắt kịp mốc của Sales -> thoát chế độ bắt nhịp và hòa vào luồng chung
+                    this.progress.activeCatchUpPartner = '';
+                    this.saveProgress();
+                    if (typeof showToast === 'function') {
+                        showToast(`Đã bắt kịp Level ${this.progress.highestMilestone}!`, true);
+                    }
+                }
+
+                // 2. Đi tiếp theo thứ tự mix ngẫu nhiên từ mốc hiện tại trở lên
+                const nextInMilestone = ZIP_LEVELS.findIndex((lv, i) =>
+                    i > this.currentLevelIdx &&
+                    lv.levelNum >= this.progress.highestMilestone &&
+                    !this.isLevelCompleted(lv.id)
+                );
+                if (nextInMilestone !== -1) {
+                    this.loadLevel(nextInMilestone);
+                    return;
+                }
+
+                const resumeIdx = this.findResumeLevelIndex();
+                if (resumeIdx !== this.currentLevelIdx) {
+                    this.loadLevel(resumeIdx);
+                    return;
+                }
+
+                // 3. Nếu đã hoàn thành toàn bộ thư viện hiện có -> chuyển vòng lặp tiếp theo
+                const nextWrapIdx = (this.currentLevelIdx + 1) % ZIP_LEVELS.length;
+                this.loadLevel(nextWrapIdx);
             }
         };
 
