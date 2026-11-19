@@ -3373,7 +3373,7 @@
             color: var(--muted);
             font-weight: 500;
         }
-      /* ===== TRÒ CHƠI ZIP (GIAO DIỆN HỌC VIÊN TINH GỌN) ===== */
+      /* ===== TRÒ CHƠI ZIP (MODERN FLAT + DUG TUNNEL #4D3B9C) ===== */
         #zip-game-page .page-content {
             padding-top: 76px;
             padding-bottom: 115px;
@@ -3399,8 +3399,8 @@
             font-family: inherit;
             font-size: 13px;
             font-weight: 700;
-            color: var(--navy);
-            background: var(--navy-pale);
+            color: #4D3B9C;
+            background: #F5F3FF;
             outline: none;
             cursor: pointer;
         }
@@ -3417,8 +3417,9 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            background: #F1F5F9;
-            padding: 6px 10px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            padding: 5px 10px;
             border-radius: 20px;
             font-variant-numeric: tabular-nums;
         }
@@ -3445,13 +3446,13 @@
             transition: all 0.15s ease;
         }
         .zip-mode-toggle.active {
-            background: var(--navy);
-            border-color: var(--navy);
+            background: #4D3B9C;
+            border-color: #4D3B9C;
             color: var(--white);
         }
         .zip-step-banner {
-            background: linear-gradient(135deg, #EFF6FF 0%, #F8FAFC 100%);
-            border: 1px solid #DBEAFE;
+            background: #F5F3FF;
+            border: 1px solid #DDD6FE;
             border-radius: 12px;
             padding: 10px 14px;
             margin-bottom: 14px;
@@ -3460,10 +3461,11 @@
             justify-content: space-between;
             gap: 8px;
             font-size: 12.5px;
-            color: var(--navy);
+            color: #3B2D7A;
         }
         .zip-step-banner strong {
             font-weight: 800;
+            color: #4D3B9C;
         }
         .zip-board-wrap {
             position: relative;
@@ -3471,11 +3473,11 @@
             max-width: 390px;
             aspect-ratio: 1 / 1;
             margin: 0 auto 14px;
-            background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+            background: #FFFFFF;
             border-radius: 24px;
             padding: 12px;
             border: 1.5px solid #E2E8F0;
-            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
             user-select: none;
             -webkit-user-select: none;
             touch-action: none;
@@ -3486,19 +3488,18 @@
             height: 100%;
             border-radius: 16px;
             overflow: hidden;
-            background: #FFFFFF;
-            border: 1.5px solid #CBD5E1;
+            background: #FAF9FE;
+            border: 1px solid #E2E8F0;
         }
         .zip-grid {
             display: grid;
             width: 100%;
             height: 100%;
         }
-        /* Không đặt z-index trên .zip-cell để thẻ quy trình luôn nổi lên trên lớp đường đi SVG */
         .zip-cell {
             position: relative;
-            border-right: 1px solid #EEF2F6;
-            border-bottom: 1px solid #EEF2F6;
+            border-right: 1px solid rgba(203, 213, 225, 0.45);
+            border-bottom: 1px solid rgba(203, 213, 225, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -3509,10 +3510,10 @@
         }
         @keyframes zipHintPulse {
             0%, 100% { background-color: transparent; }
-            50% { background-color: rgba(251, 191, 36, 0.28); }
+            50% { background-color: rgba(251, 191, 36, 0.25); }
         }
 
-        /* Lớp SVG đường đi màu xanh trong suốt (nằm DƯỚI các thẻ chữ) */
+        /* Lớp SVG đường hầm & vách ngăn */
         .zip-svg-overlay {
             position: absolute;
             inset: 0;
@@ -3521,7 +3522,6 @@
             pointer-events: none;
             z-index: 2;
         }
-        /* Lớp SVG vách ngăn bo tròn mềm mại */
         .zip-walls-overlay {
             position: absolute;
             inset: 0;
@@ -3531,79 +3531,77 @@
             z-index: 3;
         }
 
-        /* Hình khối các nút quy trình (nằm TRÊN CÙNG, không bao giờ bị che chữ) */
+        /* Thẻ bước quy trình: Thiết kế phẳng, tinh gọn, hiện đại */
         .zip-node-step {
             position: relative;
             z-index: 4;
             width: 84%;
-            min-height: 54%;
+            min-height: 56%;
             padding: 4px 5px;
-            border-radius: 12px;
-            background: #FFFFFF;
-            border: 1.8px solid #94A3B8;
-            color: #0F172A;
-            font-size: 10.5px;
-            font-weight: 800;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1.5px solid #CBD5E1;
+            color: #1E293B;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
             line-height: 1.15;
             text-align: center;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 1px;
             word-break: break-word;
-            box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
             pointer-events: none;
-            transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+            transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
         }
-        /* Điểm bắt đầu (Bước 1) */
+        /* Điểm bắt đầu */
         .zip-node-step.is-start {
-            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
-            border-color: #2563EB;
-            color: #1E3A8A;
+            background: #F3E8FF;
+            border-color: #4D3B9C;
+            color: #4D3B9C;
         }
-        /* Điểm đích (Bước cuối) */
+        /* Điểm đích */
         .zip-node-step.is-end {
             border-style: dashed;
-            border-color: #0D9488;
+            border-color: #7C3AED;
         }
-        /* Trạng thái đã nối qua */
+        /* Trạng thái đã nối dây qua: Phẳng, sắc nét, hòa vào đường hầm #4D3B9C */
         .zip-cell.visited .zip-node-step {
-            background: linear-gradient(135deg, #1B2B7A 0%, #2563EB 100%);
+            background: #4D3B9C;
             border-style: solid;
-            border-color: #1B2B7A;
+            border-color: rgba(255, 255, 255, 0.85);
             color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
-        /* Ô đầu dây hiện tại đang dừng ở checkpoint */
+        /* Ô đầu dây hiện tại */
         .zip-cell.head .zip-node-step {
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25), 0 4px 12px rgba(27, 43, 122, 0.3);
+            outline: 3px solid rgba(77, 59, 156, 0.25);
         }
-        /* Gợi ý mục tiêu kế tiếp */
+        /* Gợi ý bước kế tiếp */
         .zip-cell.next-target .zip-node-step {
-            border-color: #2563EB;
-            box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.18);
+            border-color: #4D3B9C;
+            outline: 3px solid rgba(77, 59, 156, 0.15);
         }
-        /* Huy hiệu số thứ tự nhỏ ở góc */
-        .zip-step-badge {
-            position: absolute;
-            top: -6px;
-            left: -5px;
-            min-width: 16px;
-            height: 16px;
-            padding: 0 4px;
-            border-radius: 8px;
-            background: #2563EB;
-            border: 1.5px solid #FFFFFF;
-            color: #FFFFFF;
-            font-size: 9px;
+        /* Số thứ tự tích hợp gọn bên trong thẻ */
+        .zip-step-num {
+            display: inline-block;
+            font-size: 8.5px;
             font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.18);
+            line-height: 1;
+            padding: 1.5px 5px;
+            border-radius: 5px;
+            background: #F1F5F9;
+            color: #64748B;
         }
-        .zip-cell.visited .zip-step-badge {
-            background: #10B981;
+        .zip-node-step.is-start .zip-step-num {
+            background: rgba(77, 59, 156, 0.14);
+            color: #4D3B9C;
+        }
+        .zip-cell.visited .zip-step-num {
+            background: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
         }
 
         .zip-controls {
@@ -3630,12 +3628,12 @@
             transition: all 0.15s ease;
         }
         .zip-ctrl-btn:hover {
-            border-color: var(--navy-light);
-            color: var(--navy);
+            border-color: #4D3B9C;
+            color: #4D3B9C;
         }
         .zip-win-card {
-            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
-            border: 1.5px solid #6EE7B7;
+            background: #F5F3FF;
+            border: 1.5px solid #C4B5FD;
             border-radius: 16px;
             padding: 18px;
             text-align: center;
@@ -3646,13 +3644,81 @@
         .zip-win-title {
             font-size: 17px;
             font-weight: 800;
-            color: #065F46;
+            color: #4D3B9C;
             margin-bottom: 4px;
         }
         .zip-win-sub {
             font-size: 13px;
-            color: #047857;
+            color: #5B21B6;
             margin-bottom: 14px;
+        }
+
+        /* ===== POPUP VIDEO BÀI HỌC SAU KHI GIẢI XONG ===== */
+        .zip-video-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 9999;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .zip-video-backdrop.hidden {
+            display: none;
+        }
+        .zip-video-modal {
+            width: 100%;
+            max-width: 460px;
+            background: #FFFFFF;
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 24px 48px rgba(15, 23, 42, 0.24);
+            border: 1px solid #E2E8F0;
+        }
+        .zip-video-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .zip-video-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #4D3B9C;
+            background: #F3E8FF;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 6px;
+        }
+        .zip-video-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0F172A;
+            line-height: 1.35;
+        }
+        .zip-video-frame-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #0F172A;
+            margin-bottom: 14px;
+            border: 1px solid #E2E8F0;
+        }
+        .zip-video-frame-wrap iframe,
+        .zip-video-frame-wrap video {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
         }
     </style>
 </head>
@@ -4024,7 +4090,6 @@
                 </div>
             </div>
         </div>
-      <!-- ========== ZIP GAME PAGE ========== -->
         <d<!-- ========== ZIP GAME PAGE (LEARNER VIEW) ========== -->
         <div id="zip-game-page" class="page hidden">
             <div class="page-header">
@@ -4039,8 +4104,8 @@
                 <div class="zip-topbar">
                     <select id="zipLevelSelect" class="zip-level-select" onchange="ZipGame.loadLevel(Number(this.value))"></select>
                     <div class="zip-stats">
-                        <span class="zip-stat-pill"><i class="fa-regular fa-clock" style="color:var(--navy);"></i> <span id="zipTimer">00:00</span></span>
-                        <span class="zip-stat-pill"><i class="fa-solid fa-border-all" style="color:var(--navy);"></i> <span id="zipCoverage">1/25</span></span>
+                        <span class="zip-stat-pill"><i class="fa-regular fa-clock" style="color:#4D3B9C;"></i> <span id="zipTimer">00:00</span></span>
+                        <span class="zip-stat-pill"><i class="fa-solid fa-border-all" style="color:#4D3B9C;"></i> <span id="zipCoverage">1/25</span></span>
                     </div>
                 </div>
 
@@ -4049,7 +4114,7 @@
                     <button type="button" id="zipHideNumBtn" class="zip-mode-toggle" onclick="ZipGame.toggleHideNumbers()">
                         <i class="fa-regular fa-eye-slash"></i> <span>Ẩn số thứ tự (Thực chiến)</span>
                     </button>
-                    <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#1D4ED8; background:#EFF6FF; padding:5px 10px; border-radius:8px; border:1px solid #BFDBFE;">
+                    <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#4D3B9C; background:#F3E8FF; padding:5px 10px; border-radius:8px; border:1px solid #DDD6FE;">
                         <i class="fa-solid fa-graduation-cap"></i> Bài đào tạo
                     </span>
                 </div>
@@ -4066,12 +4131,13 @@
                 <div class="zip-board-wrap">
                     <div class="zip-board-inner" id="zipBoardContainer">
                         <div class="zip-grid" id="zipGrid"></div>
-                        <!-- Đường đi màu xanh trong suốt -->
+                        <!-- Đường hầm màu #4D3B9C lõm ra vào như đào đất -->
                         <svg class="zip-svg-overlay" id="zipSvgOverlay" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <polyline id="zipPathLine" fill="none" stroke="rgba(37, 99, 235, 0.28)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" points="" />
-                            <circle id="zipHeadDot" cx="-10" cy="-10" r="3.2" fill="rgba(29, 78, 216, 0.65)" opacity="0" />
+                            <g id="zipTunnelOuter" opacity="0.26"></g>
+                            <g id="zipTunnelInner" opacity="0.14"></g>
+                            <circle id="zipHeadDot" cx="-10" cy="-10" r="3" fill="rgba(77, 59, 156, 0.75)" opacity="0" />
                         </svg>
-                        <!-- Vách ngăn bo tròn -->
+                        <!-- Vách ngăn họa tiết chuẩn game -->
                         <svg class="zip-walls-overlay" id="zipWallsOverlay" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
                     </div>
                 </div>
@@ -4091,15 +4157,44 @@
 
                 <!-- Hướng dẫn ngắn gọn -->
                 <p id="zipRuleHint" style="text-align:center; font-size:12.5px; color:var(--muted); max-width:390px; margin:0 auto 14px; line-height:1.5;">
-                    Kéo dây nối đúng <strong>thứ tự các bước quy trình</strong> và đi qua <strong>tất cả các ô</strong> trên bàn cờ.
+                    Đào đường nối đúng <strong>thứ tự các bước quy trình</strong> và đi qua <strong>tất cả các ô</strong> trên bàn cờ.
                 </p>
 
                 <!-- Banner hoàn thành màn -->
                 <div id="zipWinCard" class="zip-win-card hidden">
                     <div class="zip-win-title"><i class="fa-solid fa-trophy"></i> <span data-i18n="zip_win_title">Hoàn thành xuất sắc!</span></div>
                     <div class="zip-win-sub" id="zipWinStats">Thời gian: 00:24</div>
-                    <button type="button" class="btn-primary" style="padding:12px 16px; font-size:14px;" onclick="ZipGame.nextLevel()">
-                        <span data-i18n="zip_next_level">Màn tiếp theo</span> <i class="fa-solid fa-arrow-right"></i>
+                    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                        <button type="button" id="zipRewatchVideoBtn" class="zip-ctrl-btn hidden" style="border-color:#4D3B9C; color:#4D3B9C;" onclick="ZipGame.openVideoModal()">
+                            <i class="fa-solid fa-circle-play"></i> Xem video bài học
+                        </button>
+                        <button type="button" class="btn-primary" style="padding:11px 18px; font-size:14px; background:#4D3B9C;" onclick="ZipGame.nextLevel()">
+                            <span data-i18n="zip_next_level">Màn tiếp theo</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POPUP VIDEO BÀI HỌC SAU KHI GIẢI XONG GAME -->
+        <div id="zipVideoModal" class="zip-video-backdrop hidden" onclick="if(event.target===this) ZipGame.closeVideoModal()">
+            <div class="zip-video-modal">
+                <div class="zip-video-header">
+                    <div>
+                        <div class="zip-video-badge"><i class="fa-solid fa-circle-check"></i> Hoàn thành quy trình · Video tổng kết</div>
+                        <div class="zip-video-title" id="zipVideoModalTitle">Video hướng dẫn chi tiết</div>
+                    </div>
+                    <button type="button" onclick="ZipGame.closeVideoModal()" style="border:none; background:#F1F5F9; width:32px; height:32px; border-radius:50%; color:#475569; cursor:pointer; flex-shrink:0;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="zipVideoContainer" class="zip-video-frame-wrap"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                    <a id="zipVideoExternalLink" href="#" target="_blank" rel="noopener" style="font-size:12.5px; font-weight:700; color:#4D3B9C; text-decoration:none;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở video trong tab mới
+                    </a>
+                    <button type="button" class="btn-primary" style="padding:10px 18px; font-size:13.5px; background:#4D3B9C;" onclick="ZipGame.closeVideoModal()">
+                        Tiếp tục
                     </button>
                 </div>
             </div>
@@ -14583,7 +14678,7 @@ window.addEventListener('message', async function(event) {
             }
         }
       // ========================================================================
-        //  GAME ROUTER & ZIP LEARNER ENGINE (NHẬN BÀI TỪ TRANG ADMIN QUA LINK/STORAGE)
+        //  GAME ROUTER & ZIP LEARNER ENGINE (TUNNEL #4D3B9C + VIDEO REWARD POPUP)
         // ========================================================================
         function openGamePage(gameType) {
             const app = document.querySelector('.app');
@@ -14620,6 +14715,8 @@ window.addEventListener('message', async function(event) {
                 name: 'Mẫu 1 · Quy trình Tư vấn Giải pháp (5×5)',
                 size: 5,
                 isCustom: false,
+                videoUrl: '',
+                videoTitle: '',
                 checkpoints: [
                     { r: 0, c: 0, num: 1, shortLabel: 'Tiếp nhận', label: '1. Tiếp nhận yêu cầu khách hàng' },
                     { r: 0, c: 4, num: 2, shortLabel: 'Khảo sát', label: '2. Khảo sát & Phân tích hiện trạng' },
@@ -14642,6 +14739,8 @@ window.addEventListener('message', async function(event) {
                 name: 'Mẫu 2 · Xử lý Phản đối Khách hàng (5×5)',
                 size: 5,
                 isCustom: false,
+                videoUrl: '',
+                videoTitle: '',
                 checkpoints: [
                     { r: 2, c: 2, num: 1, shortLabel: 'Lắng nghe', label: '1. Lắng nghe trọn vẹn, không ngắt lời' },
                     { r: 1, c: 2, num: 2, shortLabel: 'Đồng cảm', label: '2. Ghi nhận & Đồng cảm góc nhìn' },
@@ -14670,6 +14769,8 @@ window.addEventListener('message', async function(event) {
                 name: 'Mẫu 3 · Điều hành Cuộc họp Hiệu quả (6×6)',
                 size: 6,
                 isCustom: false,
+                videoUrl: '',
+                videoTitle: '',
                 checkpoints: [
                     { r: 0, c: 0, num: 1, shortLabel: 'Mục tiêu', label: '1. Xác định rõ mục tiêu cuộc họp' },
                     { r: 3, c: 0, num: 2, shortLabel: 'Mở đầu', label: '2. Thống nhất Agenda & thời lượng' },
@@ -14713,6 +14814,9 @@ window.addEventListener('message', async function(event) {
                 if (!raw || !raw.s || !Array.isArray(raw.c)) return null;
                 return {
                     name: raw.t || 'Bài đào tạo được giao',
+                    partnerName: raw.pn || '',
+                    videoUrl: raw.v || '',
+                    videoTitle: raw.vt || '',
                     size: Number(raw.s),
                     isCustom: true,
                     checkpoints: raw.c.map(item => ({
@@ -14728,6 +14832,97 @@ window.addEventListener('message', async function(event) {
             } catch (e) {
                 return null;
             }
+        }
+
+        // Bộ chuyển đổi URL video sang trình phát nhúng (YouTube, Google Drive, Vimeo, MP4)
+        function buildVideoEmbedHtml(rawUrl) {
+            const url = (rawUrl || '').trim();
+            if (!url) return '';
+
+            // YouTube (watch, youtu.be, shorts)
+            const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            if (ytMatch && ytMatch[1]) {
+                return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+            }
+
+            // Google Drive
+            const gdMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (gdMatch && gdMatch[1]) {
+                return `<iframe src="https://drive.google.com/file/d/${gdMatch[1]}/preview" allow="autoplay" allowfullscreen></iframe>`;
+            }
+
+            // Vimeo
+            const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+            if (vimeoMatch && vimeoMatch[1]) {
+                return `<iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+            }
+
+            // File video trực tiếp (.mp4, .webm, .ogg)
+            if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) {
+                return `<video src="${url.replace(/"/g, '&quot;')}" controls autoplay playsinline></video>`;
+            }
+
+            // Các nền tảng LMS / Loom / khác -> thử nhúng iframe
+            return `<iframe src="${url.replace(/"/g, '&quot;')}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+        }
+
+        // Vẽ đường hầm màu #4D3B9C có độ lõm ra vào hữu cơ theo từng tọa độ ô
+        function renderDugTunnelSvg(outerGroup, innerGroup, pathCoords, size) {
+            if (!outerGroup || !innerGroup) return;
+            if (!pathCoords || !pathCoords.length) {
+                outerGroup.innerHTML = '';
+                innerGroup.innerHTML = '';
+                return;
+            }
+
+            const step = 100 / size;
+            const pts = pathCoords.map(p => `${(p.c + 0.5) * step},${(p.r + 0.5) * step}`).join(' ');
+
+            // Tạo hàm băm cố định theo tọa độ (r, c) để vách đất lõm ra vào tự nhiên nhưng không rung lắc
+            const cellHash = (r, c, salt) => {
+                const x = Math.sin(r * 127.1 + c * 311.7 + salt * 74.7) * 43758.5453;
+                return x - Math.floor(x);
+            };
+
+            let blobsMarkup = '';
+            for (let i = 0; i < pathCoords.length; i++) {
+                const { r, c } = pathCoords[i];
+                const cx = (c + 0.5) * step;
+                const cy = (r + 0.5) * step;
+
+                const h1 = cellHash(r, c, 1);
+                const h2 = cellHash(r, c, 2);
+                const h3 = cellHash(r, c, 3);
+
+                // Hốc đào chính tại tâm ô (lõm ra vào theo h1)
+                const mainRadius = step * (0.29 + h1 * 0.085);
+                const offX = (h2 - 0.5) * step * 0.08;
+                const offY = (h3 - 0.5) * step * 0.08;
+                blobsMarkup += `<circle cx="${(cx + offX).toFixed(2)}" cy="${(cy + offY).toFixed(2)}" r="${mainRadius.toFixed(2)}" fill="#4D3B9C" />`;
+
+                // Hốc đào phụ ở đoạn nối sang ô kế tiếp tạo hiệu ứng gồ ghề như đào đất
+                if (i < pathCoords.length - 1) {
+                    const next = pathCoords[i + 1];
+                    const midX = (cx + (next.c + 0.5) * step) / 2;
+                    const midY = (cy + (next.r + 0.5) * step) / 2;
+                    const perpX = -(next.r - r);
+                    const perpY = (next.c - c);
+                    const sideShift = (h2 - 0.5) * step * 0.14;
+                    const midRadius = step * (0.26 + h3 * 0.08);
+                    blobsMarkup += `<circle cx="${(midX + perpX * sideShift).toFixed(2)}" cy="${(midY + perpY * sideShift).toFixed(2)}" r="${midRadius.toFixed(2)}" fill="#4D3B9C" />`;
+                }
+            }
+
+            // Toàn bộ polyline + các hốc đào nằm chung trong <g opacity="0.26"> nên hòa làm một khối đồng nhất
+            outerGroup.innerHTML = `
+                <polyline fill="none" stroke="#4D3B9C" stroke-width="${(step * 0.58).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round" points="${pts}" />
+                ${blobsMarkup}
+            `;
+
+            // Lõi đường hầm bên trong tạo chiều sâu
+            innerGroup.innerHTML = `
+                <polyline fill="none" stroke="#4D3B9C" stroke-width="${(step * 0.26).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round" points="${pts}" />
+            `;
         }
 
         const ZipGame = {
@@ -14747,7 +14942,6 @@ window.addEventListener('message', async function(event) {
                     if (raw) custom = JSON.parse(raw);
                 } catch (e) {}
 
-                // Kiểm tra xem có bài đào tạo được gửi qua URL (?zip_data=...) không
                 const params = new URLSearchParams(window.location.search);
                 const sharedData = params.get('zip_data');
                 if (sharedData) {
@@ -14799,7 +14993,14 @@ window.addEventListener('message', async function(event) {
 
                 const level = ZIP_LEVELS[idx];
                 const badge = document.getElementById('zipAssignedBadge');
-                if (badge) badge.classList.toggle('hidden', !level.isCustom);
+                if (badge) {
+                    badge.classList.toggle('hidden', !level.isCustom);
+                    if (level.partnerName) {
+                        badge.innerHTML = `<i class="fa-solid fa-building"></i> ${level.partnerName}`;
+                    } else {
+                        badge.innerHTML = `<i class="fa-solid fa-graduation-cap"></i> Bài đào tạo`;
+                    }
+                }
 
                 const startCp = level.checkpoints.find(cp => cp.num === 1);
                 this.path = [{ r: startCp.r, c: startCp.c }];
@@ -14808,6 +15009,7 @@ window.addEventListener('message', async function(event) {
                 this.seconds = 0;
 
                 document.getElementById('zipWinCard').classList.add('hidden');
+                this.closeVideoModal();
                 this.startTimer();
                 this.renderBoard();
                 this.updateVisuals();
@@ -14855,44 +15057,44 @@ window.addEventListener('message', async function(event) {
                         const cp = this.getCheckpointAt(r, c);
                         let nodeHtml = '';
                         if (cp) {
-                            const badge = (!this.hideNumbers || cp.num === 1)
-                                ? `<span class="zip-step-badge">${cp.num}</span>`
+                            const numTag = (!this.hideNumbers || cp.num === 1)
+                                ? `<span class="zip-step-num">${String(cp.num).padStart(2, '0')}</span>`
                                 : '';
                             const roleClass = cp.num === 1 ? 'is-start' : (cp.num === totalCps ? 'is-end' : '');
-                            nodeHtml = `<div class="zip-node-step ${roleClass}">${badge}${cp.shortLabel || cp.num}</div>`;
+                            nodeHtml = `<div class="zip-node-step ${roleClass}">${numTag}<span>${cp.shortLabel || cp.num}</span></div>`;
                         }
                         html += `<div class="zip-cell" data-r="${r}" data-c="${c}">${nodeHtml}</div>`;
                     }
                 }
                 gridEl.innerHTML = html;
 
-                // Vẽ vách ngăn bo tròn bằng SVG
+                // Vẽ vách ngăn họa tiết chuẩn game (màu nhạt tinh tế, không viền đen)
                 const wallsSvg = document.getElementById('zipWallsOverlay');
                 const step = 100 / level.size;
-                const pad = step * 0.08;
-                let wallsMarkup = '';
+                const pad = step * 0.1;
+                const thickness = 1.9;
+
+                let wallsMarkup = `
+                    <defs>
+                        <pattern id="zipWallHatch" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                            <rect width="2.4" height="2.4" fill="#E2E8F0" />
+                            <line x1="0" y1="0" x2="0" y2="2.4" stroke="#CBD5E1" stroke-width="1.1" />
+                        </pattern>
+                    </defs>
+                `;
 
                 (level.walls || []).forEach(([[r1, c1], [r2, c2]]) => {
-                    let x1, y1, x2, y2;
                     if (r1 === r2) {
-                        // Vách ngăn dọc giữa cột c1 và c2
-                        const x = Math.max(c1, c2) * step;
-                        x1 = x;
-                        x2 = x;
-                        y1 = r1 * step + pad;
-                        y2 = (r1 + 1) * step - pad;
+                        const x = Math.max(c1, c2) * step - thickness / 2;
+                        const y = r1 * step + pad;
+                        const h = step - pad * 2;
+                        wallsMarkup += `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${thickness}" height="${h.toFixed(2)}" rx="0.95" fill="url(#zipWallHatch)" stroke="#CBD5E1" stroke-width="0.35" />`;
                     } else {
-                        // Vách ngăn ngang giữa hàng r1 và r2
-                        const y = Math.max(r1, r2) * step;
-                        x1 = c1 * step + pad;
-                        x2 = (c1 + 1) * step - pad;
-                        y1 = y;
-                        y2 = y;
+                        const x = c1 * step + pad;
+                        const y = Math.max(r1, r2) * step - thickness / 2;
+                        const w = step - pad * 2;
+                        wallsMarkup += `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${w.toFixed(2)}" height="${thickness}" rx="0.95" fill="url(#zipWallHatch)" stroke="#CBD5E1" stroke-width="0.35" />`;
                     }
-                    wallsMarkup += `
-                        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(148,163,184,0.45)" stroke-width="3.2" stroke-linecap="round" />
-                        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#1E293B" stroke-width="2.1" stroke-linecap="round" />
-                    `;
                 });
                 wallsSvg.innerHTML = wallsMarkup;
             },
@@ -14993,11 +15195,15 @@ window.addEventListener('message', async function(event) {
                     cell.classList.toggle('next-target', Boolean(cp && cp.num === nextCpNum && !this.isWon && !this.hideNumbers));
                 });
 
-                const step = 100 / level.size;
-                const points = this.path.map(p => `${(p.c + 0.5) * step},${(p.r + 0.5) * step}`).join(' ');
-                document.getElementById('zipPathLine').setAttribute('points', points);
+                // Render đường hầm màu #4D3B9C lõm ra vào hữu cơ
+                renderDugTunnelSvg(
+                    document.getElementById('zipTunnelOuter'),
+                    document.getElementById('zipTunnelInner'),
+                    this.path,
+                    level.size
+                );
 
-                // Chỉ hiện chấm đầu dây khi đang ở ô trống, tuyệt đối không che chữ trên ô quy trình
+                const step = 100 / level.size;
                 const headDot = document.getElementById('zipHeadDot');
                 const headOnCheckpoint = Boolean(this.getCheckpointAt(head.r, head.c));
                 if (headOnCheckpoint || this.isWon) {
@@ -15029,10 +15235,36 @@ window.addEventListener('message', async function(event) {
                     const timerText = document.getElementById('zipTimer').textContent;
                     document.getElementById('zipWinStats').textContent = `Hoàn thành quy trình trong ${timerText}`;
                     document.getElementById('zipWinCard').classList.remove('hidden');
+
+                    const hasVideo = Boolean(level.videoUrl && level.videoUrl.trim());
+                    const rewatchBtn = document.getElementById('zipRewatchVideoBtn');
+                    if (rewatchBtn) rewatchBtn.classList.toggle('hidden', !hasVideo);
+
                     if (typeof showToast === 'function') {
                         showToast('Hoàn thành xuất sắc!', true);
                     }
+
+                    // Tự động bật Popup Video nếu giảng viên có đính kèm link video
+                    if (hasVideo) {
+                        setTimeout(() => this.openVideoModal(), 450);
+                    }
                 }
+            },
+
+            openVideoModal() {
+                const level = ZIP_LEVELS[this.currentLevelIdx];
+                if (!level || !level.videoUrl) return;
+                document.getElementById('zipVideoModalTitle').textContent = level.videoTitle || level.name;
+                document.getElementById('zipVideoExternalLink').href = level.videoUrl;
+                document.getElementById('zipVideoContainer').innerHTML = buildVideoEmbedHtml(level.videoUrl);
+                document.getElementById('zipVideoModal').classList.remove('hidden');
+            },
+
+            closeVideoModal() {
+                const modal = document.getElementById('zipVideoModal');
+                if (modal) modal.classList.add('hidden');
+                const container = document.getElementById('zipVideoContainer');
+                if (container) container.innerHTML = '';
             },
 
             undo() {
@@ -15078,7 +15310,6 @@ window.addEventListener('message', async function(event) {
             }
         };
 
-        // Tự động mở thẳng vào bài đào tạo nếu học viên mở link có tham số ?zip_data=...
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             if (params.get('zip_data')) {
