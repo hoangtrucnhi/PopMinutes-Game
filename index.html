@@ -3800,6 +3800,105 @@
             color: var(--navy);
             border: 1px solid #93C5FD;
         }
+        /* Custom Dropdown đồng bộ giao diện PopMinutes */
+        .zip-custom-select {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+        }
+        .zip-select-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 9px 12px;
+            background: #F8FAFC;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s ease;
+        }
+        .zip-select-trigger:hover,
+        .zip-custom-select.open .zip-select-trigger {
+            background: #FFFFFF;
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .zip-select-trigger-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .zip-select-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: #FFFFFF;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 14px;
+            box-shadow: 0 14px 32px rgba(15, 23, 42, 0.14);
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 6px;
+            z-index: 80;
+            display: none;
+        }
+        .zip-custom-select.open .zip-select-menu {
+            display: block;
+        }
+        .zip-select-option {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 9px 11px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            font-family: inherit;
+            font-size: 12.5px;
+            color: #1E293B;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.12s ease;
+        }
+        .zip-select-option:hover {
+            background: #F1F5F9;
+        }
+        .zip-select-option.selected {
+            background: #EFF6FF;
+            color: var(--navy);
+            font-weight: 700;
+        }
+        .zip-opt-code {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background: #E2E8F0;
+            color: #334155;
+            font-size: 11px;
+            font-weight: 800;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+        .zip-select-option.selected .zip-opt-code {
+            background: var(--navy);
+            color: #FFFFFF;
+        }
+        .zip-opt-partner {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #64748B;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -4180,12 +4279,18 @@
                 <div class="page-header-spacer"></div>
             </div>
             <div class="page-content">
-                <!-- Thanh chọn quy trình & thống kê -->
-                <div class="zip-topbar">
-                    <select id="zipLevelSelect" class="zip-level-select" onchange="ZipGame.loadLevel(Number(this.value))"></select>
-                    <div class="zip-stats">
-                        <span class="zip-stat-pill"><i class="fa-regular fa-clock" style="color:var(--navy);"></i> <span id="zipTimer">00:00</span></span>
-                        <span class="zip-stat-pill"><i class="fa-solid fa-border-all" style="color:var(--navy);"></i> <span id="zipCoverage">1/25</span></span>
+                <!-- Thanh chọn Level (Custom Dropdown) & Đồng hồ -->
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+                    <div id="zipCustomDropdown" class="zip-custom-select">
+                        <button type="button" id="zipSelectTrigger" class="zip-select-trigger" onclick="ZipGame.toggleLevelMenu(event)">
+                            <span id="zipSelectTriggerText" class="zip-select-trigger-text">Đang tải thử thách...</span>
+                            <i class="fa-solid fa-chevron-down" style="font-size:11px; color:#64748B; flex-shrink:0;"></i>
+                        </button>
+                        <div id="zipSelectMenu" class="zip-select-menu"></div>
+                    </div>
+
+                    <div class="zip-stat-pill" style="flex-shrink:0;">
+                        <i class="fa-regular fa-clock"></i> <span id="zipTimer">00:00</span>
                     </div>
                 </div>
 
@@ -14903,28 +15008,36 @@ window.addEventListener('message', async function(event) {
                 .replace(/^-+|-+$/g, '') || 'partner';
         }
 
-        function normalizeZipLevel(rawLv) {
+        function normalizeZipLevel(rawLv, fallbackIdx) {
             const levelNum = Math.max(1, Math.min(25, Number(rawLv.levelNum || rawLv.lv) || 1));
             const partnerName = (rawLv.partnerName || rawLv.pn || '').trim() || 'Chuyên gia';
-            const rawTitle = (rawLv.rawTitle || rawLv.rt || rawLv.name || 'Quy trình thực chiến').trim();
-            const id = rawLv.id || `lv_${levelNum}_${slugifyPartner(partnerName)}`;
+            let rawTitle = (rawLv.rawTitle || rawLv.rt || rawLv.name || 'Quy trình thực chiến').trim();
+
+            // Loại bỏ tiền tố "Tên chuyên gia · " nếu đã bị ghép sẵn trước đó
+            const dupPrefix = `${partnerName} · `;
+            if (rawTitle.startsWith(dupPrefix)) {
+                rawTitle = rawTitle.slice(dupPrefix.length).trim();
+            }
+
+            // Tạo ID duy nhất theo từng bài (không gộp đè khi cùng chuyên gia & cùng Level)
+            const id = rawLv.id || `lv_${levelNum}_${slugifyPartner(partnerName)}_${slugifyPartner(rawTitle)}_${fallbackIdx || 0}`;
+
             return {
                 ...rawLv,
                 id,
                 levelNum,
                 partnerName,
                 rawTitle,
-                name: rawLv.name || `${partnerName} · ${rawTitle}`,
+                name: `${rawTitle} · ${partnerName}`,
                 isCustom: true
             };
         }
 
-        // Gom bài theo từng Level (1..25), xáo trộn ngẫu nhiên chuyên gia trong mỗi Level và đánh mã 1.1, 1.2...
         function buildMixedLevels(rawList) {
             const seed = getUserRandomSeed();
             const byId = new Map();
-            (rawList || []).forEach(item => {
-                const norm = normalizeZipLevel(item);
+            (rawList || []).forEach((item, idx) => {
+                const norm = normalizeZipLevel(item, idx);
                 byId.set(norm.id, norm);
             });
 
@@ -15228,18 +15341,52 @@ window.addEventListener('message', async function(event) {
                 return 0;
             },
 
+            toggleLevelMenu(e) {
+                if (e) e.stopPropagation();
+                const wrap = document.getElementById('zipCustomDropdown');
+                if (wrap) wrap.classList.toggle('open');
+            },
+
+            closeLevelMenu() {
+                const wrap = document.getElementById('zipCustomDropdown');
+                if (wrap) wrap.classList.remove('open');
+            },
+
+            selectLevelFromMenu(idx) {
+                this.closeLevelMenu();
+                this.loadLevel(idx);
+            },
+
             refreshLevelDropdown() {
-                const select = document.getElementById('zipLevelSelect');
-                if (!select) return;
+                const triggerText = document.getElementById('zipSelectTriggerText');
+                const menuEl = document.getElementById('zipSelectMenu');
+                if (!triggerText || !menuEl) return;
+
                 if (!ZIP_LEVELS.length) {
-                    select.innerHTML = `<option value="0">Chưa có bài từ chuyên gia</option>`;
+                    triggerText.textContent = 'Chưa có bài từ chuyên gia';
+                    menuEl.innerHTML = '';
                     return;
                 }
-                select.innerHTML = ZIP_LEVELS.map((lv, idx) => {
-                    const doneMark = this.isLevelCompleted(lv.id) ? '✓ ' : '';
-                    return `<option value="${idx}">${doneMark}[${lv.displayCode}] ${lv.rawTitle} — ${lv.partnerName}</option>`;
+
+                const cur = ZIP_LEVELS[this.currentLevelIdx] || ZIP_LEVELS[0];
+                const curDone = this.isLevelCompleted(cur.id) ? '✓ ' : '';
+                triggerText.innerHTML = `${curDone}<strong>[${cur.displayCode}]</strong> ${cur.rawTitle} · ${cur.partnerName}`;
+
+                menuEl.innerHTML = ZIP_LEVELS.map((lv, idx) => {
+                    const isSelected = idx === this.currentLevelIdx;
+                    const isDone = this.isLevelCompleted(lv.id);
+                    return `
+                        <button type="button" class="zip-select-option ${isSelected ? 'selected' : ''}" onclick="ZipGame.selectLevelFromMenu(${idx})">
+                            <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                                <span class="zip-opt-code">${lv.displayCode}</span>
+                                <span>${lv.rawTitle}</span>
+                            </span>
+                            <span class="zip-opt-partner">
+                                ${isDone ? '<i class="fa-solid fa-circle-check" style="color:#16A34A; margin-right:4px;"></i>' : ''}${lv.partnerName}
+                            </span>
+                        </button>
+                    `;
                 }).join('');
-                select.value = String(this.currentLevelIdx);
             },
 
             renderCatchUpBanner() {
@@ -15367,8 +15514,7 @@ window.addEventListener('message', async function(event) {
                 this.renderEmptyState(false);
 
                 this.currentLevelIdx = Math.max(0, Math.min(ZIP_LEVELS.length - 1, idx));
-                const select = document.getElementById('zipLevelSelect');
-                if (select) select.value = String(this.currentLevelIdx);
+                this.refreshLevelDropdown();
 
                 const level = ZIP_LEVELS[this.currentLevelIdx];
                 const badge = document.getElementById('zipAssignedBadge');
@@ -15591,7 +15737,8 @@ window.addEventListener('message', async function(event) {
                     headDot.setAttribute('opacity', '1');
                 }
 
-                document.getElementById('zipCoverage').textContent = `${this.path.length}/${totalCells}`;
+                const covEl = document.getElementById('zipCoverage');
+if (covEl) covEl.textContent = `${this.path.length}/${totalCells}`;
                 document.getElementById('zipCheckpointProgress').textContent = `${highestCp}/${level.checkpoints.length}`;
 
                 const stepLabelEl = document.getElementById('zipStepLabel');
@@ -15789,6 +15936,12 @@ window.addEventListener('message', async function(event) {
                 setTimeout(() => openGamePage('zip'), 150);
             }
         });
+        document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('zipCustomDropdown');
+    if (dropdown && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+    }
+});
     </script>
         <!-- LIGHTBOX XEM ẢNH -->
     <div id="imageLightbox" class="modal-overlay" style="background: rgba(0,0,0,0.9); z-index: 99999; padding: 0;" onclick="closeLightbox(event)">
