@@ -15205,6 +15205,7 @@ window.addEventListener('message', async function(event) {
             seconds: 0,
             timerInterval: null,
             initialized: false,
+            sharedLevelFromUrl: null,
             progress: {
                 completedIds: [],
                 highestMilestone: 1,
@@ -15263,6 +15264,7 @@ window.addEventListener('message', async function(event) {
                 if (sharedData) {
                     const sharedLevel = decodeSharedZipLevel(sharedData);
                     if (sharedLevel) {
+                        this.sharedLevelFromUrl = sharedLevel;
                         sharedLevelId = sharedLevel.id;
                         const existsIdx = custom.findIndex(lv => (lv.id || '') === sharedLevel.id);
                         if (existsIdx !== -1) custom.splice(existsIdx, 1);
@@ -15287,9 +15289,19 @@ window.addEventListener('message', async function(event) {
                     const remoteLevels = await res.json();
                     if (!Array.isArray(remoteLevels)) return;
 
-                    const activeId = ZIP_LEVELS[this.currentLevelIdx] ? ZIP_LEVELS[this.currentLevelIdx].id : '';
-                    localStorage.setItem(ZIP_STORAGE_KEY, JSON.stringify(remoteLevels));
-                    ZIP_LEVELS = buildMixedLevels(remoteLevels);
+                    const merged = [...remoteLevels];
+                    if (this.sharedLevelFromUrl) {
+                        const alreadyInRemote = merged.some(lv => (lv.id || '') === this.sharedLevelFromUrl.id);
+                        if (!alreadyInRemote) {
+                            merged.unshift(this.sharedLevelFromUrl);
+                        }
+                    }
+
+                    const activeLevel = ZIP_LEVELS[this.currentLevelIdx] || null;
+                    const activeId = activeLevel ? activeLevel.id : '';
+
+                    localStorage.setItem(ZIP_STORAGE_KEY, JSON.stringify(merged));
+                    ZIP_LEVELS = buildMixedLevels(merged);
                     this.recomputeMilestone();
                     this.saveProgress();
 
@@ -15303,6 +15315,11 @@ window.addEventListener('message', async function(event) {
                         this.currentLevelIdx = sameIdx;
                         this.refreshLevelDropdown();
                         this.renderCatchUpBanner();
+                        const badge = document.getElementById('zipAssignedBadge');
+                        const curLv = ZIP_LEVELS[sameIdx];
+                        if (badge && curLv) {
+                            badge.innerHTML = `<i class="fa-solid fa-user-tie"></i> [${curLv.displayCode}] ${curLv.partnerName}`;
+                        }
                     } else {
                         const startIdx = this.findResumeLevelIndex();
                         this.refreshLevelDropdown();
