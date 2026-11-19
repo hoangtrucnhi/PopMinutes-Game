@@ -3581,6 +3581,158 @@
             color: #047857;
             margin-bottom: 14px;
         }
+        /* ===== NÂNG CẤP ZIP: HIỂN THỊ BƯỚC QUY TRÌNH & LEVEL BUILDER ===== */
+        .zip-node-step {
+            position: relative;
+            z-index: 3;
+            width: 88%;
+            min-height: 54%;
+            padding: 3px 4px;
+            border-radius: 9px;
+            background: var(--white);
+            border: 2px solid var(--navy);
+            color: var(--navy);
+            font-size: 10.5px;
+            font-weight: 800;
+            line-height: 1.15;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+            pointer-events: none;
+            transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+        }
+        .zip-cell.visited .zip-node-step {
+            background: var(--navy);
+            color: var(--white);
+            transform: scale(1.03);
+        }
+        .zip-cell.next-target .zip-node-step {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.22);
+        }
+        .zip-step-badge {
+            position: absolute;
+            top: -7px;
+            left: -5px;
+            min-width: 17px;
+            height: 17px;
+            padding: 0 4px;
+            border-radius: 9px;
+            background: #2563EB;
+            color: #fff;
+            font-size: 9.5px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .zip-cell.visited .zip-step-badge {
+            background: #10B981;
+        }
+        .zip-toolbar-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .zip-mode-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 11px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .zip-mode-toggle.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+        .zip-builder-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            border-radius: 10px;
+            border: 1.5px solid #BFDBFE;
+            background: #EFF6FF;
+            color: #1D4ED8;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .zip-builder-card {
+            background: var(--white);
+            border: 1.5px solid #BFDBFE;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-md);
+            animation: fadeIn 0.2s ease-out;
+        }
+        .zip-builder-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .zip-builder-field {
+            margin-bottom: 10px;
+        }
+        .zip-builder-field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        .zip-builder-input, .zip-builder-textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            font-family: inherit;
+            font-size: 13px;
+            color: var(--text);
+            outline: none;
+            box-sizing: border-box;
+        }
+        .zip-builder-input:focus, .zip-builder-textarea:focus {
+            border-color: var(--navy);
+        }
+        .zip-builder-textarea {
+            min-height: 118px;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        .zip-builder-grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .zip-builder-hint {
+            font-size: 11.5px;
+            color: var(--muted);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
@@ -3958,10 +4110,12 @@
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
                 <h1 class="page-title" data-i18n="game_zip_title">Zip</h1>
-                <div class="page-header-spacer"></div>
+                <button type="button" id="zipDeleteLevelBtn" class="page-back-btn hidden" title="Xóa quy trình này" onclick="ZipGame.deleteCurrentCustomLevel()" style="color:#DC2626;">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
             </div>
             <div class="page-content">
-                <!-- Thanh chọn màn & thống kê -->
+                <!-- Thanh chọn quy trình & thống kê -->
                 <div class="zip-topbar">
                     <select id="zipLevelSelect" class="zip-level-select" onchange="ZipGame.loadLevel(Number(this.value))"></select>
                     <div class="zip-stats">
@@ -3970,10 +4124,74 @@
                     </div>
                 </div>
 
+                <!-- Thanh chế độ luyện tập & nút mở công cụ Soạn quy trình -->
+                <div class="zip-toolbar-row">
+                    <button type="button" id="zipHideNumBtn" class="zip-mode-toggle" onclick="ZipGame.toggleHideNumbers()">
+                        <i class="fa-regular fa-eye-slash"></i> <span>Ẩn số (Thực chiến)</span>
+                    </button>
+                    <button type="button" class="zip-builder-btn" onclick="ZipGame.toggleBuilder()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Soạn quy trình</span>
+                    </button>
+                </div>
+
+                <!-- Khung Soạn quy trình tự động (Ẩn/Hiện khi bấm nút) -->
+                <div id="zipBuilderPanel" class="zip-builder-card hidden">
+                    <div class="zip-builder-title">
+                        <span><i class="fa-solid fa-wand-magic-sparkles"></i> Tạo màn chơi từ quy trình</span>
+                        <button type="button" onclick="ZipGame.toggleBuilder(false)" style="border:none; background:none; color:var(--muted); font-size:16px; cursor:pointer;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="zip-builder-field">
+                        <label>Tên quy trình / Chủ đề đào tạo</label>
+                        <input type="text" id="zipBuildTitle" class="zip-builder-input" placeholder="VD: Quy trình xử lý phản đối khách hàng" value="Quy trình Chốt Sales B2B">
+                    </div>
+
+                    <div class="zip-builder-grid2">
+                        <div>
+                            <label>Kích thước bàn cờ</label>
+                            <select id="zipBuildSize" class="zip-builder-input">
+                                <option value="5" selected>5×5 (25 ô - Tiêu chuẩn)</option>
+                                <option value="6">6×6 (36 ô - Chuyên sâu)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Độ khó vách ngăn</label>
+                            <select id="zipBuildDiff" class="zip-builder-input">
+                                <option value="easy">Dễ (Ít vách ngăn)</option>
+                                <option value="medium" selected>Vừa (Tiêu chuẩn)</option>
+                                <option value="hard">Khó (Nhiều vách ngăn)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="zip-builder-field">
+                        <label>Danh sách các bước theo thứ tự (mỗi dòng 1 bước)</label>
+                        <textarea id="zipBuildSteps" class="zip-builder-textarea" placeholder="Nhập từ 3 đến 10 bước, mỗi bước 1 dòng...">Tiếp cận | Chào hỏi & tạo thiện cảm mở đầu
+Khai thác | Đặt câu hỏi tìm nỗi đau khách hàng
+Phân tích | Tóm tắt nhu cầu & ngân sách thực tế
+Giải pháp | Trình bày tính năng khớp vấn đề
+Xử lý | Giải đáp băn khoăn về chi phí & vận hành
+Chốt hẹn | Thống nhất lịch demo hoặc ký hợp đồng</textarea>
+                        <div class="zip-builder-hint">
+                            Mẹo: Gõ <strong>Từ khóa ngắn | Mô tả chi tiết</strong> (VD: <em>Khai thác | Đặt câu hỏi tìm nỗi đau</em>) để nút hiển thị gọn đẹp, hoặc gõ thẳng tên bước hệ thống sẽ tự rút gọn.
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:8px;">
+                        <button type="button" class="btn-primary" style="flex:1; padding:11px; font-size:13.5px;" onclick="ZipGame.generateCustomLevel()">
+                            <i class="fa-solid fa-bolt"></i> Tạo bàn chơi tự động
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Thanh hiển thị ngữ cảnh quy trình đào tạo -->
                 <div class="zip-step-banner">
-                    <span><i class="fa-solid fa-flag-checkered"></i> <span data-i18n="zip_next_step">Mục tiêu kế tiếp:</span> <strong id="zipStepLabel">--</strong></span>
-                    <span id="zipCheckpointProgress" style="font-weight:800;">1/7</span>
+                    <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                        <i class="fa-solid fa-flag-checkered"></i> <span id="zipStepLabel">--</span>
+                    </span>
+                    <span id="zipCheckpointProgress" style="font-weight:800; flex-shrink:0;">1/6</span>
                 </div>
 
                 <!-- Bàn chơi Zip -->
@@ -4001,8 +4219,8 @@
                 </div>
 
                 <!-- Hướng dẫn ngắn gọn -->
-                <p id="zipRuleHint" style="text-align:center; font-size:12.5px; color:var(--muted); max-width:400px; margin:0 auto 14px; line-height:1.5;" data-i18n="zip_rule_hint">
-                    Kéo nối từ số <strong>1</strong> theo thứ tự tăng dần và đi qua <strong>tất cả các ô</strong> trên bàn cờ.
+                <p id="zipRuleHint" style="text-align:center; font-size:12.5px; color:var(--muted); max-width:400px; margin:0 auto 14px; line-height:1.5;">
+                    Kéo dây nối đúng <strong>thứ tự các bước quy trình</strong> và đi qua <strong>tất cả các ô</strong> trên bàn cờ.
                 </p>
 
                 <!-- Banner hoàn thành màn -->
@@ -14494,7 +14712,8 @@ window.addEventListener('message', async function(event) {
             }
         }
       // ========================================================================
-        //  GAME ROUTER & ZIP ENGINE (DEMO CHO ĐỐI TÁC ĐÀO TẠO)
+        // ========================================================================
+        //  GAME ROUTER & ZIP SOP ENGINE + PROCEDURAL LEVEL GENERATOR
         // ========================================================================
         function openGamePage(gameType) {
             const app = document.querySelector('.app');
@@ -14521,22 +14740,23 @@ window.addEventListener('message', async function(event) {
             try { history.pushState({ page: 'game_' + gameType }, '', '#game-' + gameType); } catch (e) {}
         }
 
-        const ZIP_LEVELS = [
+        const ZIP_STORAGE_KEY = 'popminutes_custom_zip_levels_v1';
+
+        const DEFAULT_ZIP_LEVELS = [
             {
-                name: 'Màn 1 · Khởi động (5×5)',
+                name: 'Mẫu 1 · Quy trình Tư vấn Giải pháp (5×5)',
                 size: 5,
-                // Checkpoints theo thứ tự 1 -> 7 kèm nhãn bước đào tạo/quy trình
+                isCustom: false,
                 checkpoints: [
-                    { r: 0, c: 0, num: 1, label: '1. Tiếp nhận nhu cầu' },
-                    { r: 0, c: 4, num: 2, label: '2. Khảo sát & Phân tích' },
-                    { r: 1, c: 2, num: 3, label: '3. Thiết kế lộ trình' },
-                    { r: 2, c: 0, num: 4, label: '4. Demo giải pháp' },
-                    { r: 3, c: 4, num: 5, label: '5. Thống nhất KPI' },
-                    { r: 3, c: 1, num: 6, label: '6. Ký kết triển khai' },
-                    { r: 4, c: 4, num: 7, label: '7. Nghiệm thu & Đánh giá' }
+                    { r: 0, c: 0, num: 1, shortLabel: 'Tiếp nhận', label: '1. Tiếp nhận yêu cầu khách hàng' },
+                    { r: 0, c: 4, num: 2, shortLabel: 'Khảo sát', label: '2. Khảo sát & Phân tích hiện trạng' },
+                    { r: 1, c: 2, num: 3, shortLabel: 'Lộ trình', label: '3. Thiết kế lộ trình đào tạo' },
+                    { r: 2, c: 0, num: 4, shortLabel: 'Demo', label: '4. Trình bày & Demo giải pháp' },
+                    { r: 3, c: 4, num: 5, shortLabel: 'Chốt KPI', label: '5. Thống nhất chỉ số đánh giá KPI' },
+                    { r: 3, c: 1, num: 6, shortLabel: 'Ký kết', label: '6. Ký kết hợp đồng triển khai' },
+                    { r: 4, c: 4, num: 7, shortLabel: 'Nghiệm thu', label: '7. Nghiệm thu & Bàn giao' }
                 ],
                 walls: [],
-                // Lời giải chuẩn 25 ô dùng cho nút Gợi ý (Hint)
                 solution: [
                     [0,0],[0,1],[0,2],[0,3],[0,4],
                     [1,4],[1,3],[1,2],[1,1],[1,0],
@@ -14546,16 +14766,17 @@ window.addEventListener('message', async function(event) {
                 ]
             },
             {
-                name: 'Màn 2 · Tư duy luồng (5×5 + Vách ngăn)',
+                name: 'Mẫu 2 · Xử lý Phản đối Khách hàng (5×5)',
                 size: 5,
+                isCustom: false,
                 checkpoints: [
-                    { r: 2, c: 2, num: 1, label: '1. Xác định vấn đề cốt lõi' },
-                    { r: 1, c: 2, num: 2, label: '2. Đặt câu hỏi mở' },
-                    { r: 3, c: 3, num: 3, label: '3. Lắng nghe phản hồi' },
-                    { r: 4, c: 0, num: 4, label: '4. Cô lập rào cản' },
-                    { r: 0, c: 0, num: 5, label: '5. Đề xuất phương án' },
-                    { r: 0, c: 4, num: 6, label: '6. Cam kết hành động' },
-                    { r: 4, c: 2, num: 7, label: '7. Đo lường kết quả' }
+                    { r: 2, c: 2, num: 1, shortLabel: 'Lắng nghe', label: '1. Lắng nghe trọn vẹn, không ngắt lời' },
+                    { r: 1, c: 2, num: 2, shortLabel: 'Đồng cảm', label: '2. Ghi nhận & Đồng cảm góc nhìn' },
+                    { r: 3, c: 3, num: 3, shortLabel: 'Làm rõ', label: '3. Đặt câu hỏi cô lập rào cản thật' },
+                    { r: 4, c: 0, num: 4, shortLabel: 'Chứng minh', label: '4. Đưa dẫn chứng & Case study' },
+                    { r: 0, c: 0, num: 5, shortLabel: 'Đề xuất', label: '5. Đề xuất phương án linh hoạt' },
+                    { r: 0, c: 4, num: 6, shortLabel: 'Xác nhận', label: '6. Kiểm tra mức độ hài lòng' },
+                    { r: 4, c: 2, num: 7, shortLabel: 'Chốt bước', label: '7. Chốt hành động tiếp theo' }
                 ],
                 walls: [
                     [[2,2],[2,3]],
@@ -14573,18 +14794,19 @@ window.addEventListener('message', async function(event) {
                 ]
             },
             {
-                name: 'Màn 3 · Thử thách Chuyên sâu (6×6)',
+                name: 'Mẫu 3 · Điều hành Cuộc họp Hiệu quả (6×6)',
                 size: 6,
+                isCustom: false,
                 checkpoints: [
-                    { r: 0, c: 0, num: 1, label: '1. Chuẩn bị mục tiêu' },
-                    { r: 3, c: 0, num: 2, label: '2. Mở đầu cuộc họp' },
-                    { r: 3, c: 1, num: 3, label: '3. Khai thác Insight' },
-                    { r: 0, c: 3, num: 4, label: '4. Trình bày giá trị' },
-                    { r: 1, c: 3, num: 5, label: '5. Giải đáp thắc mắc' },
-                    { r: 2, c: 4, num: 6, label: '6. Chốt Action Items' },
-                    { r: 3, c: 3, num: 7, label: '7. Tổng hợp biên bản' },
-                    { r: 5, c: 3, num: 8, label: '8. Đồng bộ lịch & task' },
-                    { r: 4, c: 5, num: 9, label: '9. Theo dõi sau họp' }
+                    { r: 0, c: 0, num: 1, shortLabel: 'Mục tiêu', label: '1. Xác định rõ mục tiêu cuộc họp' },
+                    { r: 3, c: 0, num: 2, shortLabel: 'Mở đầu', label: '2. Thống nhất Agenda & thời lượng' },
+                    { r: 3, c: 1, num: 3, shortLabel: 'Thảo luận', label: '3. Khai thác góc nhìn các bên' },
+                    { r: 0, c: 3, num: 4, shortLabel: 'Phân tích', label: '4. Đánh giá phương án & rủi ro' },
+                    { r: 1, c: 3, num: 5, shortLabel: 'Quyết định', label: '5. Chốt phương án thống nhất' },
+                    { r: 2, c: 4, num: 6, shortLabel: 'Giao việc', label: '6. Phân công Action Items & Deadline' },
+                    { r: 3, c: 3, num: 7, shortLabel: 'Biên bản', label: '7. Tổng hợp tóm tắt biên bản' },
+                    { r: 5, c: 3, num: 8, shortLabel: 'Đồng bộ', label: '8. Đồng bộ lịch & công cụ quản lý' },
+                    { r: 4, c: 5, num: 9, shortLabel: 'Theo dõi', label: '9. Theo dõi tiến độ sau họp' }
                 ],
                 walls: [
                     [[1,1],[1,2]],
@@ -14605,25 +14827,241 @@ window.addEventListener('message', async function(event) {
             }
         ];
 
+        let ZIP_LEVELS = [];
+
         const ZipGame = {
             currentLevelIdx: 0,
             path: [],
             isDragging: false,
             isWon: false,
+            hideNumbers: false,
             seconds: 0,
             timerInterval: null,
             initialized: false,
 
-            init() {
+            loadSavedLevels() {
+                let custom = [];
+                try {
+                    const raw = localStorage.getItem(ZIP_STORAGE_KEY);
+                    if (raw) custom = JSON.parse(raw);
+                } catch (e) {}
+                ZIP_LEVELS = [...custom, ...DEFAULT_ZIP_LEVELS];
+            },
+
+            saveCustomLevels() {
+                try {
+                    const custom = ZIP_LEVELS.filter(lv => lv.isCustom);
+                    localStorage.setItem(ZIP_STORAGE_KEY, JSON.stringify(custom));
+                } catch (e) {}
+            },
+
+            refreshLevelDropdown() {
                 const select = document.getElementById('zipLevelSelect');
-                if (select && !this.initialized) {
-                    select.innerHTML = ZIP_LEVELS.map((lv, idx) =>
-                        `<option value="${idx}">${lv.name}</option>`
-                    ).join('');
+                if (!select) return;
+                select.innerHTML = ZIP_LEVELS.map((lv, idx) =>
+                    `<option value="${idx}">${lv.name}</option>`
+                ).join('');
+                select.value = String(this.currentLevelIdx);
+            },
+
+            init() {
+                if (!this.initialized) {
+                    this.loadSavedLevels();
+                    this.refreshLevelDropdown();
                     this.bindPointerEvents();
                     this.initialized = true;
                 }
                 this.loadLevel(this.currentLevelIdx);
+            },
+
+            toggleHideNumbers() {
+                this.hideNumbers = !this.hideNumbers;
+                const btn = document.getElementById('zipHideNumBtn');
+                if (btn) btn.classList.toggle('active', this.hideNumbers);
+                this.renderBoard();
+                this.updateVisuals();
+            },
+
+            toggleBuilder(forceState) {
+                const panel = document.getElementById('zipBuilderPanel');
+                if (!panel) return;
+                const show = typeof forceState === 'boolean' ? forceState : panel.classList.contains('hidden');
+                panel.classList.toggle('hidden', !show);
+            },
+
+            // Thuật toán Warnsdorff DFS có ngẫu nhiên hóa để tự sinh đường đi phủ kín 100% bàn cờ
+            generateHamiltonianPath(size) {
+                const total = size * size;
+                const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+
+                const countUnvisitedNeighbors = (r, c, visited) => {
+                    let cnt = 0;
+                    for (const [dr, dc] of dirs) {
+                        const nr = r + dr, nc = c + dc;
+                        if (nr >= 0 && nr < size && nc >= 0 && nc < size && !visited[nr][nc]) cnt++;
+                    }
+                    return cnt;
+                };
+
+                for (let attempt = 0; attempt < 25; attempt++) {
+                    const startR = Math.floor(Math.random() * size);
+                    const startC = Math.floor(Math.random() * size);
+                    const visited = Array.from({ length: size }, () => Array(size).fill(false));
+                    const path = [[startR, startC]];
+                    visited[startR][startC] = true;
+                    let steps = 0;
+
+                    const dfs = (r, c) => {
+                        if (path.length === total) return true;
+                        if (++steps > 2500) return false;
+
+                        const candidates = [];
+                        for (const [dr, dc] of dirs) {
+                            const nr = r + dr, nc = c + dc;
+                            if (nr >= 0 && nr < size && nc >= 0 && nc < size && !visited[nr][nc]) {
+                                candidates.push({
+                                    r: nr,
+                                    c: nc,
+                                    deg: countUnvisitedNeighbors(nr, nc, visited),
+                                    rand: Math.random()
+                                });
+                            }
+                        }
+                        // Ưu tiên ô ít lối thoát (Warnsdorff) + ngẫu nhiên hóa khi đồng hạng
+                        candidates.sort((a, b) => (a.deg - b.deg) || (a.rand - b.rand));
+
+                        for (const next of candidates) {
+                            visited[next.r][next.c] = true;
+                            path.push([next.r, next.c]);
+                            if (dfs(next.r, next.c)) return true;
+                            path.pop();
+                            visited[next.r][next.c] = false;
+                        }
+                        return false;
+                    };
+
+                    if (dfs(startR, startC)) return path;
+                }
+
+                // Fallback đường zic-zac chuẩn đảm bảo 100% không bao giờ lỗi
+                const fallback = [];
+                for (let r = 0; r < size; r++) {
+                    for (let c = 0; c < size; c++) {
+                        fallback.push([r, r % 2 === 0 ? c : size - 1 - c]);
+                    }
+                }
+                return fallback;
+            },
+
+            generateCustomLevel() {
+                const titleRaw = (document.getElementById('zipBuildTitle').value || '').trim() || 'Quy trình mới';
+                const size = Number(document.getElementById('zipBuildSize').value) || 5;
+                const diff = document.getElementById('zipBuildDiff').value || 'medium';
+                const lines = (document.getElementById('zipBuildSteps').value || '')
+                    .split('\n')
+                    .map(s => s.trim())
+                    .filter(Boolean);
+
+                const totalCells = size * size;
+                if (lines.length < 3) {
+                    if (typeof showToast === 'function') showToast('Vui lòng nhập ít nhất 3 bước quy trình.', false);
+                    return;
+                }
+                if (lines.length > Math.min(12, totalCells - 2)) {
+                    if (typeof showToast === 'function') showToast(`Bàn cờ ${size}×${size} hỗ trợ tối đa ${Math.min(12, totalCells - 2)} bước.`, false);
+                    return;
+                }
+
+                // 1. Sinh đường đi phủ kín 100% bàn cờ
+                const solution = this.generateHamiltonianPath(size);
+
+                // 2. Phân bổ các bước quy trình dọc theo đường đi (bước 1 ở đầu, bước cuối ở cuối)
+                const k = lines.length;
+                const checkpoints = lines.map((line, idx) => {
+                    let pathIdx;
+                    if (idx === 0) pathIdx = 0;
+                    else if (idx === k - 1) pathIdx = totalCells - 1;
+                    else pathIdx = Math.round((idx * (totalCells - 1)) / (k - 1));
+
+                    const [r, c] = solution[pathIdx];
+                    let shortLabel = '';
+                    let fullDesc = '';
+
+                    if (line.includes('|')) {
+                        const parts = line.split('|');
+                        shortLabel = parts[0].trim();
+                        fullDesc = parts.slice(1).join('|').trim() || shortLabel;
+                    } else {
+                        fullDesc = line;
+                        const words = line.split(/\s+/);
+                        shortLabel = words.slice(0, 2).join(' ');
+                        if (shortLabel.length > 11) shortLabel = shortLabel.slice(0, 10) + '…';
+                    }
+
+                    return {
+                        r,
+                        c,
+                        num: idx + 1,
+                        shortLabel,
+                        label: `${idx + 1}. ${fullDesc}`
+                    };
+                });
+
+                // 3. Sinh vách ngăn ngẫu nhiên tại các cạnh KHÔNG thuộc đường đi lời giải
+                const solEdges = new Set();
+                for (let i = 0; i < solution.length - 1; i++) {
+                    const [r1, c1] = solution[i];
+                    const [r2, c2] = solution[i + 1];
+                    solEdges.add(`${r1},${c1}-${r2},${c2}`);
+                    solEdges.add(`${r2},${c2}-${r1},${c1}`);
+                }
+
+                const candidateWalls = [];
+                for (let r = 0; r < size; r++) {
+                    for (let c = 0; c < size; c++) {
+                        if (r + 1 < size && !solEdges.has(`${r},${c}-${r + 1},${c}`)) {
+                            candidateWalls.push([[r, c], [r + 1, c]]);
+                        }
+                        if (c + 1 < size && !solEdges.has(`${r},${c}-${r},${c + 1}`)) {
+                            candidateWalls.push([[r, c], [r, c + 1]]);
+                        }
+                    }
+                }
+                candidateWalls.sort(() => Math.random() - 0.5);
+
+                const wallTarget = diff === 'easy' ? 3 : (diff === 'hard' ? (size === 6 ? 12 : 9) : (size === 6 ? 8 : 6));
+                const walls = candidateWalls.slice(0, wallTarget);
+
+                const newLevel = {
+                    name: `${titleRaw} (${size}×${size})`,
+                    size,
+                    isCustom: true,
+                    checkpoints,
+                    walls,
+                    solution
+                };
+
+                ZIP_LEVELS.unshift(newLevel);
+                this.saveCustomLevels();
+                this.currentLevelIdx = 0;
+                this.refreshLevelDropdown();
+                this.toggleBuilder(false);
+                this.loadLevel(0);
+
+                if (typeof showToast === 'function') {
+                    showToast('Đã tạo bàn chơi quy trình mới!', true);
+                }
+            },
+
+            deleteCurrentCustomLevel() {
+                const level = ZIP_LEVELS[this.currentLevelIdx];
+                if (!level || !level.isCustom) return;
+                ZIP_LEVELS.splice(this.currentLevelIdx, 1);
+                this.saveCustomLevels();
+                this.currentLevelIdx = 0;
+                this.refreshLevelDropdown();
+                this.loadLevel(0);
+                if (typeof showToast === 'function') showToast('Đã xóa quy trình tự tạo.', true);
             },
 
             loadLevel(idx) {
@@ -14632,6 +15070,9 @@ window.addEventListener('message', async function(event) {
                 if (select) select.value = String(idx);
 
                 const level = ZIP_LEVELS[idx];
+                const delBtn = document.getElementById('zipDeleteLevelBtn');
+                if (delBtn) delBtn.classList.toggle('hidden', !level.isCustom);
+
                 const startCp = level.checkpoints.find(cp => cp.num === 1);
                 this.path = [{ r: startCp.r, c: startCp.c }];
                 this.isDragging = false;
@@ -14689,9 +15130,17 @@ window.addEventListener('message', async function(event) {
                         if (c > 0 && this.hasWallBetween(r, c, r, c - 1)) wallClasses.push('wall-left');
                         if (c < level.size - 1 && this.hasWallBetween(r, c, r, c + 1)) wallClasses.push('wall-right');
 
+                        let nodeHtml = '';
+                        if (cp) {
+                            const badge = (!this.hideNumbers || cp.num === 1)
+                                ? `<span class="zip-step-badge">${cp.num}</span>`
+                                : '';
+                            nodeHtml = `<div class="zip-node-step">${badge}${cp.shortLabel || cp.num}</div>`;
+                        }
+
                         html += `
                             <div class="zip-cell ${wallClasses.join(' ')}" data-r="${r}" data-c="${c}">
-                                ${cp ? `<div class="zip-node">${cp.num}</div>` : ''}
+                                ${nodeHtml}
                             </div>
                         `;
                     }
@@ -14734,7 +15183,7 @@ window.addEventListener('message', async function(event) {
                 const head = this.path[this.path.length - 1];
                 if (head.r === r && head.c === c) return;
 
-                // 1. Nếu vuốt lùi về ô ngay trước đó -> tự động hoàn tác (Backtrack UX)
+                // Vuốt lùi về ô liền trước -> hoàn tác
                 if (this.path.length >= 2) {
                     const prev = this.path[this.path.length - 2];
                     if (prev.r === r && prev.c === c) {
@@ -14744,7 +15193,7 @@ window.addEventListener('message', async function(event) {
                     }
                 }
 
-                // 2. Nếu bấm vào 1 ô đã đi qua trong chuỗi -> cắt chuỗi về đúng ô đó
+                // Bấm vào ô đã đi qua -> cắt chuỗi về ô đó
                 const existingIdx = this.path.findIndex(p => p.r === r && p.c === c);
                 if (existingIdx !== -1) {
                     this.path = this.path.slice(0, existingIdx + 1);
@@ -14752,17 +15201,17 @@ window.addEventListener('message', async function(event) {
                     return;
                 }
 
-                // 3. Kiểm tra kề cạnh ngang/dọc & không bị chặn bởi vách ngăn
+                // Kiểm tra kề cạnh & không vướng vách ngăn
                 const isAdjacent = Math.abs(head.r - r) + Math.abs(head.c - c) === 1;
                 if (!isAdjacent || this.hasWallBetween(head.r, head.c, r, c)) return;
 
-                // 4. Kiểm tra thứ tự Checkpoint (không được nhảy cóc số)
+                // Kiểm tra đúng thứ tự bước quy trình
                 const level = ZIP_LEVELS[this.currentLevelIdx];
                 const nextExpectedNum = this.getHighestVisitedCheckpoint() + 1;
                 const cp = this.getCheckpointAt(r, c);
                 if (cp && cp.num !== nextExpectedNum) return;
 
-                // 5. Không được đi vào mốc cuối cùng nếu chưa phủ kín toàn bộ bàn cờ
+                // Bước cuối chỉ được nối khi đã phủ kín tất cả các ô
                 const totalCells = level.size * level.size;
                 const maxCp = level.checkpoints.length;
                 if (cp && cp.num === maxCp && this.path.length + 1 < totalCells) return;
@@ -14789,7 +15238,6 @@ window.addEventListener('message', async function(event) {
                 const highestCp = this.getHighestVisitedCheckpoint();
                 const nextCpNum = Math.min(highestCp + 1, level.checkpoints.length);
 
-                // Cập nhật trạng thái từng ô
                 document.querySelectorAll('#zipGrid .zip-cell').forEach(cell => {
                     const r = Number(cell.dataset.r);
                     const c = Number(cell.dataset.c);
@@ -14798,10 +15246,9 @@ window.addEventListener('message', async function(event) {
                     cell.classList.toggle('head', head.r === r && head.c === c);
 
                     const cp = this.getCheckpointAt(r, c);
-                    cell.classList.toggle('next-target', Boolean(cp && cp.num === nextCpNum && !this.isWon));
+                    cell.classList.toggle('next-target', Boolean(cp && cp.num === nextCpNum && !this.isWon && !this.hideNumbers));
                 });
 
-                // Vẽ đường nối SVG bằng tọa độ phần trăm 0..100
                 const step = 100 / level.size;
                 const points = this.path.map(p => `${(p.c + 0.5) * step},${(p.r + 0.5) * step}`).join(' ');
                 document.getElementById('zipPathLine').setAttribute('points', points);
@@ -14810,12 +15257,16 @@ window.addEventListener('message', async function(event) {
                 headDot.setAttribute('cx', (head.c + 0.5) * step);
                 headDot.setAttribute('cy', (head.r + 0.5) * step);
 
-                // Cập nhật chỉ số tiến độ & nhãn quy trình
                 document.getElementById('zipCoverage').textContent = `${this.path.length}/${totalCells}`;
                 document.getElementById('zipCheckpointProgress').textContent = `${highestCp}/${level.checkpoints.length}`;
 
-                const targetCp = level.checkpoints.find(cp => cp.num === nextCpNum) || level.checkpoints[level.checkpoints.length - 1];
-                document.getElementById('zipStepLabel').textContent = targetCp.label;
+                const stepLabelEl = document.getElementById('zipStepLabel');
+                if (this.hideNumbers) {
+                    stepLabelEl.innerHTML = `Chế độ Thực chiến: <strong>Tự xác định bước ${nextCpNum}/${level.checkpoints.length}</strong>`;
+                } else {
+                    const targetCp = level.checkpoints.find(cp => cp.num === nextCpNum) || level.checkpoints[level.checkpoints.length - 1];
+                    stepLabelEl.innerHTML = `Tiếp theo: <strong>${targetCp.label}</strong>`;
+                }
             },
 
             checkWin() {
@@ -14824,10 +15275,10 @@ window.addEventListener('message', async function(event) {
                 if (this.path.length === totalCells && this.getHighestVisitedCheckpoint() === level.checkpoints.length) {
                     this.isWon = true;
                     const timerText = document.getElementById('zipTimer').textContent;
-                    document.getElementById('zipWinStats').textContent = `Thời gian hoàn thành: ${timerText}`;
+                    document.getElementById('zipWinStats').textContent = `Hoàn thành quy trình trong ${timerText}`;
                     document.getElementById('zipWinCard').classList.remove('hidden');
                     if (typeof showToast === 'function') {
-                        showToast(t('zip_win_title'), true);
+                        showToast('Hoàn thành xuất sắc!', true);
                     }
                 }
             },
@@ -14846,7 +15297,6 @@ window.addEventListener('message', async function(event) {
                 if (this.isWon) return;
                 const level = ZIP_LEVELS[this.currentLevelIdx];
                 const sol = level.solution;
-                // Tìm điểm chia nhánh đầu tiên so với lời giải chuẩn
                 let divergeIdx = this.path.length;
                 for (let i = 0; i < this.path.length; i++) {
                     if (this.path[i].r !== sol[i][0] || this.path[i].c !== sol[i][1]) {
