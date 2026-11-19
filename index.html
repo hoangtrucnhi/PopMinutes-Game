@@ -3428,7 +3428,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 14px;
         }
         .zip-mode-toggle {
             display: inline-flex;
@@ -3455,7 +3455,7 @@
             border: 1px solid #DBEAFE;
             border-radius: 12px;
             padding: 10px 14px;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -4159,22 +4159,22 @@
                     </div>
                 </div>
 
-                <!-- Chế độ luyện tập -->
-                <div class="zip-toolbar-row">
-                    <button type="button" id="zipHideNumBtn" class="zip-mode-toggle" onclick="ZipGame.toggleHideNumbers()">
-                        <i class="fa-regular fa-eye-slash"></i> <span>Ẩn số thứ tự (Thực chiến)</span>
-                    </button>
-                    <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#1D4ED8; background:#EFF6FF; padding:5px 10px; border-radius:8px; border:1px solid #BFDBFE;">
-                        <i class="fa-solid fa-graduation-cap"></i> Bài đào tạo
-                    </span>
-                </div>
-
-                <!-- Thanh hiển thị ngữ cảnh quy trình đào tạo -->
+                <!-- 1. Block mô tả các bước thực chiến (Nằm TRÊN) -->
                 <div class="zip-step-banner">
                     <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                         <i class="fa-solid fa-flag-checkered"></i> <span id="zipStepLabel">--</span>
                     </span>
                     <span id="zipCheckpointProgress" style="font-weight:800; flex-shrink:0;">1/6</span>
+                </div>
+
+                <!-- 2. Block ẩn/hiện số thứ tự & tên đối tác đào tạo (Nằm DƯỚI) -->
+                <div class="zip-toolbar-row">
+                    <button type="button" id="zipHideNumBtn" class="zip-mode-toggle" onclick="ZipGame.toggleHideNumbers()">
+                        <i class="fa-regular fa-eye"></i> <span>Hiện số thứ tự</span>
+                    </button>
+                    <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#1D4ED8; background:#EFF6FF; padding:5px 10px; border-radius:8px; border:1px solid #BFDBFE;">
+                        <i class="fa-solid fa-graduation-cap"></i> Bài đào tạo
+                    </span>
                 </div>
 
                 <!-- Bàn chơi Zip -->
@@ -14828,6 +14828,8 @@ window.addEventListener('message', async function(event) {
         }
 
         const ZIP_STORAGE_KEY = 'popminutes_custom_zip_levels_v1';
+        // Dán URL Google Apps Script Web App của bạn vào đây để mọi máy tự động đồng bộ bài đào tạo mới
+        const ZIP_CLOUD_SYNC_URL = '';
 
         const DEFAULT_ZIP_LEVELS = [
             {
@@ -14928,6 +14930,20 @@ window.addEventListener('message', async function(event) {
 
         let ZIP_LEVELS = [];
 
+        // Đọc tham số zip_data kể cả khi nằm ở query (?zip_data=) hoặc sau dấu # (#game-zip?zip_data=)
+        function extractZipParamFromUrl(paramName) {
+            const searchParams = new URLSearchParams(window.location.search);
+            if (searchParams.get(paramName)) return searchParams.get(paramName);
+
+            const hash = window.location.hash || '';
+            const qIdx = hash.indexOf('?');
+            if (qIdx !== -1) {
+                const hashParams = new URLSearchParams(hash.slice(qIdx + 1));
+                if (hashParams.get(paramName)) return hashParams.get(paramName);
+            }
+            return null;
+        }
+
         function decodeSharedZipLevel(encoded) {
             try {
                 let b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
@@ -14964,26 +14980,21 @@ window.addEventListener('message', async function(event) {
         function buildVideoEmbedHtml(rawUrl) {
             const url = (rawUrl || '').trim();
             if (!url) return '';
-
             const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
             if (ytMatch && ytMatch[1]) {
                 return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
             }
-
             const gdMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
             if (gdMatch && gdMatch[1]) {
                 return `<iframe src="https://drive.google.com/file/d/${gdMatch[1]}/preview" allow="autoplay" allowfullscreen></iframe>`;
             }
-
             const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
             if (vimeoMatch && vimeoMatch[1]) {
                 return `<iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
             }
-
             if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) {
                 return `<video src="${url.replace(/"/g, '&quot;')}" controls autoplay playsinline></video>`;
             }
-
             return `<iframe src="${url.replace(/"/g, '&quot;')}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
         }
 
@@ -14997,7 +15008,6 @@ window.addEventListener('message', async function(event) {
             return url;
         }
 
-        // Đường hầm màu #4D3B9C lõm ra vào hữu cơ theo từng ô
         function renderDugTunnelSvg(outerGroup, innerGroup, pathCoords, size) {
             if (!outerGroup || !innerGroup) return;
             if (!pathCoords || !pathCoords.length) {
@@ -15008,7 +15018,6 @@ window.addEventListener('message', async function(event) {
 
             const step = 100 / size;
             const pts = pathCoords.map(p => `${(p.c + 0.5) * step},${(p.r + 0.5) * step}`).join(' ');
-
             const cellHash = (r, c, salt) => {
                 const x = Math.sin(r * 127.1 + c * 311.7 + salt * 74.7) * 43758.5453;
                 return x - Math.floor(x);
@@ -15019,7 +15028,6 @@ window.addEventListener('message', async function(event) {
                 const { r, c } = pathCoords[i];
                 const cx = (c + 0.5) * step;
                 const cy = (r + 0.5) * step;
-
                 const h1 = cellHash(r, c, 1);
                 const h2 = cellHash(r, c, 2);
                 const h3 = cellHash(r, c, 3);
@@ -15045,7 +15053,6 @@ window.addEventListener('message', async function(event) {
                 <polyline fill="none" stroke="#4D3B9C" stroke-width="${(step * 0.58).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round" points="${pts}" />
                 ${blobsMarkup}
             `;
-
             innerGroup.innerHTML = `
                 <polyline fill="none" stroke="#4D3B9C" stroke-width="${(step * 0.26).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round" points="${pts}" />
             `;
@@ -15056,7 +15063,7 @@ window.addEventListener('message', async function(event) {
             path: [],
             isDragging: false,
             isWon: false,
-            hideNumbers: false,
+            hideNumbers: true, // Mặc định ẩn số thứ tự khi mở game
             seconds: 0,
             timerInterval: null,
             initialized: false,
@@ -15068,8 +15075,7 @@ window.addEventListener('message', async function(event) {
                     if (raw) custom = JSON.parse(raw);
                 } catch (e) {}
 
-                const params = new URLSearchParams(window.location.search);
-                const sharedData = params.get('zip_data');
+                const sharedData = extractZipParamFromUrl('zip_data');
                 if (sharedData) {
                     const sharedLevel = decodeSharedZipLevel(sharedData);
                     if (sharedLevel) {
@@ -15085,6 +15091,25 @@ window.addEventListener('message', async function(event) {
                 ZIP_LEVELS = [...custom, ...DEFAULT_ZIP_LEVELS];
             },
 
+            async syncLevelsFromCloud() {
+                const cloudUrl = extractZipParamFromUrl('cloud_url') || ZIP_CLOUD_SYNC_URL;
+                if (!cloudUrl) return;
+                try {
+                    const res = await fetch(cloudUrl);
+                    if (!res.ok) return;
+                    const remoteLevels = await res.json();
+                    if (!Array.isArray(remoteLevels) || !remoteLevels.length) return;
+
+                    const activeName = ZIP_LEVELS[this.currentLevelIdx] ? ZIP_LEVELS[this.currentLevelIdx].name : '';
+                    localStorage.setItem(ZIP_STORAGE_KEY, JSON.stringify(remoteLevels));
+                    ZIP_LEVELS = [...remoteLevels, ...DEFAULT_ZIP_LEVELS];
+
+                    const newIdx = ZIP_LEVELS.findIndex(lv => lv.name === activeName);
+                    if (newIdx !== -1) this.currentLevelIdx = newIdx;
+                    this.refreshLevelDropdown();
+                } catch (e) {}
+            },
+
             refreshLevelDropdown() {
                 const select = document.getElementById('zipLevelSelect');
                 if (!select) return;
@@ -15094,20 +15119,32 @@ window.addEventListener('message', async function(event) {
                 select.value = String(this.currentLevelIdx);
             },
 
+            syncHideNumButton() {
+                const btn = document.getElementById('zipHideNumBtn');
+                if (!btn) return;
+                if (this.hideNumbers) {
+                    btn.classList.remove('active');
+                    btn.innerHTML = `<i class="fa-regular fa-eye"></i> <span>Hiện số thứ tự</span>`;
+                } else {
+                    btn.classList.add('active');
+                    btn.innerHTML = `<i class="fa-regular fa-eye-slash"></i> <span>Ẩn số thứ tự</span>`;
+                }
+            },
+
             init() {
                 if (!this.initialized) {
                     this.loadSavedLevels();
                     this.refreshLevelDropdown();
                     this.bindPointerEvents();
                     this.initialized = true;
+                    this.syncLevelsFromCloud();
                 }
                 this.loadLevel(this.currentLevelIdx);
             },
 
             toggleHideNumbers() {
                 this.hideNumbers = !this.hideNumbers;
-                const btn = document.getElementById('zipHideNumBtn');
-                if (btn) btn.classList.toggle('active', this.hideNumbers);
+                this.syncHideNumButton();
                 this.renderBoard();
                 this.updateVisuals();
             },
@@ -15132,6 +15169,7 @@ window.addEventListener('message', async function(event) {
                 this.isWon = false;
                 this.seconds = 0;
 
+                this.syncHideNumButton();
                 document.getElementById('zipWinCard').classList.add('hidden');
                 this.closeRewardModal();
                 this.startTimer();
@@ -15192,7 +15230,6 @@ window.addEventListener('message', async function(event) {
                 }
                 gridEl.innerHTML = html;
 
-                // Vách ngăn họa tiết tông xám-xanh nhạt tinh tế
                 const wallsSvg = document.getElementById('zipWallsOverlay');
                 const step = 100 / level.size;
                 const pad = step * 0.1;
@@ -15377,7 +15414,6 @@ window.addEventListener('message', async function(event) {
                         showToast('Hoàn thành xuất sắc!', true);
                     }
 
-                    // Bật popup nếu có Video hoặc Tài liệu PDF đính kèm
                     if (hasVideo || hasDoc) {
                         setTimeout(() => this.openRewardModal(), 450);
                     }
@@ -15409,7 +15445,6 @@ window.addEventListener('message', async function(event) {
                     titleEl.textContent = level.docTitle || level.name;
                 }
 
-                // Hiển thị khung Video nếu có
                 if (hasVideo) {
                     videoWrap.innerHTML = buildVideoEmbedHtml(level.videoUrl);
                     videoWrap.classList.remove('hidden');
@@ -15421,7 +15456,6 @@ window.addEventListener('message', async function(event) {
                     extLink.classList.add('hidden');
                 }
 
-                // Hiển thị khung Tài liệu PDF đính kèm (nằm bên dưới video nếu có cả 2, hoặc nằm chính nếu chỉ có tài liệu)
                 if (hasDoc) {
                     document.getElementById('zipDocName').textContent = level.docTitle || 'Tài liệu hướng dẫn quy trình (PDF)';
                     document.getElementById('zipDocDownloadBtn').href = getDocumentDownloadUrl(level.docUrl);
@@ -15484,8 +15518,7 @@ window.addEventListener('message', async function(event) {
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('zip_data')) {
+            if (extractZipParamFromUrl('zip_data')) {
                 setTimeout(() => openGamePage('zip'), 150);
             }
         });
