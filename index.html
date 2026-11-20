@@ -3385,20 +3385,20 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
         }
       /* ===== TRÒ CHƠI GIẢI MÃ QUY TRÌNH ===== */
 #zip-game-page .page-content {
-    padding-top: 14px;
+    padding-top: 12px;
     padding-bottom: 100px;
 }
 
 #zipCatchUpBanner {
     max-width: 390px;
-    margin: 0 auto 12px;
+    margin: 0 auto 10px;
 }
 
 .zip-catchup-banner {
     background: #EFF6FF;
     border: 1px solid #BFDBFE;
     border-radius: 12px;
-    padding: 10px 12px;
+    padding: 9px 12px;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
@@ -3428,19 +3428,15 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     color: var(--navy);
     border: 1px solid #CBD5E1;
 }
-.zip-catchup-btn.is-secondary:hover {
-    background: #F8FAFC;
-    border-color: var(--navy);
-}
 
 /* ===================================================================
-   HEADER TRÒ CHƠI — THIẾT KẾ PHẲNG B2B HIỆN ĐẠI (TRẮNG · XANH · TÍM CHÀM)
+   HEADER + TIÊU ĐỀ QUY TRÌNH ĐẦY ĐỦ TRÊN BÀN CỜ
 =================================================================== */
 .zip-hero {
     position: relative;
     max-width: 390px;
-    margin: 0 auto 12px;
-    padding: 14px;
+    margin: 0 auto 10px;
+    padding: 12px;
     border-radius: 16px;
     color: var(--text);
     background: #FFFFFF;
@@ -3450,7 +3446,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 }
 .zip-hero.is-won {
     border-color: #2563EB;
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.1), 0 0 0 3px rgba(37, 99, 235, 0.08);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12), 0 0 0 3px rgba(37, 99, 235, 0.08);
 }
 .zip-hero-deco {
     display: none;
@@ -3463,7 +3459,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     gap: 8px;
 }
 
-/* Custom Dropdown đồng bộ giao diện PopMinutes */
+/* Dropdown chọn màn */
 .zip-custom-select {
     position: relative;
     flex: 1;
@@ -3475,12 +3471,12 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 8px 11px;
+    padding: 7px 10px;
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
     border-radius: 10px;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
     color: var(--navy);
     cursor: pointer;
@@ -3506,7 +3502,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 12px;
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.14);
     max-height: 260px;
     overflow-y: auto;
     padding: 5px;
@@ -3567,57 +3563,55 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 .zip-timer-pill {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     flex-shrink: 0;
-    padding: 8px 11px;
+    padding: 7px 10px;
     border-radius: 10px;
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
     color: var(--navy);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
 }
 .zip-timer-pill i {
     color: #2563EB;
-    font-size: 12.5px;
+    font-size: 12px;
 }
 
-/* Hàng metadata (Chuyên gia / thông số) */
+/* Metadata: Chuyên gia & số ô đã phủ */
 .zip-hero-meta {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 .zip-expert-badge {
     display: inline-flex;
     align-items: center;
     gap: 5px;
     max-width: 100%;
-    padding: 4px 9px;
-    border-radius: 7px;
+    padding: 3px 8px;
+    border-radius: 6px;
     background: #EEF2FF;
     border: 1px solid #E0E7FF;
     color: #3730A3;
     font-size: 11px;
     font-weight: 700;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
 }
 .zip-expert-badge i {
     color: #4F46E5;
-    font-size: 10.5px;
+    font-size: 10px;
 }
 .zip-meta-chip {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 4px 9px;
-    border-radius: 7px;
+    padding: 3px 8px;
+    border-radius: 6px;
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
     font-size: 11px;
@@ -3627,7 +3621,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 }
 .zip-meta-chip i {
     color: #2563EB;
-    font-size: 10.5px;
+    font-size: 10px;
 }
 .zip-meta-chip b {
     font-weight: 800;
@@ -3635,49 +3629,80 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     font-variant-numeric: tabular-nums;
 }
 
+/* KHUNG TIÊU ĐỀ / CÂU HỎI QUY TRÌNH ĐẦY ĐỦ (KHÔNG BỊ CHE) */
+.zip-scenario-box {
+    margin-top: 9px;
+    padding: 10px 12px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #EFF6FF 0%, #F5F7FF 100%);
+    border-left: 3.5px solid #2563EB;
+    border-top: 1px solid #DBEAFE;
+    border-right: 1px solid #DBEAFE;
+    border-bottom: 1px solid #DBEAFE;
+}
+.zip-scenario-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #2563EB;
+    margin-bottom: 3px;
+}
+.zip-scenario-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    line-height: 1.4;
+    color: #0F172A;
+    white-space: normal;
+    word-break: break-word;
+}
+
 /* Khối hướng dẫn bước tiếp theo */
 .zip-hero-step {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    padding: 10px 11px;
-    border-radius: 12px;
+    gap: 9px;
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
 }
 .zip-hero-step-icon {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     flex-shrink: 0;
-    border-radius: 9px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #EFF6FF;
+    background: #FFFFFF;
     border: 1px solid #DBEAFE;
     color: #2563EB;
-    font-size: 14px;
+    font-size: 13px;
 }
 .zip-hero-step-text {
     flex: 1;
     min-width: 0;
 }
 .zip-hero-step-kicker {
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #64748B;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 .zip-hero #zipStepLabel {
     display: block;
     flex: none;
-    font-size: 12.5px;
-    line-height: 1.35;
+    font-size: 12px;
+    line-height: 1.3;
     font-weight: 600;
-    color: #0F172A;
+    color: #1E293B;
     word-break: break-word;
 }
 .zip-hero #zipStepLabel strong {
@@ -3686,31 +3711,29 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 }
 .zip-hero-step-count {
     flex-shrink: 0;
-    min-width: 48px;
-    text-align: center;
-    padding: 6px 8px;
-    border-radius: 9px;
+    padding: 4px 8px;
+    border-radius: 7px;
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
 }
 .zip-hero #zipCheckpointProgress {
     display: block;
     flex: none;
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 800;
     color: var(--navy);
     font-variant-numeric: tabular-nums;
 }
 
-/* Thanh tiến độ từng chặng */
+/* Thanh tiến độ chặng */
 .zip-dots {
     display: flex;
-    gap: 5px;
-    margin-top: 10px;
+    gap: 4px;
+    margin-top: 8px;
 }
 .zip-dot {
     flex: 1;
-    height: 5px;
+    height: 4px;
     border-radius: 99px;
     background: #E2E8F0;
     transition: background 0.25s ease;
@@ -3728,61 +3751,48 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 }
 
 /* ===================================================================
-   6 NÚT ĐIỀU KHIỂN (2 HÀNG x 3 CỘT) — PHẲNG, TƯƠNG PHẢN CAO
+   THANH 6 ICON GỌN TRÊN 1 HÀNG (KHÔNG TEXT, KHÔNG CHIẾM CHỖ)
 =================================================================== */
 .zip-controls {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-rows: 1fr;
-    gap: 8px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 7px;
     max-width: 390px;
-    margin: 0 auto 12px;
+    margin: 0 auto 10px;
 }
 .zip-ctrl-btn {
     position: relative;
     width: 100%;
-    height: 100%;
-    min-height: 62px;
-    padding: 8px 6px;
-    border-radius: 12px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0;
+    border-radius: 11px;
     border: 1px solid #E2E8F0;
     background: #FFFFFF;
-    color: #1E293B;
-    font-family: inherit;
-    font-size: 11.5px;
-    font-weight: 700;
-    line-height: 1.2;
-    text-align: center;
+    color: #334155;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease, background 0.14s ease, color 0.14s ease;
 }
+/* Ẩn hoàn toàn chữ nhưng vẫn giữ trong DOM để JS cũ không báo lỗi */
+.zip-ctrl-label {
+    display: none !important;
+}
 .zip-ctrl-ico {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #F1F5F9;
-    color: #334155;
-    font-size: 12.5px;
-    transition: background 0.14s ease, color 0.14s ease;
-}
-.zip-ctrl-label {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: 1.15;
+    background: transparent;
+    color: inherit;
+    font-size: 14px;
 }
 @media (hover: hover) {
     .zip-ctrl-btn:hover:not(:disabled) {
@@ -3790,15 +3800,11 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
         background: #F8FAFC;
         border-color: #CBD5E1;
         color: var(--navy);
-        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
-    }
-    .zip-ctrl-btn:hover:not(:disabled) .zip-ctrl-ico {
-        background: #EFF6FF;
-        color: #2563EB;
+        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.07);
     }
 }
 .zip-ctrl-btn:active:not(:disabled) {
-    transform: translateY(1px) scale(0.98);
+    transform: translateY(1px) scale(0.95);
     box-shadow: none;
 }
 .zip-ctrl-btn:focus-visible {
@@ -3806,66 +3812,46 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     outline-offset: 2px;
 }
 .zip-ctrl-btn:disabled {
-    opacity: 0.42;
+    opacity: 0.38;
     cursor: not-allowed;
     box-shadow: none;
     transform: none;
 }
 
-/* Trạng thái đang bật (Active) */
+/* Nút bật trạng thái (ví dụ Show #) */
 .zip-ctrl-btn.active {
-    background: var(--navy);
-    border-color: var(--navy);
-    color: #FFFFFF;
-}
-.zip-ctrl-btn.active .zip-ctrl-ico {
-    background: rgba(255, 255, 255, 0.14);
-    color: #FFFFFF;
-}
-@media (hover: hover) {
-    .zip-ctrl-btn.active:hover:not(:disabled) {
-        background: var(--navy);
-        border-color: var(--navy);
-        color: #FFFFFF;
-    }
-    .zip-ctrl-btn.active:hover:not(:disabled) .zip-ctrl-ico {
-        background: rgba(255, 255, 255, 0.2);
-        color: #FFFFFF;
-    }
+    background: #EFF6FF;
+    border-color: #2563EB;
+    color: #1D4ED8;
 }
 
-/* Nút Gợi ý — Tông tím chàm (Indigo) thanh lịch thay cho màu vàng */
+/* Nút Gợi ý (Hint) — Tím chàm nhẹ */
 .zip-ctrl-btn.is-hint {
-    background: #F5F7FF;
+    background: #EEF2FF;
     border-color: #C7D2FE;
-    color: #3730A3;
-}
-.zip-ctrl-btn.is-hint .zip-ctrl-ico {
-    background: #E0E7FF;
     color: #4F46E5;
 }
 @media (hover: hover) {
     .zip-ctrl-btn.is-hint:hover:not(:disabled) {
-        background: #EEF2FF;
+        background: #E0E7FF;
         border-color: #818CF8;
-        color: #312E81;
-    }
-    .zip-ctrl-btn.is-hint:hover:not(:disabled) .zip-ctrl-ico {
-        background: #4F46E5;
-        color: #FFFFFF;
+        color: #3730A3;
     }
 }
 
-/* Nút Hành động chính (Tiếp tục / Hoàn thành) */
+/* Nút Tài liệu (Docs) — Xanh nhạt */
+.zip-ctrl-btn.is-docs {
+    background: #F0F9FF;
+    border-color: #BAE6FD;
+    color: #0369A1;
+}
+
+/* Nút Tiếp theo (Next) — Nổi bật nhất */
 .zip-ctrl-btn.is-primary {
     background: var(--navy);
     border-color: var(--navy);
     color: #FFFFFF;
-    box-shadow: 0 4px 12px rgba(27, 43, 122, 0.18);
-}
-.zip-ctrl-btn.is-primary .zip-ctrl-ico {
-    background: rgba(255, 255, 255, 0.15);
-    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(27, 43, 122, 0.22);
 }
 @media (hover: hover) {
     .zip-ctrl-btn.is-primary:hover:not(:disabled) {
@@ -3873,22 +3859,17 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
         border-color: #2563EB;
         color: #FFFFFF;
     }
-    .zip-ctrl-btn.is-primary:hover:not(:disabled) .zip-ctrl-ico {
-        background: rgba(255, 255, 255, 0.2);
-        color: #FFFFFF;
-    }
 }
-
 .zip-ctrl-btn.is-loading {
     pointer-events: none;
-    opacity: 0.85;
+    opacity: 0.8;
 }
 .zip-ctrl-btn.is-loading .zip-ctrl-ico {
     animation: zipDotPulse 0.8s ease-in-out infinite;
 }
 
 /* ===================================================================
-   BÀN CỜ & CÁC Ô BƯỚC QUY TRÌNH
+   BÀN CỜ HIỆN ĐẠI, SẮC NÉT & CÓ CHIỀU SÂU
 =================================================================== */
 .zip-board-wrap {
     position: relative;
@@ -3897,10 +3878,10 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     aspect-ratio: 1 / 1;
     margin: 0 auto 12px;
     background: #FFFFFF;
-    border-radius: 18px;
-    padding: 12px;
-    border: 1px solid #E2E8F0;
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    border-radius: 20px;
+    padding: 10px;
+    border: 1px solid #CBD5E1;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
@@ -3909,10 +3890,12 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     position: relative;
     width: 100%;
     height: 100%;
-    border-radius: 12px;
+    border-radius: 13px;
     overflow: hidden;
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
+    background-color: #F4F7FB;
+    background-image: radial-gradient(#CBD5E1 0.85px, transparent 0.85px);
+    background-size: 16px 16px;
+    border: 1px solid #DCE4F0;
 }
 .zip-grid {
     display: grid;
@@ -3921,19 +3904,20 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 }
 .zip-cell {
     position: relative;
-    border-right: 1px solid rgba(203, 213, 225, 0.55);
-    border-bottom: 1px solid rgba(203, 213, 225, 0.55);
+    border-right: 1px solid rgba(203, 213, 225, 0.65);
+    border-bottom: 1px solid rgba(203, 213, 225, 0.65);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background-color 0.15s ease;
 }
 .zip-cell.hint-flash {
     animation: zipHintPulse 0.9s ease 2;
 }
 @keyframes zipHintPulse {
     0%, 100% { background-color: transparent; }
-    50% { background-color: rgba(79, 70, 229, 0.16); }
+    50% { background-color: rgba(79, 70, 229, 0.18); }
 }
 
 .zip-svg-overlay {
@@ -3943,6 +3927,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     height: 100%;
     pointer-events: none;
     z-index: 2;
+    filter: drop-shadow(0 3px 6px rgba(37, 99, 235, 0.22));
 }
 .zip-walls-overlay {
     position: absolute;
@@ -3953,29 +3938,31 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     z-index: 3;
 }
 
+/* Thẻ bước quy trình trên bàn cờ */
 .zip-node-step {
     position: relative;
     z-index: 4;
-    width: 90%;
-    min-height: 58%;
-    padding: 3px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.96);
+    width: 88%;
+    min-height: 60%;
+    padding: 4px 3px;
+    border-radius: 10px;
+    background: #FFFFFF;
     border: 1.5px solid #CBD5E1;
-    color: #1E293B;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+    color: #0F172A;
     font-size: clamp(8.5px, 2.5vw, 10px);
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: -0.01em;
-    line-height: 1.12;
+    line-height: 1.15;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1px;
+    gap: 2px;
     word-break: break-word;
     pointer-events: none;
-    transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+    transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .zip-node-step.is-start {
     background: #EFF6FF;
@@ -3984,38 +3971,40 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 }
 .zip-node-step.is-end {
     border-style: dashed;
-    border-color: #2563EB;
+    border-color: #4F46E5;
 }
 .zip-cell.visited .zip-node-step {
-    background: var(--navy);
+    background: linear-gradient(145deg, #1E3A8A 0%, #2563EB 100%);
     border-style: solid;
-    border-color: rgba(255, 255, 255, 0.9);
+    border-color: #FFFFFF;
     color: #FFFFFF;
-    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.32);
+    transform: scale(1.03);
 }
 .zip-cell.head .zip-node-step {
-    outline: 3px solid rgba(37, 99, 235, 0.25);
+    box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.3), 0 6px 14px rgba(30, 58, 138, 0.35);
 }
 .zip-cell.next-target .zip-node-step {
-    border-color: #2563EB;
-    outline: 3px solid rgba(37, 99, 235, 0.16);
+    border-color: #4F46E5;
+    background: #F5F7FF;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.22);
 }
 .zip-step-num {
     display: inline-block;
-    font-size: clamp(7.5px, 2.1vw, 8.5px);
+    font-size: clamp(7.5px, 2vw, 8.5px);
     font-weight: 800;
     line-height: 1;
-    padding: 1.5px 4px;
-    border-radius: 4px;
+    padding: 2px 5px;
+    border-radius: 5px;
     background: #F1F5F9;
-    color: #64748B;
+    color: #475569;
 }
 .zip-node-step.is-start .zip-step-num {
-    background: rgba(37, 99, 235, 0.14);
+    background: #DBEAFE;
     color: #1D4ED8;
 }
 .zip-cell.visited .zip-step-num {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.22);
     color: #FFFFFF;
 }
 
@@ -4023,23 +4012,23 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
    KHUNG HOÀN THÀNH & POPUP VIDEO / TÀI LIỆU
 =================================================================== */
 .zip-win-card {
-    background: #EFF6FF;
+    background: linear-gradient(135deg, #EFF6FF 0%, #EEF2FF 100%);
     border: 1px solid #BFDBFE;
     border-radius: 14px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     text-align: center;
     max-width: 390px;
     margin: 0 auto;
     animation: fadeIn 0.25s ease-out;
 }
 .zip-win-title {
-    font-size: 15.5px;
+    font-size: 15px;
     font-weight: 800;
     color: var(--navy);
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 }
 .zip-win-sub {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: #1E40AF;
     margin-bottom: 0;
@@ -4048,7 +4037,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 .zip-reward-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.6);
+    background: rgba(15, 23, 42, 0.62);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -4066,7 +4055,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     background: #FFFFFF;
     border-radius: 18px;
     padding: 20px;
-    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.2);
+    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.22);
     border: 1px solid #E2E8F0;
 }
 .zip-reward-header {
@@ -4163,6 +4152,13 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     color: #FFFFFF;
     text-decoration: none;
     font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+}
+.zip-doc-dl-btn:hover {
+    background: #2563EB;
+}
     </style>
 </head>
 <body>
@@ -4543,76 +4539,82 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                 <div class="page-header-spacer"></div>
             </div>
             <div class="page-content">
-                <!-- HERO: chọn màn · đồng hồ · chuyên gia · bước tiếp theo · tiến độ -->
-                <div class="zip-hero" id="zipHero">
-                    <div class="zip-hero-deco" aria-hidden="true"></div>
+                <!-- HEADER + TIÊU ĐỀ QUY TRÌNH ĐẦY ĐỦ NGAY TRÊN BÀN CỜ -->
+<div class="zip-hero" id="zipHeroCard">
+    <div class="zip-hero-top">
+        <!-- Dropdown chọn quy trình (giữ nguyên cấu trúc cũ của cậu) -->
+        <div class="zip-custom-select" id="zipCustomSelect">
+            <button type="button" class="zip-select-trigger" id="zipSelectTrigger">
+                <span class="zip-select-trigger-text" id="zipSelectTriggerText">Chọn quy trình...</span>
+                <i class="fa-solid fa-chevron-down" style="font-size:11px; opacity:0.65;"></i>
+            </button>
+            <div class="zip-select-menu" id="zipSelectMenu"></div>
+        </div>
 
-                    <div class="zip-hero-top">
-                        <div id="zipCustomDropdown" class="zip-custom-select">
-                            <button type="button" id="zipSelectTrigger" class="zip-select-trigger" onclick="ZipGame.toggleLevelMenu(event)">
-                                <span id="zipSelectTriggerText" class="zip-select-trigger-text">Đang tải thử thách...</span>
-                                <i class="fa-solid fa-chevron-down" style="font-size:11px; color:#64748B; flex-shrink:0;"></i>
-                            </button>
-                            <div id="zipSelectMenu" class="zip-select-menu"></div>
-                        </div>
-                        <div class="zip-timer-pill">
-                            <i class="fa-regular fa-clock"></i> <span id="zipTimer">00:00</span>
-                        </div>
-                    </div>
+        <div class="zip-timer-pill">
+            <i class="fa-regular fa-clock"></i>
+            <span id="zipTimer">0:00</span>
+        </div>
+    </div>
 
-                    <div class="zip-hero-meta">
-                        <span id="zipAssignedBadge" class="zip-expert-badge hidden"></span>
-                        <span class="zip-meta-chip">
-                            <i class="fa-solid fa-border-all"></i>
-                            <b id="zipCoverage">0/0</b>
-                            <span data-zip-i18n="coverageTitle">Ô đã đi</span>
-                        </span>
-                    </div>
+    <!-- Metadata gọn: Chuyên gia + Số ô đã phủ -->
+    <div class="zip-hero-meta" id="zipHeroMeta">
+        <!-- JS của cậu đang render badge chuyên gia & cells covered vào đây -->
+    </div>
 
-                    <div class="zip-hero-step">
-                        <div class="zip-hero-step-icon"><i class="fa-solid fa-flag-checkered"></i></div>
-                        <div class="zip-hero-step-text">
-                            <div class="zip-hero-step-kicker" data-zip-i18n="stepKicker">Bước tiếp theo</div>
-                            <span id="zipStepLabel">--</span>
-                        </div>
-                        <div class="zip-hero-step-count">
-                            <span id="zipCheckpointProgress">1/6</span>
-                        </div>
-                    </div>
+    <!-- KHUNG MỚI: Hiện đầy đủ tên quy trình / câu hỏi (không bao giờ bị cắt ...) -->
+    <div class="zip-scenario-box" id="zipScenarioBox">
+        <div class="zip-scenario-label">
+            <i class="fa-solid fa-diagram-project"></i>
+            <span id="zipScenarioCode">QUY TRÌNH</span>
+        </div>
+        <div class="zip-scenario-title" id="zipScenarioTitle">Đang tải nội dung quy trình...</div>
+    </div>
 
-                    <div class="zip-dots" id="zipStepDots" aria-hidden="true"></div>
-                </div>
+    <!-- Thanh hướng dẫn bước tiếp theo + tiến độ chặng -->
+    <div class="zip-hero-step">
+        <div class="zip-hero-step-icon">
+            <i class="fa-solid fa-route"></i>
+        </div>
+        <div class="zip-hero-step-text">
+            <div class="zip-hero-step-kicker">MỤC TIÊU TIẾP THEO</div>
+            <span id="zipStepLabel">Bắt đầu từ bước 1</span>
+        </div>
+        <div class="zip-hero-step-count">
+            <span id="zipCheckpointProgress">0/6</span>
+        </div>
+    </div>
 
-                <!-- Thẻ đề xuất thử thách mới từ chuyên gia ở cấp trước -->
-                <div id="zipCatchUpBanner" class="zip-catchup-banner hidden" style="display:none;"></div>
+    <div class="zip-dots" id="zipDots"></div>
+</div>
 
-                <!-- 6 NÚT ĐIỀU KHIỂN -->
-                <div class="zip-controls" id="zipControlsRow">
-                    <button type="button" id="zipUndoBtn" class="zip-ctrl-btn" onclick="ZipGame.undo()">
-                        <span class="zip-ctrl-ico"><i class="fa-solid fa-rotate-left"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="undo">Lùi bước</span>
-                    </button>
-                    <button type="button" id="zipHintBtn" class="zip-ctrl-btn is-hint" onclick="ZipGame.hint()">
-                        <span class="zip-ctrl-ico"><i class="fa-regular fa-lightbulb"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="hint">Gợi ý</span>
-                    </button>
-                    <button type="button" id="zipReplayBtn" class="zip-ctrl-btn" onclick="ZipGame.resetLevel()">
-                        <span class="zip-ctrl-ico"><i class="fa-solid fa-arrows-rotate"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="replay">Chơi lại</span>
-                    </button>
-                    <button type="button" id="zipToggleNumbersBtn" class="zip-ctrl-btn" aria-pressed="false" onclick="ZipGame.toggleNumbers()">
-                        <span class="zip-ctrl-ico"><i id="zipToggleNumbersIcon" class="fa-regular fa-eye"></i></span>
-                        <span class="zip-ctrl-label" id="zipToggleNumbersText">Hiện số</span>
-                    </button>
-                    <button type="button" id="zipDocBtn" class="zip-ctrl-btn" onclick="ZipGame.openRewardModal()">
-                        <span class="zip-ctrl-ico"><i class="fa-solid fa-file-lines"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="docBtn">Tài liệu</span>
-                    </button>
-                    <button type="button" id="zipNextLevelBtn" class="zip-ctrl-btn is-primary" onclick="ZipGame.nextLevel()">
-                        <span class="zip-ctrl-ico"><i class="fa-solid fa-arrow-right"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="nextBtn">Tiếp tục</span>
-                    </button>
-                </div>
+<!-- THANH 6 ICON GỌN TRÊN 1 HÀNG (KHÔNG TEXT) -->
+<div class="zip-controls">
+    <button type="button" class="zip-ctrl-btn" id="zipUndoBtn" title="Hoàn tác (Undo)" aria-label="Undo">
+        <span class="zip-ctrl-ico"><i class="fa-solid fa-rotate-left"></i></span>
+        <span class="zip-ctrl-label">Undo</span>
+    </button>
+    <button type="button" class="zip-ctrl-btn is-hint" id="zipHintBtn" title="Gợi ý bước tiếp (Hint)" aria-label="Hint">
+        <span class="zip-ctrl-ico"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+        <span class="zip-ctrl-label">Hint</span>
+    </button>
+    <button type="button" class="zip-ctrl-btn" id="zipReplayBtn" title="Chơi lại từ đầu (Replay)" aria-label="Replay">
+        <span class="zip-ctrl-ico"><i class="fa-solid fa-arrows-rotate"></i></span>
+        <span class="zip-ctrl-label">Replay</span>
+    </button>
+    <button type="button" class="zip-ctrl-btn" id="zipToggleNumBtn" title="Ẩn/hiện số thứ tự" aria-label="Show #">
+        <span class="zip-ctrl-ico"><i class="fa-solid fa-hashtag"></i></span>
+        <span class="zip-ctrl-label">Show #</span>
+    </button>
+    <button type="button" class="zip-ctrl-btn is-docs" id="zipDocsBtn" title="Xem video & tài liệu (Docs)" aria-label="Docs">
+        <span class="zip-ctrl-ico"><i class="fa-regular fa-file-lines"></i></span>
+        <span class="zip-ctrl-label">Docs</span>
+    </button>
+    <button type="button" class="zip-ctrl-btn is-primary" id="zipNextBtn" title="Quy trình tiếp theo (Next)" aria-label="Next">
+        <span class="zip-ctrl-ico"><i class="fa-solid fa-arrow-right"></i></span>
+        <span class="zip-ctrl-label">Next</span>
+    </button>
+</div>
 
                 <!-- Trạng thái chờ khi chưa có bài nào từ chuyên gia -->
                 <div id="zipEmptyState" class="hidden" style="text-align:center; padding:32px 18px; background:#F8FAFC; border:1.5px dashed #CBD5E1; border-radius:20px; margin-bottom:14px;">
@@ -16704,6 +16706,32 @@ window.addEventListener('message', async function(event) {
                 dropdown.classList.remove('open');
             }
         });
+        function syncZipScenarioHeader(rawText) {
+    const codeEl = document.getElementById('zipScenarioCode');
+    const titleEl = document.getElementById('zipScenarioTitle');
+    if (!titleEl) return;
+
+    const clean = (rawText || '').replace(/^[✓✔]\s*/, '').trim();
+    const match = clean.match(/^\[([^\]]+)\]\s*(.+)$/);
+    if (match) {
+        if (codeEl) codeEl.textContent = `QUY TRÌNH ${match[1]}`;
+        titleEl.textContent = match[2].trim();
+    } else {
+        if (codeEl) codeEl.textContent = 'QUY TRÌNH THỰC HÀNH';
+        titleEl.textContent = clean || 'Chọn một quy trình để bắt đầu';
+    }
+}
+
+// Tự động đồng bộ mỗi khi dropdown thay đổi màn chơi
+(function bindZipScenarioObserver() {
+    const triggerText = document.getElementById('zipSelectTriggerText');
+    if (!triggerText) return;
+    syncZipScenarioHeader(triggerText.textContent);
+    const observer = new MutationObserver(() => {
+        syncZipScenarioHeader(triggerText.textContent);
+    });
+    observer.observe(triggerText, { childList: true, characterData: true, subtree: true });
+})();
     </script>
         <!-- LIGHTBOX XEM ẢNH -->
     <div id="imageLightbox" class="modal-overlay" style="background: rgba(0,0,0,0.9); z-index: 99999; padding: 0;" onclick="closeLightbox(event)">
