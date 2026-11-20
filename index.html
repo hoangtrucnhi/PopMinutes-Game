@@ -1762,7 +1762,17 @@
         nav.bottom-nav .nav-badge.hidden {
             display: none !important;
         }
-
+/* Ẩn thanh điều hướng đáy khi đang mở trang Giải mã quy trình */
+body.has-bottom-nav:has(#zip-game-page.active) .bottom-nav,
+body.has-bottom-nav:has(#zip-game-page[style*="display: block"]) .bottom-nav,
+body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .bottom-nav {
+    display: none !important;
+}
+body.has-bottom-nav:has(#zip-game-page.active) .app,
+body.has-bottom-nav:has(#zip-game-page[style*="display: block"]) .app,
+body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
+    padding-bottom: 0 !important;
+}
         body.has-bottom-nav .app {
             padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px)) !important;
         }
@@ -14957,10 +14967,12 @@ window.addEventListener('message', async function(event) {
                 practiceStepPrompt: 'Thực chiến: <strong>Tự xác định bước {next}/{total}</strong>',
                 nextStepPrompt: 'Tiếp theo: <strong>{label}</strong>',
                 reviewStepBanner: 'Chế độ xem lại đáp án · Đã hoàn thành {total} bước',
-                btnUndo: 'Lùi bước',
-                btnHint: 'Gợi ý',
-                btnReplay: 'Chơi lại',
-                btnNextLevel: 'Màn tiếp theo',
+                undo: 'Lùi bước',
+                hint: 'Gợi ý',
+                replay: 'Chơi lại',
+                docBtn: 'Tài liệu',
+                nextBtn: 'Tiếp tục',
+                completeAndNext: 'Hoàn tất và tiếp tục',
                 winTitle: 'Hoàn thành xuất sắc!',
                 winStats: 'Hoàn thành màn {code} trong {time}',
                 reviewTitle: 'Đã hoàn thành · Chế độ xem lại',
@@ -15001,10 +15013,12 @@ window.addEventListener('message', async function(event) {
                 practiceStepPrompt: 'Practice: <strong>Identify step {next}/{total}</strong>',
                 nextStepPrompt: 'Next: <strong>{label}</strong>',
                 reviewStepBanner: 'Answer Review Mode · Completed all {total} steps',
-                btnUndo: 'Undo',
-                btnHint: 'Hint',
-                btnReplay: 'Play Again',
-                btnNextLevel: 'Next Level',
+                undo: 'Undo',
+                hint: 'Hint',
+                replay: 'Replay',
+                docBtn: 'Docs',
+                nextBtn: 'Next',
+                completeAndNext: 'Complete & Next',
                 winTitle: 'Excellent Work!',
                 winStats: 'Completed Level {code} in {time}',
                 reviewTitle: 'Completed · Review Mode',
@@ -15614,6 +15628,16 @@ window.addEventListener('message', async function(event) {
                 if (boardEl) boardEl.classList.toggle('hidden', isEmpty);
                 if (ctrlEl) ctrlEl.classList.toggle('hidden', isEmpty);
             },
+
+            resetLevel() {
+    this.loadLevel(this.currentLevelIdx, false);
+},
+
+toggleNumbers() {
+    this.hideNumbers = !this.hideNumbers;
+    this.syncHideNumButton();
+    this.updateVisuals();
+},
 
             syncHideNumButton() {
                 const btn = document.getElementById('zipHideNumBtn');
