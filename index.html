@@ -1762,17 +1762,7 @@
         nav.bottom-nav .nav-badge.hidden {
             display: none !important;
         }
-/* Ẩn thanh điều hướng đáy khi đang mở trang Giải mã quy trình */
-body.has-bottom-nav:has(#zip-game-page.active) .bottom-nav,
-body.has-bottom-nav:has(#zip-game-page[style*="display: block"]) .bottom-nav,
-body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .bottom-nav {
-    display: none !important;
-}
-body.has-bottom-nav:has(#zip-game-page.active) .app,
-body.has-bottom-nav:has(#zip-game-page[style*="display: block"]) .app,
-body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
-    padding-bottom: 0 !important;
-}
+
         body.has-bottom-nav .app {
             padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px)) !important;
         }
@@ -3383,10 +3373,10 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
             color: var(--muted);
             font-weight: 500;
         }
-      /* ===== TRÒ CHƠI GIẢI MÃ QUY TRÌNH ===== */
+      /* ===== TRÒ CHƠI ZIP (XANH CHỦ ĐẠO + ĐƯỜNG HẦM #4D3B9C) ===== */
         #zip-game-page .page-content {
             padding-top: 14px;
-            padding-bottom: 100px;
+            padding-bottom: 110px;
         }
         .zip-topbar {
             display: flex;
@@ -3435,7 +3425,63 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
             white-space: nowrap;
         }
 
-        /* Banner tiến độ bước */
+        /* Hàng toolbar: [Hiện số thứ tự]  <--->  [Tài liệu] [Tác giả] nằm gọn 1 hàng */
+        .zip-toolbar-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .zip-toolbar-row > div,
+        .zip-toolbar-row > span:last-child {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-width: 0;
+        }
+        .zip-mode-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 11.5px;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .zip-mode-toggle.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+        .zip-toolbar-row a,
+        .zip-toolbar-row button:not(.zip-mode-toggle) {
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-size: 11.5px;
+            padding: 6px 8px;
+        }
+        .zip-toolbar-row [class*="badge"],
+        .zip-toolbar-row [class*="author"],
+        .zip-toolbar-row [class*="partner"] {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 105px;
+            font-size: 11.5px;
+            padding: 5px 8px;
+        }
+
+        /* Banner tiến độ bước: cho phép xuống dòng tự nhiên, không cắt chữ "..." */
         .zip-step-banner {
             background: #EFF6FF;
             border: 1px solid #DBEAFE;
@@ -3469,65 +3515,12 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
             color: #1D4ED8;
         }
 
-        /* Lưới 6 nút điều khiển bằng nhau tuyệt đối (2 hàng x 3 cột) */
-        .zip-controls {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            grid-auto-rows: 1fr;
-            gap: 8px;
-            max-width: 390px;
-            margin: 0 auto 12px;
-        }
-        .zip-ctrl-btn {
-            width: 100%;
-            height: 100%;
-            min-height: 38px;
-            padding: 7px 6px;
-            border-radius: 11px;
-            border: 1.5px solid var(--border);
-            background: var(--white);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 12px;
-            font-weight: 700;
-            line-height: 1.2;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            transition: all 0.15s ease;
-        }
-        .zip-ctrl-btn:hover {
-            border-color: var(--navy);
-            color: var(--navy);
-        }
-        .zip-ctrl-btn.active {
-            background: var(--navy);
-            border-color: var(--navy);
-            color: var(--white);
-        }
-        .zip-ctrl-btn.is-primary {
-            background: var(--navy);
-            border-color: var(--navy);
-            color: var(--white);
-        }
-        .zip-ctrl-btn.is-primary:hover {
-            background: #2563EB;
-            border-color: #2563EB;
-            color: var(--white);
-        }
-
         .zip-board-wrap {
             position: relative;
             width: 100%;
             max-width: 390px;
             aspect-ratio: 1 / 1;
-            margin: 0 auto 12px;
+            margin: 0 auto 14px;
             background: #FFFFFF;
             border-radius: 24px;
             padding: 12px;
@@ -3585,7 +3578,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
             z-index: 3;
         }
 
-        /* Thẻ bước quy trình phẳng, tông xanh chủ đạo */
+        /* Thẻ bước quy trình co giãn theo màn hình nhỏ để không bị cắt chữ */
         .zip-node-step {
             position: relative;
             z-index: 4;
@@ -3652,12 +3645,41 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
             color: #FFFFFF;
         }
 
-        /* Khung thông báo hoàn thành gọn gàng (chỉ tiêu đề + thời gian) */
+        .zip-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 390px;
+            margin: 0 auto 14px;
+        }
+        .zip-ctrl-btn {
+            padding: 10px 6px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.15s ease;
+        }
+        .zip-ctrl-btn:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+        }
+
+        /* Khung hoàn thành màn & khôi phục design nút cũ */
         .zip-win-card {
             background: #EFF6FF;
             border: 1.5px solid #BFDBFE;
             border-radius: 16px;
-            padding: 14px 16px;
+            padding: 16px 14px;
             text-align: center;
             max-width: 390px;
             margin: 0 auto;
@@ -3667,13 +3689,45 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
             font-size: 16px;
             font-weight: 800;
             color: var(--navy);
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
         .zip-win-sub {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12.5px;
+            line-height: 1.4;
             color: #1E40AF;
-            margin-bottom: 0;
+            margin-bottom: 12px;
+        }
+        .zip-win-card button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 13px;
+            margin: 4px 3px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .zip-win-card button:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+        }
+        .zip-win-card button:last-of-type {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+        .zip-win-card button:last-of-type:hover {
+            background: #2563EB;
+            border-color: #2563EB;
+            color: var(--white);
         }
 
         /* ===== POPUP VIDEO & TÀI LIỆU PDF SAU KHI GIẢI XONG ===== */
@@ -4305,7 +4359,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                 <button class="page-back-btn" onclick="switchBottomNav('home')">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
-                <h1 class="page-title" data-i18n="game_zip_title">Giải mã quy trình</h1>
+                <h1 class="page-title" data-i18n="game_zip_title">Zip</h1>
                 <div class="page-header-spacer"></div>
             </div>
             <div class="page-content">
@@ -4324,8 +4378,8 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                     </div>
                 </div>
 
-                <!-- Bỏ style="display:none;", chỉ giữ class hidden -->
-                <div id="zipCatchUpBanner" class="zip-catchup-banner hidden"></div>
+                <!-- Thẻ đề xuất thử thách mới từ chuyên gia ở cấp trước -->
+                <div id="zipCatchUpBanner" class="zip-catchup-banner hidden" style="display:none;"></div>
 
                 <!-- 1. Block mô tả các bước thực chiến (Nằm TRÊN) -->
                 <div class="zip-step-banner">
@@ -4336,26 +4390,22 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                 </div>
 
                 <!-- 2. Block ẩn/hiện số thứ tự, nút mở nhanh tài liệu & tên chuyên gia (Nằm DƯỚI) -->
-               <div class="zip-controls">
-    <button type="button" class="zip-ctrl-btn" onclick="ZipGame.undo()">
-        <i class="fa-solid fa-rotate-left"></i> <span data-zip-i18n="undo">Lùi bước</span>
-    </button>
-    <button type="button" class="zip-ctrl-btn" onclick="ZipGame.hint()">
-        <i class="fa-regular fa-lightbulb"></i> <span data-zip-i18n="hint">Gợi ý</span>
-    </button>
-    <button type="button" class="zip-ctrl-btn" onclick="ZipGame.resetLevel()">
-        <i class="fa-solid fa-arrows-rotate"></i> <span data-zip-i18n="replay">Chơi lại</span>
-    </button>
-    <button type="button" id="zipToggleNumbersBtn" class="zip-ctrl-btn" onclick="ZipGame.toggleNumbers()">
-        <i class="fa-solid fa-hashtag"></i> <span id="zipToggleNumbersText">Hiện số</span>
-    </button>
-    <button type="button" id="zipDocBtn" class="zip-ctrl-btn" onclick="ZipGame.openRewardModal()">
-        <i class="fa-solid fa-file-lines"></i> <span data-zip-i18n="docBtn">Tài liệu</span>
-    </button>
-    <button type="button" id="zipNextLevelBtn" class="zip-ctrl-btn is-primary" onclick="ZipGame.nextLevel()">
-        <span data-zip-i18n="nextBtn">Tiếp tục</span> <i class="fa-solid fa-arrow-right"></i>
-    </button>
-</div>
+                <div class="zip-toolbar-row" style="flex-wrap:wrap; gap:6px;">
+                    <button type="button" id="zipHideNumBtn" class="zip-mode-toggle" onclick="ZipGame.toggleHideNumbers()">
+                        <i class="fa-regular fa-eye"></i> <span>Hiện số thứ tự</span>
+                    </button>
+
+                    <div style="display:flex; align-items:center; gap:6px; margin-left:auto;">
+                        <button type="button" id="zipQuickMaterialBtn" class="hidden" onclick="ZipGame.openRewardModal()" style="border:1px solid #BFDBFE; background:#FFFFFF; color:var(--navy); font-family:inherit; font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;">
+                            <i class="fa-solid fa-folder-open" style="color:#2563EB;"></i>
+                            <span data-zip-i18n="quickMaterialsBtn">Tài liệu</span>
+                        </button>
+
+                        <span id="zipAssignedBadge" class="hidden" style="font-size:11.5px; font-weight:700; color:#1D4ED8; background:#EFF6FF; padding:5px 10px; border-radius:8px; border:1px solid #BFDBFE;">
+                            <i class="fa-solid fa-award"></i> Thử thách từ chuyên gia
+                        </span>
+                    </div>
+                </div>
 
                 <!-- Trạng thái chờ khi chưa có bài nào từ chuyên gia -->
                 <div id="zipEmptyState" class="hidden" style="text-align:center; padding:32px 18px; background:#F8FAFC; border:1.5px dashed #CBD5E1; border-radius:20px; margin-bottom:14px;">
@@ -4377,6 +4427,18 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                     </div>
                 </div>
 
+                <!-- Thanh nút điều khiển bàn cờ -->
+                <div id="zipControlsRow" style="display:flex; gap:8px; justify-content:center; margin-bottom:14px;">
+                    <button type="button" id="zipUndoBtn" class="zip-ctrl-btn" onclick="ZipGame.undo()">
+                        <i class="fa-solid fa-rotate-left"></i> <span data-zip-i18n="btnUndo">Lùi bước</span>
+                    </button>
+                    <button type="button" id="zipHintBtn" class="zip-ctrl-btn" onclick="ZipGame.hint()">
+                        <i class="fa-regular fa-lightbulb"></i> <span data-zip-i18n="btnHint">Gợi ý</span>
+                    </button>
+                    <button type="button" id="zipResetBtn" class="zip-ctrl-btn" onclick="ZipGame.replayCurrentLevel()">
+                        <i class="fa-solid fa-arrows-rotate"></i> <span data-zip-i18n="btnReplay">Chơi lại</span>
+                    </button>
+                </div>
 
                 <!-- Thẻ Hoàn thành & Chế độ Xem lại -->
                 <div id="zipWinCard" class="zip-win-card hidden">
@@ -4387,6 +4449,18 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
 
                     <!-- Gợi ý thử thách mới từ chuyên gia xuất hiện ngay khi vừa thắng màn cuối -->
                     <div id="zipWinCatchUpBox" class="hidden" style="margin-bottom:12px;"></div>
+
+                    <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
+                        <button type="button" id="zipReopenRewardBtn" class="zip-win-btn is-outline hidden" onclick="ZipGame.openRewardModal()">
+                            <i class="fa-solid fa-folder-open"></i> <span id="zipReopenRewardText">Tài liệu</span>
+                        </button>
+                        <button type="button" id="zipReplayBtn" class="zip-win-btn is-outline" onclick="ZipGame.replayCurrentLevel()">
+                            <i class="fa-solid fa-arrows-rotate"></i> <span data-zip-i18n="btnReplay">Chơi lại</span>
+                        </button>
+                        <button type="button" id="zipNextLevelBtn" class="zip-win-btn is-primary" onclick="ZipGame.nextLevel()">
+                            <span data-zip-i18n="btnNextLevel">Màn tiếp theo</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -4418,10 +4492,9 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                         <div class="zip-doc-name" id="zipDocName">Tài liệu hướng dẫn quy trình.pdf</div>
                         <div class="zip-doc-sub">Tài liệu</div>
                     </div>
-                    <!-- Sửa class="zip-win-btn is-primary" thành class="zip-doc-dl-btn" -->
-                    <a id="zipDocDownloadBtn" href="#" target="_blank" rel="noopener" class="zip-doc-dl-btn" style="text-decoration:none; flex-shrink:0;">
-                        <i class="fa-solid fa-download"></i> <span data-zip-i18n="btnDownload">Tải về</span>
-                    </a>
+                    <a id="zipDocDownloadBtn" href="#" target="_blank" rel="noopener" class="zip-win-btn is-primary" style="text-decoration:none; flex-shrink:0;">
+                    <i class="fa-solid fa-download"></i> <span data-zip-i18n="btnDownload">Tải về</span>
+                </a>
                 </div>
 
                 <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
@@ -4429,8 +4502,8 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> <span data-zip-i18n="openVideoTab">Mở video ở tab mới</span>
                 </a>
                     <span id="zipRewardSpacer"></span>
-                    <button type="button" class="zip-doc-dl-btn" onclick="ZipGame.completeAndNext()">
-                        <span data-zip-i18n="completeAndNext">Hoàn tất và tiếp tục</span> <i class="fa-solid fa-arrow-right"></i>
+                    <button type="button" class="btn-primary" style="padding:10px 18px; font-size:13.5px;" onclick="ZipGame.closeRewardModal()" data-zip-i18n="btnDone">
+                        Hoàn tất
                     </button>
                 </div>
             </div>
@@ -6149,7 +6222,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                 guest_opt_4: '4 người (Bạn + 3 khách)',
                 guest_note: 'Chỉ trừ số giờ 1 mình bạn sử dụng vào quỹ. Số giờ người đi cùng sử dụng không bị phụ thu nếu đến đầy đủ. Và, người đi cùng sẽ được hưởng ưu đãi giảm giá nước tại quán.',
                 games_title: 'Trò chơi',
-                game_zip_title: 'Giải mã quy trình',
+                game_zip_title: 'Zip',
                 game_zip_sub: 'Nối chuỗi quy trình',
                 game_crossword_title: 'Ô chữ bí mật',
                 game_crossword_sub: 'Giải mã từ khóa',
@@ -6729,7 +6802,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                 guest_opt_4: '4 people (You + 3 guests)',
                 guest_note: 'Only your hours are deducted from the quota. Guests\' hours are not charged if they arrive fully. Guests also get a discount on drinks at the cafe.',
                 games_title: 'Games',
-                game_zip_title: 'Process Decoder',
+                game_zip_title: 'Zip',
                 game_zip_sub: 'Process sequence puzzle',
                 game_crossword_title: 'Secret Crossword',
                 game_crossword_sub: 'Keyword puzzle',
@@ -8336,7 +8409,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
         }
 
         function updateNotifToggleUI(enabled) {
-            const toggle = document.getElementById('notifMasterToggle');
+            const toggle = document.getElementById('notifToggle');
             const status = document.getElementById('notifStatus');
             if (toggle) toggle.checked = enabled;
             if (status) {
@@ -8583,7 +8656,6 @@ for (let attempt = 1; attempt <= 3; attempt++) {
                 const toggle = document.getElementById('toggleCcBtn');
                 if (toggle) toggle.innerHTML = t('add_cc_btn');
             }
-            if (toggle) toggle.innerHTML = `<i class="fa-solid fa-circle-plus"></i> ${t('add_cc_btn')}`;
             if (document.getElementById('ccEmail2')) document.getElementById('ccEmail2').value = '';
             recordBtn.classList.remove('recording');
             recordLabel.textContent = t('record_btn');
@@ -8592,6 +8664,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
             if (document.getElementById('clientEmailInput')) document.getElementById('clientEmailInput').value = '';
             if (document.getElementById('sendToClientCheckbox')) document.getElementById('sendToClientCheckbox').checked = false;
         }
+
         function stopAllTracks() {
             combinedStreamTracks.forEach(track => track.stop());
             combinedStreamTracks = [];
@@ -14963,17 +15036,15 @@ window.addEventListener('message', async function(event) {
                 quickMaterialsBtn: 'Tài liệu',
                 emptyTitle: 'Chưa có thử thách từ chuyên gia',
                 emptyDesc: 'Các quy trình thực chiến mới sẽ tự động hiển thị tại đây ngay khi chuyên gia xuất bản.',
-                showStepNumbers: 'Hiện số',
-                hideStepNumbers: 'Ẩn số',
+                showStepNumbers: 'Hiện số thứ tự',
+                hideStepNumbers: 'Ẩn số thứ tự',
                 practiceStepPrompt: 'Thực chiến: <strong>Tự xác định bước {next}/{total}</strong>',
                 nextStepPrompt: 'Tiếp theo: <strong>{label}</strong>',
                 reviewStepBanner: 'Chế độ xem lại đáp án · Đã hoàn thành {total} bước',
-                undo: 'Lùi bước',
-                hint: 'Gợi ý',
-                replay: 'Chơi lại',
-                docBtn: 'Tài liệu',
-                nextBtn: 'Tiếp tục',
-                completeAndNext: 'Hoàn tất và tiếp tục',
+                btnUndo: 'Lùi bước',
+                btnHint: 'Gợi ý',
+                btnReplay: 'Chơi lại',
+                btnNextLevel: 'Màn tiếp theo',
                 winTitle: 'Hoàn thành xuất sắc!',
                 winStats: 'Hoàn thành màn {code} trong {time}',
                 reviewTitle: 'Đã hoàn thành · Chế độ xem lại',
@@ -15009,17 +15080,15 @@ window.addEventListener('message', async function(event) {
                 quickMaterialsBtn: 'Materials',
                 emptyTitle: 'No Expert Challenges Yet',
                 emptyDesc: 'New practical workflows will automatically appear here once published by experts.',
-                showStepNumbers: 'Show #',
-                hideStepNumbers: 'Hide #',
+                showStepNumbers: 'Show step numbers',
+                hideStepNumbers: 'Hide step numbers',
                 practiceStepPrompt: 'Practice: <strong>Identify step {next}/{total}</strong>',
                 nextStepPrompt: 'Next: <strong>{label}</strong>',
                 reviewStepBanner: 'Answer Review Mode · Completed all {total} steps',
-                undo: 'Undo',
-                hint: 'Hint',
-                replay: 'Replay',
-                docBtn: 'Docs',
-                nextBtn: 'Next',
-                completeAndNext: 'Complete & Next',
+                btnUndo: 'Undo',
+                btnHint: 'Hint',
+                btnReplay: 'Play Again',
+                btnNextLevel: 'Next Level',
                 winTitle: 'Excellent Work!',
                 winStats: 'Completed Level {code} in {time}',
                 reviewTitle: 'Completed · Review Mode',
@@ -15630,16 +15699,6 @@ window.addEventListener('message', async function(event) {
                 if (ctrlEl) ctrlEl.classList.toggle('hidden', isEmpty);
             },
 
-            resetLevel() {
-    this.loadLevel(this.currentLevelIdx, false);
-},
-
-toggleNumbers() {
-    this.hideNumbers = !this.hideNumbers;
-    this.syncHideNumButton();
-    this.updateVisuals();
-},
-
             syncHideNumButton() {
                 const btn = document.getElementById('zipHideNumBtn');
                 if (!btn) return;
@@ -16139,11 +16198,6 @@ toggleNumbers() {
                 const videoWrap = document.getElementById('zipVideoContainer');
                 if (videoWrap) videoWrap.innerHTML = '';
             },
-
-            completeAndNext() {
-    this.closeRewardModal();
-    this.nextLevel();
-},
 
             undo() {
                 if (this.isWon || this.path.length <= 1) return;
