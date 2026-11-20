@@ -3792,6 +3792,21 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     opacity: 0.38;
     cursor: not-allowed;
 }
+
+/* Làm mờ và khóa nút Docs cho tới khi giải xong game */
+.zip-ctrl-btn.is-docs:disabled {
+    opacity: 0.32;
+    filter: blur(0.7px);
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* Khóa các level chưa giải tới trong dropdown */
+.zip-select-option.locked {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: transparent !important;
+}
 .zip-ctrl-btn.active {
     background: var(--navy);
     border-color: var(--navy);
@@ -4485,12 +4500,12 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     <div class="zip-hero-top">
         <!-- Dropdown chọn quy trình (giữ nguyên cấu trúc cũ của cậu) -->
         <div class="zip-custom-select" id="zipCustomSelect">
-            <button type="button" class="zip-select-trigger" id="zipSelectTrigger" onclick="ZipGame.toggleLevelMenu(event)">
-                <span class="zip-select-trigger-text" id="zipSelectTriggerText">Chọn quy trình...</span>
-                <i class="fa-solid fa-chevron-down" style="font-size:11px; opacity:0.65;"></i>
-            </button>
-            <div class="zip-select-menu" id="zipSelectMenu"></div>
-        </div>
+    <button type="button" class="zip-select-trigger" id="zipSelectTrigger" onclick="ZipGame.toggleLevelMenu(event)">
+        <span class="zip-select-trigger-text" id="zipSelectTriggerText" data-zip-i18n="selectProcessPlaceholder">Chọn quy trình...</span>
+        <i class="fa-solid fa-chevron-down" style="font-size:11px; opacity:0.65;"></i>
+    </button>
+    <div class="zip-select-menu" id="zipSelectMenu"></div>
+</div>
 
         <div class="zip-timer-pill">
             <i class="fa-regular fa-clock"></i>
@@ -4504,26 +4519,27 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
     </div>
 
     <!-- KHUNG MỚI: Hiện đầy đủ tên quy trình / câu hỏi (không bao giờ bị cắt ...) -->
-    <div class="zip-scenario-box" id="zipScenarioBox">
-        <div class="zip-scenario-label">
-            <i class="fa-solid fa-diagram-project"></i>
-            <span id="zipScenarioCode">QUY TRÌNH</span>
-        </div>
-        <div class="zip-scenario-title" id="zipScenarioTitle">Đang tải nội dung quy trình...</div>
+    <!-- Khung tiêu đề quy trình & Mục tiêu tiếp theo -->
+<div class="zip-scenario-box" id="zipScenarioBox">
+    <div class="zip-scenario-label">
+        <i class="fa-solid fa-diagram-project"></i>
+        <span id="zipScenarioCode" data-zip-i18n="processFallbackUpper">QUY TRÌNH</span>
     </div>
-    <!-- Thanh hướng dẫn bước tiếp theo + tiến độ chặng -->
-    <div class="zip-hero-step">
-        <div class="zip-hero-step-icon">
-            <i class="fa-solid fa-route"></i>
-        </div>
-        <div class="zip-hero-step-text">
-            <div class="zip-hero-step-kicker">MỤC TIÊU TIẾP THEO</div>
-            <span id="zipStepLabel">Bắt đầu từ bước 1</span>
-        </div>
-        <div class="zip-hero-step-count">
-            <span id="zipCheckpointProgress">0/6</span>
-        </div>
+    <div class="zip-scenario-title" id="zipScenarioTitle" data-zip-i18n="loadingScenarioTitle">Đang tải nội dung quy trình...</div>
+</div>
+
+<div class="zip-hero-step">
+    <div class="zip-hero-step-icon">
+        <i class="fa-solid fa-route"></i>
     </div>
+    <div class="zip-hero-step-text">
+        <div class="zip-hero-step-kicker" data-zip-i18n="nextTargetKicker">MỤC TIÊU TIẾP THEO</div>
+        <span id="zipStepLabel" data-zip-i18n="startStep1">Bắt đầu từ bước 1</span>
+    </div>
+    <div class="zip-hero-step-count">
+        <span id="zipCheckpointProgress">0/6</span>
+    </div>
+</div>
 
     <div class="zip-dots" id="zipDots"></div>
 </div>
@@ -4546,14 +4562,15 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
         <span class="zip-ctrl-ico"><i class="fa-solid fa-hashtag"></i></span>
         <span class="zip-ctrl-label">Show #</span>
     </button>
-    <button type="button" class="zip-ctrl-btn is-docs" id="zipDocsBtn" onclick="ZipGame.openRewardModal()" title="Xem video & tài liệu (Docs)" aria-label="Docs">
-        <span class="zip-ctrl-ico"><i class="fa-regular fa-file-lines"></i></span>
-        <span class="zip-ctrl-label">Docs</span>
-    </button>
-    <button type="button" class="zip-ctrl-btn is-primary" id="zipNextBtn" onclick="ZipGame.nextLevel()" title="Quy trình tiếp theo (Next)" aria-label="Next">
-        <span class="zip-ctrl-ico"><i class="fa-solid fa-arrow-right"></i></span>
-        <span class="zip-ctrl-label">Next</span>
-    </button>
+    <!-- Thêm disabled mặc định cho nút Docs và Next -->
+<button type="button" class="zip-ctrl-btn is-docs" id="zipDocsBtn" onclick="ZipGame.openRewardModal()" title="Xem video & tài liệu (Docs)" aria-label="Docs" disabled>
+    <span class="zip-ctrl-ico"><i class="fa-regular fa-file-lines"></i></span>
+    <span class="zip-ctrl-label">Docs</span>
+</button>
+<button type="button" class="zip-ctrl-btn is-primary" id="zipNextBtn" onclick="ZipGame.nextLevel()" title="Quy trình tiếp theo (Next)" aria-label="Next" disabled>
+    <span class="zip-ctrl-ico"><i class="fa-solid fa-arrow-right"></i></span>
+    <span class="zip-ctrl-label">Next</span>
+</button>
 </div>
 
                 <!-- Trạng thái chờ khi chưa có bài nào từ chuyên gia -->
@@ -7049,6 +7066,10 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
             console.log(`🔵 applyLanguage called: lang=${lang}, email=${currentEmail}`);
             currentLang = lang;
             localStorage.setItem('popminutes_lang', lang);
+            document.documentElement.lang = lang;
+    if (typeof ZipGame !== 'undefined' && ZipGame.initialized) {
+        ZipGame.applyLanguage();
+    }
                         // Sync language lên Firestore để push notification dùng
             if (currentEmail) {
     // Sync user pref (giữ nguyên cho các setting khác)
@@ -15138,127 +15159,164 @@ window.addEventListener('message', async function(event) {
 
         // Từ điển Song ngữ (Việt - Anh) cho toàn bộ tính năng Game Quy trình
         const ZIP_I18N = {
-            vi: {
-                loadingChallenges: 'Đang tải thử thách...',
-                noChallengesOption: 'Chưa có bài từ chuyên gia',
-                expertFallback: 'Chuyên gia',
-                processFallback: 'Quy trình thực chiến',
-                expertChallengeBadge: 'Thử thách từ chuyên gia',
-                quickMaterialsBtn: 'Tài liệu',
-                emptyTitle: 'Chưa có thử thách từ chuyên gia',
-                emptyDesc: 'Các quy trình thực chiến mới sẽ tự động hiển thị tại đây ngay khi chuyên gia xuất bản.',
-                showStepNumbers: 'Hiện số',
-                hideStepNumbers: 'Ẩn số',
-                practiceStepPrompt: 'Thực chiến: <strong>Tự xác định bước {next}/{total}</strong>',
-                nextStepPrompt: 'Tiếp theo: <strong>{label}</strong>',
-                reviewStepBanner: 'Chế độ xem lại đáp án · Đã hoàn thành {total} bước',
-                undo: 'Lùi bước',
-                hint: 'Gợi ý',
-                replay: 'Chơi lại',
-                docBtn: 'Tài liệu',
-                nextBtn: 'Tiếp tục',
-                completeAndNext: 'Hoàn tất và tiếp tục',
-                winTitle: 'Hoàn thành xuất sắc!',
-                winStats: 'Hoàn thành màn {code} trong {time}',
-                reviewTitle: 'Đã hoàn thành · Chế độ xem lại',
-                reviewStats: 'Đang hiển thị đường đi chuẩn. Bấm "Chơi lại" để luyện tập từ đầu.',
-                toastWin: 'Hoàn thành xuất sắc!',
-                viewVideoAndMaterials: 'Xem video & tài liệu',
-                viewLessonVideo: 'Xem video bài học',
-                expertMaterials: 'Tài liệu',
-                modalVideoAndDocBadge: 'Video bài học & Tài liệu',
-                modalVideoBadge: 'Video tổng kết quy trình',
-                modalDocBadge: 'Tài liệu',
-                defaultPdfName: 'Tài liệu (PDF)',
-                openVideoTab: 'Mở video ở tab mới',
-                btnDownload: 'Tải về',
-                btnClose: 'Đóng',
-                catchUpHeader: 'Đề xuất {count} thử thách mới từ chuyên gia ở cấp trước',
-                catchUpExpand: 'Xem tất cả ({count})',
-                catchUpCollapse: 'Thu gọn',
-                catchUpPlayNow: 'Chơi ngay',
-                playingCatchUpStatus: 'Đang làm thử thách bổ sung từ chuyên gia (Mốc đã đạt: Level {level})',
-                backToLastLevel: 'Về màn cuối',
-                winCatchUpNotice: 'Chuyên gia vừa bổ sung {count} thử thách mới ở cấp trước:',
-                toastEndWithCatchUp: 'Bạn đã xong màn cuối! Có {count} thử thách mới từ chuyên gia ở cấp trước.',
-                toastAllCompleted: 'Chúc mừng! Bạn đã hoàn thành tất cả màn chơi hiện có.',
-                btnDone: 'Hoàn tất',
-                stepKicker: 'Bước tiếp theo',
-                coverageTitle: 'Ô đã đi',
-                noHint: 'Bài này chưa có đường gợi ý.',
-                toastFinishCurrent: 'Hãy hoàn thành màn hiện tại trước khi sang màn mới.'
-            },
-            en: {
-                loadingChallenges: 'Loading challenges...',
-                noChallengesOption: 'No expert challenges yet',
-                expertFallback: 'Expert',
-                processFallback: 'Practical Process',
-                expertChallengeBadge: 'Expert Challenge',
-                quickMaterialsBtn: 'Materials',
-                emptyTitle: 'No Expert Challenges Yet',
-                emptyDesc: 'New practical workflows will automatically appear here once published by experts.',
-                showStepNumbers: 'Show #',
-                hideStepNumbers: 'Hide #',
-                practiceStepPrompt: 'Practice: <strong>Identify step {next}/{total}</strong>',
-                nextStepPrompt: 'Next: <strong>{label}</strong>',
-                reviewStepBanner: 'Answer Review Mode · Completed all {total} steps',
-                undo: 'Undo',
-                hint: 'Hint',
-                replay: 'Replay',
-                docBtn: 'Docs',
-                nextBtn: 'Next',
-                completeAndNext: 'Complete & Next',
-                winTitle: 'Excellent Work!',
-                winStats: 'Completed Level {code} in {time}',
-                reviewTitle: 'Completed · Review Mode',
-                reviewStats: 'Showing the standard workflow path. Click "Play Again" to practice from scratch.',
-                toastWin: 'Excellent work!',
-                viewVideoAndMaterials: 'View Video & Materials',
-                viewLessonVideo: 'Watch Lesson Video',
-                expertMaterials: 'Expert Materials',
-                modalVideoAndDocBadge: 'Lesson Video & Expert Materials',
-                modalVideoBadge: 'Workflow Summary Video',
-                modalDocBadge: 'Expert Materials',
-                defaultPdfName: 'Expert Materials (PDF)',
-                openVideoTab: 'Open video in new tab',
-                btnDownload: 'Download',
-                btnClose: 'Close',
-                catchUpHeader: '{count} new expert challenge(s) available from earlier levels',
-                catchUpExpand: 'View all ({count})',
-                catchUpCollapse: 'Collapse',
-                catchUpPlayNow: 'Play Now',
-                playingCatchUpStatus: 'Playing supplementary expert challenge (Reached: Level {level})',
-                backToLastLevel: 'Back to latest',
-                winCatchUpNotice: 'Experts recently added {count} new challenge(s) in earlier levels:',
-                toastEndWithCatchUp: 'You finished the latest level! {count} new expert challenge(s) available below.',
-                toastAllCompleted: 'Congratulations! You have completed all available challenges.',
-                btnDone: 'Done',
-                stepKicker: 'Next step',
-                coverageTitle: 'Cells covered',
-                noHint: 'No hint path for this challenge.',
-                toastFinishCurrent: 'Finish the current level first.'
-            }
-        };
+    vi: {
+        // --- Các key mới bổ sung ---
+        selectProcessPlaceholder: 'Chọn quy trình...',
+        processFallbackUpper: 'QUY TRÌNH',
+        processCodePrefix: 'QUY TRÌNH {code}',
+        loadingScenarioTitle: 'Đang tải nội dung quy trình...',
+        nextTargetKicker: 'MỤC TIÊU TIẾP THEO',
+        startStep1: 'Bắt đầu từ bước 1',
+        toastUnlockDocsHint: 'Hãy giải xong quy trình này để mở khóa video & tài liệu.',
+        toastLevelLocked: 'Bạn cần hoàn thành màn trước đó để mở khóa màn này.',
+        titleUndo: 'Hoàn tác (Undo)',
+        titleHint: 'Gợi ý bước tiếp (Hint)',
+        titleReplay: 'Chơi lại từ đầu (Replay)',
+        titleToggleNum: 'Ẩn/hiện số thứ tự',
+        titleDocsLocked: 'Giải xong quy trình để mở tài liệu',
+        titleDocsUnlocked: 'Xem video & tài liệu (Docs)',
+        titleNext: 'Quy trình tiếp theo (Next)',
 
-        function zipGetLang() {
-            const candidates = [
-                window.currentLang,
-                window.appLang,
-                window.selectedLang,
-                localStorage.getItem('popminutes_lang'),
-                localStorage.getItem('app_lang'),
-                localStorage.getItem('lang'),
-                document.documentElement.getAttribute('lang')
-            ];
-            for (const c of candidates) {
-                if (c && typeof c === 'string') {
-                    const norm = c.trim().toLowerCase();
-                    if (norm.startsWith('en')) return 'en';
-                    if (norm.startsWith('vi')) return 'vi';
-                }
-            }
-            return 'vi';
+        // --- Giữ nguyên các key cũ của cậu ---
+        loadingChallenges: 'Đang tải thử thách...',
+        noChallengesOption: 'Chưa có bài từ chuyên gia',
+        expertFallback: 'Chuyên gia',
+        processFallback: 'Quy trình thực chiến',
+        expertChallengeBadge: 'Thử thách từ chuyên gia',
+        quickMaterialsBtn: 'Tài liệu',
+        emptyTitle: 'Chưa có thử thách từ chuyên gia',
+        emptyDesc: 'Các quy trình thực chiến mới sẽ tự động hiển thị tại đây ngay khi chuyên gia xuất bản.',
+        showStepNumbers: 'Hiện số',
+        hideStepNumbers: 'Ẩn số',
+        practiceStepPrompt: 'Thực chiến: <strong>Tự xác định bước {next}/{total}</strong>',
+        nextStepPrompt: 'Tiếp theo: <strong>{label}</strong>',
+        reviewStepBanner: 'Chế độ xem lại đáp án · Đã hoàn thành {total} bước',
+        undo: 'Lùi bước',
+        hint: 'Gợi ý',
+        replay: 'Chơi lại',
+        docBtn: 'Tài liệu',
+        nextBtn: 'Tiếp tục',
+        completeAndNext: 'Hoàn tất và tiếp tục',
+        winTitle: 'Hoàn thành xuất sắc!',
+        winStats: 'Hoàn thành màn {code} trong {time}',
+        reviewTitle: 'Đã hoàn thành · Chế độ xem lại',
+        reviewStats: 'Đang hiển thị đường đi chuẩn. Bấm "Chơi lại" để luyện tập từ đầu.',
+        toastWin: 'Hoàn thành xuất sắc!',
+        viewVideoAndMaterials: 'Xem video & tài liệu',
+        viewLessonVideo: 'Xem video bài học',
+        expertMaterials: 'Tài liệu',
+        modalVideoAndDocBadge: 'Video bài học & Tài liệu',
+        modalVideoBadge: 'Video tổng kết quy trình',
+        modalDocBadge: 'Tài liệu',
+        defaultPdfName: 'Tài liệu (PDF)',
+        openVideoTab: 'Mở video ở tab mới',
+        btnDownload: 'Tải về',
+        btnClose: 'Đóng',
+        catchUpHeader: 'Đề xuất {count} thử thách mới từ chuyên gia ở cấp trước',
+        catchUpExpand: 'Xem tất cả ({count})',
+        catchUpCollapse: 'Thu gọn',
+        catchUpPlayNow: 'Chơi ngay',
+        playingCatchUpStatus: 'Đang làm thử thách bổ sung từ chuyên gia (Mốc đã đạt: Level {level})',
+        backToLastLevel: 'Về màn cuối',
+        winCatchUpNotice: 'Chuyên gia vừa bổ sung {count} thử thách mới ở cấp trước:',
+        toastEndWithCatchUp: 'Bạn đã xong màn cuối! Có {count} thử thách mới từ chuyên gia ở cấp trước.',
+        toastAllCompleted: 'Chúc mừng! Bạn đã hoàn thành tất cả màn chơi hiện có.',
+        btnDone: 'Hoàn tất',
+        stepKicker: 'Bước tiếp theo',
+        coverageTitle: 'Ô đã đi',
+        noHint: 'Bài này chưa có đường gợi ý.',
+        toastFinishCurrent: 'Hãy hoàn thành màn hiện tại trước khi sang màn mới.'
+    },
+    en: {
+        // --- Các key mới bổ sung ---
+        selectProcessPlaceholder: 'Select process...',
+        processFallbackUpper: 'PROCESS',
+        processCodePrefix: 'PROCESS {code}',
+        loadingScenarioTitle: 'Loading process details...',
+        nextTargetKicker: 'NEXT TARGET',
+        startStep1: 'Start from step 1',
+        toastUnlockDocsHint: 'Complete this process puzzle to unlock the video & materials.',
+        toastLevelLocked: 'Complete the previous level first to unlock this one.',
+        titleUndo: 'Undo',
+        titleHint: 'Hint',
+        titleReplay: 'Replay from start',
+        titleToggleNum: 'Show/Hide step numbers',
+        titleDocsLocked: 'Complete this level to unlock docs',
+        titleDocsUnlocked: 'View video & materials (Docs)',
+        titleNext: 'Next process (Next)',
+
+        // --- Giữ nguyên các key cũ của cậu ---
+        loadingChallenges: 'Loading challenges...',
+        noChallengesOption: 'No expert challenges yet',
+        expertFallback: 'Expert',
+        processFallback: 'Practical Process',
+        expertChallengeBadge: 'Expert Challenge',
+        quickMaterialsBtn: 'Materials',
+        emptyTitle: 'No Expert Challenges Yet',
+        emptyDesc: 'New practical workflows will automatically appear here once published by experts.',
+        showStepNumbers: 'Show #',
+        hideStepNumbers: 'Hide #',
+        practiceStepPrompt: 'Practice: <strong>Identify step {next}/{total}</strong>',
+        nextStepPrompt: 'Next: <strong>{label}</strong>',
+        reviewStepBanner: 'Answer Review Mode · Completed all {total} steps',
+        undo: 'Undo',
+        hint: 'Hint',
+        replay: 'Replay',
+        docBtn: 'Docs',
+        nextBtn: 'Next',
+        completeAndNext: 'Complete & Next',
+        winTitle: 'Excellent Work!',
+        winStats: 'Completed Level {code} in {time}',
+        reviewTitle: 'Completed · Review Mode',
+        reviewStats: 'Showing the standard workflow path. Click "Play Again" to practice from scratch.',
+        toastWin: 'Excellent work!',
+        viewVideoAndMaterials: 'View Video & Materials',
+        viewLessonVideo: 'Watch Lesson Video',
+        expertMaterials: 'Expert Materials',
+        modalVideoAndDocBadge: 'Lesson Video & Expert Materials',
+        modalVideoBadge: 'Workflow Summary Video',
+        modalDocBadge: 'Expert Materials',
+        defaultPdfName: 'Expert Materials (PDF)',
+        openVideoTab: 'Open video in new tab',
+        btnDownload: 'Download',
+        btnClose: 'Close',
+        catchUpHeader: '{count} new expert challenge(s) available from earlier levels',
+        catchUpExpand: 'View all ({count})',
+        catchUpCollapse: 'Collapse',
+        catchUpPlayNow: 'Play Now',
+        playingCatchUpStatus: 'Playing supplementary expert challenge (Reached: Level {level})',
+        backToLastLevel: 'Back to latest',
+        winCatchUpNotice: 'Experts recently added {count} new challenge(s) in earlier levels:',
+        toastEndWithCatchUp: 'You finished the latest level! {count} new expert challenge(s) available below.',
+        toastAllCompleted: 'Congratulations! You have completed all available challenges.',
+        btnDone: 'Done',
+        stepKicker: 'Next step',
+        coverageTitle: 'Cells covered',
+        noHint: 'No hint path for this challenge.',
+        toastFinishCurrent: 'Finish the current level first.'
+    }
+};
+
+function zipGetLang() {
+    const candidates = [
+        typeof currentLang !== 'undefined' ? currentLang : null,
+        window.currentLang,
+        window.appLang,
+        window.selectedLang,
+        localStorage.getItem('popminutes_lang'),
+        localStorage.getItem('app_lang'),
+        localStorage.getItem('lang'),
+        document.documentElement.getAttribute('lang')
+    ];
+    for (const c of candidates) {
+        if (c && typeof c === 'string') {
+            const norm = c.trim().toLowerCase();
+            if (norm.startsWith('en')) return 'en';
+            if (norm.startsWith('vi')) return 'vi';
         }
+    }
+    return 'vi';
+}
 
         function zipT(key, vars = {}) {
             const lang = zipGetLang();
@@ -15375,42 +15433,36 @@ window.addEventListener('message', async function(event) {
         }
 
         function buildMixedLevels(rawList) {
-            const seed = getUserRandomSeed();
-            const byId = new Map();
-            (rawList || []).forEach((item, idx) => {
-                if (!item || typeof item !== 'object') return;
-                const norm = normalizeZipLevel(item, idx);
-                if (!isValidZipLevel(norm)) {
-                    console.warn('ZipGame: bỏ qua bài không hợp lệ', norm.id);
-                    return;
-                }
-                byId.set(norm.id, norm);
-            });
-
-            const groups = new Map();
-            byId.forEach(lv => {
-                if (!groups.has(lv.levelNum)) groups.set(lv.levelNum, []);
-                groups.get(lv.levelNum).push(lv);
-            });
-
-            const sortedLevelNums = Array.from(groups.keys()).sort((a, b) => a - b);
-            const result = [];
-
-            sortedLevelNums.forEach(lvNum => {
-                const bucket = groups.get(lvNum);
-                bucket.sort((a, b) => {
-                    const wa = getPartnerRandomWeight(seed, lvNum, a.partnerName);
-                    const wb = getPartnerRandomWeight(seed, lvNum, b.partnerName);
-                    return wa - wb;
-                });
-                bucket.forEach((lv, idx) => {
-                    lv.displayCode = `${lvNum}.${idx + 1}`;
-                    result.push(lv);
-                });
-            });
-
-            return result;
+    const byId = new Map();
+    (rawList || []).forEach((item, idx) => {
+        if (!item || typeof item !== 'object') return;
+        const norm = normalizeZipLevel(item, idx);
+        if (!isValidZipLevel(norm)) {
+            console.warn('ZipGame: bỏ qua bài không hợp lệ', norm.id);
+            return;
         }
+        byId.set(norm.id, norm);
+    });
+
+    const groups = new Map();
+    byId.forEach(lv => {
+        if (!groups.has(lv.levelNum)) groups.set(lv.levelNum, []);
+        groups.get(lv.levelNum).push(lv);
+    });
+
+    const sortedLevelNums = Array.from(groups.keys()).sort((a, b) => a - b);
+    const result = [];
+
+    sortedLevelNums.forEach(lvNum => {
+        const bucket = groups.get(lvNum);
+        bucket.forEach((lv, idx) => {
+            lv.displayCode = `${lvNum}.${idx + 1}`;
+            result.push(lv);
+        });
+    });
+
+    return result;
+}
 
         function extractZipParamFromUrl(paramName) {
             const searchParams = new URLSearchParams(window.location.search);
@@ -15559,30 +15611,42 @@ window.addEventListener('message', async function(event) {
                 highestMilestone: 1
             },
 
-            applyLanguage() {
-                document.querySelectorAll('[data-zip-i18n]').forEach(el => {
-                    const key = el.getAttribute('data-zip-i18n');
-                    if (key) el.textContent = zipT(key);
-                });
-                this.syncHideNumButton();
-                this.refreshLevelDropdown();
-                this.renderCatchUpBanner();
+            // Thay thế applyLanguage() trong ZipGame:
+applyLanguage() {
+    document.querySelectorAll('[data-zip-i18n]').forEach(el => {
+        const key = el.getAttribute('data-zip-i18n');
+        if (key) el.textContent = zipT(key);
+    });
 
-                const level = ZIP_LEVELS[this.currentLevelIdx];
-                if (level) {
-                    const badge = document.getElementById('zipAssignedBadge');
-                    if (badge) {
-                        badge.classList.remove('hidden');
-                        badge.innerHTML = level.partnerName
-                            ? `<i class="fa-solid fa-user-tie"></i> [${zipEsc(level.displayCode)}] ${zipEsc(level.partnerName)}`
-                            : `<i class="fa-solid fa-award"></i> ${zipT('expertChallengeBadge')}`;
-                    }
-                    this.updateVisuals();
-                    if (this.isWon) {
-                        this.renderWinCard(level, document.getElementById('zipTimer')?.textContent || '00:00');
-                    }
-                }
-            },
+    const setTitle = (id, key) => {
+        const el = document.getElementById(id);
+        if (el) el.title = zipT(key);
+    };
+    setTitle('zipUndoBtn', 'titleUndo');
+    setTitle('zipHintBtn', 'titleHint');
+    setTitle('zipReplayBtn', 'titleReplay');
+    setTitle('zipToggleNumBtn', 'titleToggleNum');
+    setTitle('zipNextBtn', 'titleNext');
+
+    this.syncHideNumButton();
+    this.refreshLevelDropdown();
+    this.renderCatchUpBanner();
+
+    const level = ZIP_LEVELS[this.currentLevelIdx];
+    if (level) {
+        const badge = document.getElementById('zipAssignedBadge');
+        if (badge) {
+            badge.classList.remove('hidden');
+            badge.innerHTML = level.partnerName
+                ? `<i class="fa-solid fa-user-tie"></i> [${zipEsc(level.displayCode)}] ${zipEsc(level.partnerName)}`
+                : `<i class="fa-solid fa-award"></i> ${zipT('expertChallengeBadge')}`;
+        }
+        this.updateVisuals();
+        if (this.isWon) {
+            this.renderWinCard(level, document.getElementById('zipTimer')?.textContent || '00:00');
+        }
+    }
+},
 
             loadProgress() {
                 try {
@@ -15604,7 +15668,33 @@ window.addEventListener('message', async function(event) {
             isLevelCompleted(id) {
                 return this.progress.completedIds.includes(id);
             },
+getFirstUncompletedIndex() {
 
+const idx = ZIP_LEVELS.findIndex(lv => !this.isLevelCompleted(lv.id));
+
+return idx === -1 ? ZIP_LEVELS.length : idx;
+
+},
+
+
+
+isLevelUnlocked(idx) {
+
+if (!ZIP_LEVELS.length || idx < 0 || idx >= ZIP_LEVELS.length) return false;
+
+if (idx === 0) return true;
+
+const lv = ZIP_LEVELS[idx];
+
+// Đã giải xong rồi -> luôn mở để chơi lại tùy ý
+
+if (lv && this.isLevelCompleted(lv.id)) return true;
+
+// Chỉ mở màn kế tiếp ngay sau màn đã giải xong
+
+return idx <= this.getFirstUncompletedIndex();
+
+},
             recomputeMilestone() {
                 if (!ZIP_LEVELS.length) return;
                 let maxCompletedLv = 0;
@@ -15745,42 +15835,58 @@ window.addEventListener('message', async function(event) {
                 if (wrap) wrap.classList.remove('open');
             },
 
-            selectLevelFromMenu(idx) {
-                this.closeLevelMenu();
-                this.loadLevel(idx);
-            },
+            // Thay thế refreshLevelDropdown() và selectLevelFromMenu() trong ZipGame:
+selectLevelFromMenu(idx) {
+    if (!this.isLevelUnlocked(idx)) {
+        if (typeof showToast === 'function') {
+            showToast(zipT('toastLevelLocked'), false);
+        }
+        return;
+    }
+    this.closeLevelMenu();
+    this.loadLevel(idx);
+},
 
-            refreshLevelDropdown() {
-                const triggerText = document.getElementById('zipSelectTriggerText');
-                const menuEl = document.getElementById('zipSelectMenu');
-                if (!triggerText || !menuEl) return;
+refreshLevelDropdown() {
+    const triggerText = document.getElementById('zipSelectTriggerText');
+    const menuEl = document.getElementById('zipSelectMenu');
+    if (!triggerText || !menuEl) return;
 
-                if (!ZIP_LEVELS.length) {
-                    triggerText.textContent = zipT('noChallengesOption');
-                    menuEl.innerHTML = '';
-                    return;
-                }
+    if (!ZIP_LEVELS.length) {
+        triggerText.textContent = zipT('noChallengesOption');
+        menuEl.innerHTML = '';
+        return;
+    }
 
-                const cur = ZIP_LEVELS[this.currentLevelIdx] || ZIP_LEVELS[0];
-                const curDone = this.isLevelCompleted(cur.id) ? '✓ ' : '';
-                triggerText.innerHTML = `${curDone}<strong>[${zipEsc(cur.displayCode)}]</strong> ${zipEsc(cur.rawTitle)} · ${zipEsc(cur.partnerName)}`;
+    const cur = ZIP_LEVELS[this.currentLevelIdx] || ZIP_LEVELS[0];
+    const curDone = this.isLevelCompleted(cur.id) ? '✓ ' : '';
+    triggerText.innerHTML = `${curDone}<strong>[${zipEsc(cur.displayCode)}]</strong> ${zipEsc(cur.rawTitle)} · ${zipEsc(cur.partnerName)}`;
 
-                menuEl.innerHTML = ZIP_LEVELS.map((lv, idx) => {
-                    const isSelected = idx === this.currentLevelIdx;
-                    const isDone = this.isLevelCompleted(lv.id);
-                    return `
-                        <button type="button" class="zip-select-option ${isSelected ? 'selected' : ''}" onclick="ZipGame.selectLevelFromMenu(${idx})">
-                            <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                                <span class="zip-opt-code">${zipEsc(lv.displayCode)}</span>
-                                <span>${zipEsc(lv.rawTitle)}</span>
-                            </span>
-                            <span class="zip-opt-partner">
-                                ${isDone ? '<i class="fa-solid fa-circle-check" style="color:#16A34A; margin-right:4px;"></i>' : ''}${zipEsc(lv.partnerName)}
-                            </span>
-                        </button>
-                    `;
-                }).join('');
-            },
+    menuEl.innerHTML = ZIP_LEVELS.map((lv, idx) => {
+        const isSelected = idx === this.currentLevelIdx;
+        const isDone = this.isLevelCompleted(lv.id);
+        const isUnlocked = this.isLevelUnlocked(idx);
+
+        const statusIcon = isDone
+            ? '<i class="fa-solid fa-circle-check" style="color:#16A34A; margin-right:4px;"></i>'
+            : (!isUnlocked ? '<i class="fa-solid fa-lock" style="color:#94A3B8; margin-right:4px;"></i>' : '');
+
+        return `
+            <button type="button"
+                class="zip-select-option ${isSelected ? 'selected' : ''} ${!isUnlocked ? 'locked' : ''}"
+                ${!isUnlocked ? 'aria-disabled="true"' : ''}
+                onclick="ZipGame.selectLevelFromMenu(${idx})">
+                <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                    <span class="zip-opt-code">${zipEsc(lv.displayCode)}</span>
+                    <span>${zipEsc(lv.rawTitle)}</span>
+                </span>
+                <span class="zip-opt-partner">
+                    ${statusIcon}${zipEsc(lv.partnerName)}
+                </span>
+            </button>
+        `;
+    }).join('');
+},
 
             toggleCatchUpExpand() {
                 this.catchUpExpanded = !this.catchUpExpanded;
@@ -15960,16 +16066,23 @@ window.addEventListener('message', async function(event) {
                 this.loadLevel(this.currentLevelIdx, { forceReplay: true });
             },
 
-            loadLevel(idx, options = {}) {
-                if (!ZIP_LEVELS.length) {
-                    this.renderEmptyState(true);
-                    return;
-                }
-                this.renderEmptyState(false);
+            // Thêm chặn ở đầu loadLevel(idx, options = {}) để không bao giờ nhảy cóc sang màn đang khóa:
+loadLevel(idx, options = {}) {
+    if (!ZIP_LEVELS.length) {
+        this.renderEmptyState(true);
+        return;
+    }
+    this.renderEmptyState(false);
 
-                const forceReplay = Boolean(options.forceReplay);
-                this.currentLevelIdx = Math.max(0, Math.min(ZIP_LEVELS.length - 1, idx));
-                const level = ZIP_LEVELS[this.currentLevelIdx];
+    let targetIdx = Math.max(0, Math.min(ZIP_LEVELS.length - 1, idx));
+    if (!this.isLevelUnlocked(targetIdx)) {
+        targetIdx = Math.min(this.getFirstUncompletedIndex(), ZIP_LEVELS.length - 1);
+    }
+
+    const forceReplay = Boolean(options.forceReplay);
+    this.currentLevelIdx = targetIdx;
+    const level = ZIP_LEVELS[this.currentLevelIdx];
+    // ... giữ nguyên phần còn lại của hàm loadLevel từ dòng `if (level && level.id)` trở xuống
 
                 if (level && level.id) {
                     try { localStorage.setItem(ZIP_LAST_ACTIVE_KEY, level.id); } catch (e) {}
@@ -16216,16 +16329,29 @@ window.addEventListener('message', async function(event) {
 
             // Bật/tắt (disabled) các nút theo trạng thái ván chơi
             syncControlStates() {
-                const level = ZIP_LEVELS[this.currentLevelIdx];
-                const setDisabled = (id, disabled) => {
-                    const b = document.getElementById(id);
-                    if (b) b.disabled = Boolean(disabled);
-                };
-                setDisabled('zipUndoBtn', this.isWon || this.path.length <= 1);
-                setDisabled('zipHintBtn', this.isWon || !level || !Array.isArray(level.solution) || !level.solution.length);
-                setDisabled('zipToggleNumBtn', this.isReviewMode);
-                setDisabled('zipDocsBtn', !this.levelHasMaterials(level));
-            },
+    const level = ZIP_LEVELS[this.currentLevelIdx];
+    const setDisabled = (id, disabled) => {
+        const b = document.getElementById(id);
+        if (b) b.disabled = Boolean(disabled);
+    };
+
+    const isSolved = Boolean(level && (this.isWon || this.isLevelCompleted(level.id)));
+    const hasDocs = this.levelHasMaterials(level);
+    const docsUnlocked = isSolved && hasDocs;
+
+    setDisabled('zipUndoBtn', this.isWon || this.path.length <= 1);
+    setDisabled('zipHintBtn', this.isWon || !level || !Array.isArray(level.solution) || !level.solution.length);
+    setDisabled('zipToggleNumBtn', this.isReviewMode);
+    setDisabled('zipDocsBtn', !docsUnlocked);
+
+    const docsBtn = document.getElementById('zipDocsBtn');
+    if (docsBtn) {
+        docsBtn.title = docsUnlocked ? zipT('titleDocsUnlocked') : zipT('titleDocsLocked');
+    }
+
+    const canGoNext = Boolean(isSolved && this.currentLevelIdx + 1 < ZIP_LEVELS.length);
+    setDisabled('zipNextBtn', !canGoNext);
+},
 
             getHighestVisitedCheckpoint() {
                 let maxNum = 1;
@@ -16416,12 +16542,20 @@ window.addEventListener('message', async function(event) {
             },
 
             openRewardModal() {
-                const level = ZIP_LEVELS[this.currentLevelIdx];
-                if (!level) return;
+    const level = ZIP_LEVELS[this.currentLevelIdx];
+    if (!level) return;
 
-                const hasVideo = Boolean(level.videoUrl && level.videoUrl.trim());
-                const hasDoc = Boolean(level.docUrl && level.docUrl.trim());
-                if (!hasVideo && !hasDoc) return;
+    // Chặn tuyệt đối nếu chưa giải xong game
+    if (!this.isWon && !this.isLevelCompleted(level.id)) {
+        if (typeof showToast === 'function') {
+            showToast(zipT('toastUnlockDocsHint'), false);
+        }
+        return;
+    }
+
+    const hasVideo = Boolean(level.videoUrl && level.videoUrl.trim());
+    const hasDoc = Boolean(level.docUrl && level.docUrl.trim());
+    if (!hasVideo && !hasDoc) return;
 
                 const badgeEl = document.getElementById('zipRewardBadge');
                 const titleEl = document.getElementById('zipRewardModalTitle');
@@ -16515,54 +16649,42 @@ window.addEventListener('message', async function(event) {
             },
 
             async nextLevel() {
-                if (!ZIP_LEVELS.length || this._navigating) return;
-                this._navigating = true;
-                const btn = document.getElementById('zipNextBtn');
-                if (btn) btn.classList.add('is-loading');
-                try {
-                    // Đồng bộ nhanh Cloud trước khi điều hướng để không bỏ lỡ bài mới
-                    await this.syncLevelsFromCloud();
-                    if (!ZIP_LEVELS.length) return;
+    if (!ZIP_LEVELS.length || this._navigating) return;
+    const curLv = ZIP_LEVELS[this.currentLevelIdx];
 
-                    // 1. Tìm màn CHƯA GIẢI nằm phía sau màn hiện tại
-                    for (let i = this.currentLevelIdx + 1; i < ZIP_LEVELS.length; i++) {
-                        if (!this.isLevelCompleted(ZIP_LEVELS[i].id)) {
-                            this.loadLevel(i);
-                            return;
-                        }
-                    }
+    // Bắt buộc giải xong màn hiện tại mới được đi tiếp
+    if (curLv && !this.isWon && !this.isLevelCompleted(curLv.id)) {
+        if (typeof showToast === 'function') showToast(zipT('toastFinishCurrent'), false);
+        return;
+    }
 
-                    const curLv = ZIP_LEVELS[this.currentLevelIdx];
+    this._navigating = true;
+    const btn = document.getElementById('zipNextBtn');
+    if (btn) btn.classList.add('is-loading');
+    try {
+        await this.syncLevelsFromCloud();
+        if (!ZIP_LEVELS.length) return;
 
-                    // 2. Màn hiện tại còn dang dở và không còn màn nào phía sau
-                    if (curLv && !this.isLevelCompleted(curLv.id)) {
-                        if (typeof showToast === 'function') showToast(zipT('toastFinishCurrent'), false);
-                        return;
-                    }
+        // Mở màn kế tiếp theo đúng thứ tự
+        const nextIdx = this.currentLevelIdx + 1;
+        if (nextIdx < ZIP_LEVELS.length && this.isLevelUnlocked(nextIdx)) {
+            this.loadLevel(nextIdx);
+            return;
+        }
 
-                    // 3. Đã xong hết phía sau -> nhấn mạnh đề xuất thử thách mới ở cấp trước
-                    this.renderCatchUpBanner(true);
-                    const { list: catchUpList } = this.getCatchUpCandidates(curLv);
-                    if (curLv && this.isWon) {
-                        this.renderWinCatchUpBox(curLv);
-                    }
+        // Nếu còn màn bổ sung chưa làm ở cấp trước thì điều hướng về màn đó
+        const firstUncompleted = this.getFirstUncompletedIndex();
+        if (firstUncompleted < ZIP_LEVELS.length) {
+            this.loadLevel(firstUncompleted);
+            return;
+        }
 
-                    const msg = catchUpList.length > 0
-                        ? zipT('toastEndWithCatchUp', { count: catchUpList.length })
-                        : zipT('toastAllCompleted');
-                    if (typeof showToast === 'function') showToast(msg);
-
-                    if (catchUpList.length > 0) {
-                        const banner = document.getElementById('zipCatchUpBanner');
-                        if (banner && banner.style.display !== 'none') {
-                            banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                    }
-                } finally {
-                    this._navigating = false;
-                    if (btn) btn.classList.remove('is-loading');
-                }
-            }
+        if (typeof showToast === 'function') showToast(zipT('toastAllCompleted'), true);
+    } finally {
+        this._navigating = false;
+        if (btn) btn.classList.remove('is-loading');
+    }
+}
         };
 
         // Tự động cập nhật ngôn ngữ cho ZipGame khi người dùng chuyển đổi Việt / Anh trên app
@@ -16597,32 +16719,20 @@ window.addEventListener('message', async function(event) {
     const clean = (rawText || '').replace(/^[✓✔]\s*/, '').trim();
     const match = clean.match(/^\[([^\]]+)\]\s*(.+)$/);
     if (match) {
-        if (codeEl) codeEl.textContent = `QUY TRÌNH ${match[1]}`;
+        if (codeEl) codeEl.textContent = zipT('processCodePrefix', { code: match[1] });
         titleEl.textContent = match[2].trim();
     } else {
-        if (codeEl) codeEl.textContent = 'QUY TRÌNH THỰC HÀNH';
-        titleEl.textContent = clean || 'Chọn một quy trình để bắt đầu';
+        if (codeEl) codeEl.textContent = zipT('processFallbackUpper');
+        titleEl.textContent = clean || zipT('selectProcessPlaceholder');
     }
 }
 
-// Tự động đồng bộ mỗi khi dropdown thay đổi màn chơi
 (function bindZipScenarioObserver() {
     const triggerText = document.querySelector('#zip-game-page .zip-select-trigger-text');
-    const codeEl = document.getElementById('zipScenarioCode');
     const titleEl = document.getElementById('zipScenarioTitle');
     if (!triggerText || !titleEl) return;
 
-    const updateTitle = () => {
-        const clean = (triggerText.textContent || '').replace(/^[✓✔]\s*/, '').trim();
-        const match = clean.match(/^\[([^\]]+)\]\s*(.+)$/);
-        if (match) {
-            if (codeEl) codeEl.textContent = `QUY TRÌNH ${match[1]}`;
-            titleEl.textContent = match[2].trim();
-        } else {
-            if (codeEl) codeEl.textContent = 'QUY TRÌNH';
-            titleEl.textContent = clean;
-        }
-    };
+    const updateTitle = () => syncZipScenarioHeader(triggerText.textContent);
 
     updateTitle();
     new MutationObserver(updateTitle).observe(triggerText, {
