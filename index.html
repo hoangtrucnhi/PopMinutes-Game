@@ -3929,325 +3929,6 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
             color: #64748B;
             flex-shrink: 0;
         }
-
-        /* ===================================================================
-           GIẢI MÃ QUY TRÌNH — KHU VỰC TRÊN BÀN CỜ & 6 NÚT ĐIỀU KHIỂN (v2)
-           Navy · Trắng · Điểm nhấn vàng
-        =================================================================== */
-        :root {
-            --gold: #E9A92B;
-            --gold-soft: #FFD77A;
-            --gold-pale: #FFF6DC;
-        }
-        #zipCatchUpBanner {
-            max-width: 390px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 12px;
-        }
-
-        .zip-hero {
-            position: relative;
-            max-width: 390px;
-            margin: 0 auto 12px;
-            padding: 14px;
-            border-radius: 22px;
-            color: #FFFFFF;
-            background: linear-gradient(150deg, #1B2B7A 0%, #243086 58%, #2D3FA6 100%);
-            box-shadow: 0 14px 32px rgba(27, 43, 122, 0.22);
-            transition: box-shadow 0.3s ease;
-        }
-        .zip-hero.is-won {
-            box-shadow: 0 14px 32px rgba(27, 43, 122, 0.22), 0 0 0 2px rgba(233, 169, 43, 0.6);
-        }
-        .zip-hero-deco {
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .zip-hero-deco::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 22px 22px;
-            -webkit-mask-image: linear-gradient(115deg, transparent 30%, #000 100%);
-            mask-image: linear-gradient(115deg, transparent 30%, #000 100%);
-        }
-        .zip-hero-deco::after {
-            content: '';
-            position: absolute;
-            width: 190px;
-            height: 190px;
-            right: -64px;
-            top: -76px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(233, 169, 43, 0.38), rgba(233, 169, 43, 0) 68%);
-        }
-        .zip-hero > *:not(.zip-hero-deco) {
-            position: relative;
-            z-index: 1;
-        }
-        .zip-hero > .zip-hero-top {
-            z-index: 5; /* để menu chọn màn nổi lên trên các khối bên dưới */
-        }
-        .zip-hero-top {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .zip-hero .zip-select-trigger {
-            background: rgba(255, 255, 255, 0.97);
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(10, 18, 60, 0.25);
-        }
-        .zip-hero .zip-select-trigger:hover,
-        .zip-hero .zip-custom-select.open .zip-select-trigger {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(233, 169, 43, 0.28);
-        }
-        .zip-timer-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-            padding: 9px 12px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            font-size: 13px;
-            font-weight: 800;
-            font-variant-numeric: tabular-nums;
-            white-space: nowrap;
-        }
-        .zip-timer-pill i { color: var(--gold-soft); }
-
-        .zip-hero-meta {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 10px;
-        }
-        .zip-expert-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            max-width: 100%;
-            padding: 4px 10px;
-            border-radius: 999px;
-            background: var(--gold-pale);
-            color: #7A5200;
-            font-size: 11px;
-            font-weight: 800;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .zip-expert-badge i { color: var(--gold); }
-        .zip-meta-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            font-size: 11px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.92);
-            white-space: nowrap;
-        }
-        .zip-meta-chip i { color: var(--gold-soft); font-size: 10.5px; }
-        .zip-meta-chip b { font-weight: 800; font-variant-numeric: tabular-nums; }
-
-        .zip-hero-step {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 12px;
-            padding: 10px 12px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-        }
-        .zip-hero-step-icon {
-            width: 36px;
-            height: 36px;
-            flex-shrink: 0;
-            border-radius: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(145deg, #FFD77A, #E9A92B);
-            color: #4A3200;
-            font-size: 15px;
-            box-shadow: 0 4px 10px rgba(233, 169, 43, 0.35);
-        }
-        .zip-hero-step-text { flex: 1; min-width: 0; }
-        .zip-hero-step-kicker {
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.62);
-            margin-bottom: 2px;
-        }
-        .zip-hero #zipStepLabel {
-            display: block;
-            flex: none;
-            font-size: 13px;
-            line-height: 1.35;
-            font-weight: 600;
-            color: #FFFFFF;
-            word-break: break-word;
-        }
-        .zip-hero #zipStepLabel strong { color: var(--gold-soft); font-weight: 800; }
-        .zip-hero-step-count {
-            flex-shrink: 0;
-            min-width: 48px;
-            text-align: center;
-            padding: 7px 8px;
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.18);
-        }
-        .zip-hero #zipCheckpointProgress {
-            display: block;
-            flex: none;
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--gold-soft);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .zip-dots { display: flex; gap: 5px; margin-top: 12px; }
-        .zip-dot {
-            flex: 1;
-            height: 6px;
-            border-radius: 99px;
-            background: rgba(255, 255, 255, 0.18);
-            transition: background 0.25s ease;
-        }
-        .zip-dot.done { background: var(--gold); }
-        .zip-dot.current {
-            background: rgba(255, 215, 122, 0.55);
-            animation: zipDotPulse 1.4s ease-in-out infinite;
-        }
-        @keyframes zipDotPulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
-
-        /* ---- 6 nút điều khiển: thẻ có ô icon, nút Gợi ý (vàng) & Tiếp tục (navy) nổi bật ---- */
-        .zip-controls {
-            max-width: 390px;
-            gap: 10px;
-            margin: 0 auto 14px;
-        }
-        .zip-ctrl-btn {
-            position: relative;
-            flex-direction: column;
-            gap: 6px;
-            min-height: 70px;
-            padding: 10px 6px 9px;
-            border-radius: 16px;
-            border: 1.5px solid #DCE3F5;
-            background: #FFFFFF;
-            color: var(--navy);
-            font-size: 11.5px;
-            font-weight: 800;
-            box-shadow: 0 6px 14px rgba(27, 43, 122, 0.08);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-        }
-        .zip-ctrl-ico {
-            width: 30px;
-            height: 30px;
-            flex-shrink: 0;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--navy-pale);
-            color: var(--navy);
-            font-size: 13px;
-            transition: background 0.15s ease, color 0.15s ease;
-        }
-        .zip-ctrl-label {
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            line-height: 1.15;
-        }
-        @media (hover: hover) {
-            .zip-ctrl-btn:hover:not(:disabled) {
-                transform: translateY(-2px);
-                border-color: #B9C4EC;
-                color: var(--navy);
-                box-shadow: 0 10px 20px rgba(27, 43, 122, 0.14);
-            }
-        }
-        .zip-ctrl-btn:active:not(:disabled) {
-            transform: translateY(1px) scale(0.97);
-            box-shadow: 0 2px 6px rgba(27, 43, 122, 0.12);
-        }
-        .zip-ctrl-btn:focus-visible {
-            outline: 3px solid rgba(233, 169, 43, 0.6);
-            outline-offset: 2px;
-        }
-        .zip-ctrl-btn:disabled {
-            opacity: 0.42;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-        .zip-ctrl-btn.active {
-            background: var(--navy);
-            border-color: var(--navy);
-            color: #FFFFFF;
-        }
-        .zip-ctrl-btn.active .zip-ctrl-ico { background: rgba(255, 255, 255, 0.16); color: #FFFFFF; }
-        @media (hover: hover) {
-            .zip-ctrl-btn.active:hover:not(:disabled) { color: #FFFFFF; border-color: var(--navy); }
-        }
-
-        .zip-ctrl-btn.is-hint {
-            background: linear-gradient(180deg, #FFFBEF, #FFF1C9);
-            border-color: #F2D488;
-            color: #6B4A00;
-        }
-        .zip-ctrl-btn.is-hint .zip-ctrl-ico {
-            background: linear-gradient(145deg, #FFD77A, #E9A92B);
-            color: #4A3200;
-            box-shadow: 0 4px 10px rgba(233, 169, 43, 0.4);
-        }
-        @media (hover: hover) {
-            .zip-ctrl-btn.is-hint:hover:not(:disabled) { border-color: var(--gold); color: #6B4A00; }
-        }
-
-        .zip-ctrl-btn.is-primary {
-            background: linear-gradient(160deg, #243086, #1B2B7A);
-            border-color: #1B2B7A;
-            color: #FFFFFF;
-            box-shadow: 0 10px 22px rgba(27, 43, 122, 0.32);
-        }
-        .zip-ctrl-btn.is-primary .zip-ctrl-ico {
-            background: linear-gradient(145deg, #FFD77A, #E9A92B);
-            color: #4A3200;
-        }
-        @media (hover: hover) {
-            .zip-ctrl-btn.is-primary:hover:not(:disabled) {
-                background: linear-gradient(160deg, #2D3FA6, #1B2B7A);
-                border-color: #1B2B7A;
-                color: #FFFFFF;
-            }
-        }
-        .zip-ctrl-btn.is-loading { pointer-events: none; opacity: 0.85; }
-        .zip-ctrl-btn.is-loading .zip-ctrl-ico { animation: zipDotPulse 0.8s ease-in-out infinite; }
     </style>
 </head>
 <body>
@@ -4628,76 +4309,53 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                 <div class="page-header-spacer"></div>
             </div>
             <div class="page-content">
-                <!-- HERO: chọn màn · đồng hồ · chuyên gia · bước tiếp theo · tiến độ -->
-                <div class="zip-hero" id="zipHero">
-                    <div class="zip-hero-deco" aria-hidden="true"></div>
-
-                    <div class="zip-hero-top">
-                        <div id="zipCustomDropdown" class="zip-custom-select">
-                            <button type="button" id="zipSelectTrigger" class="zip-select-trigger" onclick="ZipGame.toggleLevelMenu(event)">
-                                <span id="zipSelectTriggerText" class="zip-select-trigger-text">Đang tải thử thách...</span>
-                                <i class="fa-solid fa-chevron-down" style="font-size:11px; color:#64748B; flex-shrink:0;"></i>
-                            </button>
-                            <div id="zipSelectMenu" class="zip-select-menu"></div>
-                        </div>
-                        <div class="zip-timer-pill">
-                            <i class="fa-regular fa-clock"></i> <span id="zipTimer">00:00</span>
-                        </div>
+                <!-- Thanh chọn Level (Custom Dropdown) & Đồng hồ -->
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+                    <div id="zipCustomDropdown" class="zip-custom-select">
+                        <button type="button" id="zipSelectTrigger" class="zip-select-trigger" onclick="ZipGame.toggleLevelMenu(event)">
+                            <span id="zipSelectTriggerText" class="zip-select-trigger-text">Đang tải thử thách...</span>
+                            <i class="fa-solid fa-chevron-down" style="font-size:11px; color:#64748B; flex-shrink:0;"></i>
+                        </button>
+                        <div id="zipSelectMenu" class="zip-select-menu"></div>
                     </div>
 
-                    <div class="zip-hero-meta">
-                        <span id="zipAssignedBadge" class="zip-expert-badge hidden"></span>
-                        <span class="zip-meta-chip">
-                            <i class="fa-solid fa-border-all"></i>
-                            <b id="zipCoverage">0/0</b>
-                            <span data-zip-i18n="coverageTitle">Ô đã đi</span>
-                        </span>
+                    <div class="zip-stat-pill" style="flex-shrink:0;">
+                        <i class="fa-regular fa-clock"></i> <span id="zipTimer">00:00</span>
                     </div>
-
-                    <div class="zip-hero-step">
-                        <div class="zip-hero-step-icon"><i class="fa-solid fa-flag-checkered"></i></div>
-                        <div class="zip-hero-step-text">
-                            <div class="zip-hero-step-kicker" data-zip-i18n="stepKicker">Bước tiếp theo</div>
-                            <span id="zipStepLabel">--</span>
-                        </div>
-                        <div class="zip-hero-step-count">
-                            <span id="zipCheckpointProgress">1/6</span>
-                        </div>
-                    </div>
-
-                    <div class="zip-dots" id="zipStepDots" aria-hidden="true"></div>
                 </div>
 
-                <!-- Thẻ đề xuất thử thách mới từ chuyên gia ở cấp trước -->
-                <div id="zipCatchUpBanner" class="zip-catchup-banner hidden" style="display:none;"></div>
+                <!-- Bỏ style="display:none;", chỉ giữ class hidden -->
+                <div id="zipCatchUpBanner" class="zip-catchup-banner hidden"></div>
 
-                <!-- 6 NÚT ĐIỀU KHIỂN -->
-                <div class="zip-controls" id="zipControlsRow">
-                    <button type="button" id="zipUndoBtn" class="zip-ctrl-btn" onclick="ZipGame.undo()">
-                        <span class="zip-ctrl-ico"><i class="fa-solid fa-rotate-left"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="undo">Lùi bước</span>
-                    </button>
-                    <button type="button" id="zipHintBtn" class="zip-ctrl-btn is-hint" onclick="ZipGame.hint()">
-                        <span class="zip-ctrl-ico"><i class="fa-regular fa-lightbulb"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="hint">Gợi ý</span>
-                    </button>
-                    <button type="button" id="zipReplayBtn" class="zip-ctrl-btn" onclick="ZipGame.resetLevel()">
-                        <span class="zip-ctrl-ico"><i class="fa-solid fa-arrows-rotate"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="replay">Chơi lại</span>
-                    </button>
-                    <button type="button" id="zipToggleNumbersBtn" class="zip-ctrl-btn" aria-pressed="false" onclick="ZipGame.toggleNumbers()">
-                        <span class="zip-ctrl-ico"><i id="zipToggleNumbersIcon" class="fa-regular fa-eye"></i></span>
-                        <span class="zip-ctrl-label" id="zipToggleNumbersText">Hiện số</span>
-                    </button>
-                    <button type="button" id="zipDocBtn" class="zip-ctrl-btn" onclick="ZipGame.openRewardModal()">
-                        <span class="zip-ctrl-ico"><i class="fa-solid fa-file-lines"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="docBtn">Tài liệu</span>
-                    </button>
-                    <button type="button" id="zipNextLevelBtn" class="zip-ctrl-btn is-primary" onclick="ZipGame.nextLevel()">
-                        <span class="zip-ctrl-ico"><i class="fa-solid fa-arrow-right"></i></span>
-                        <span class="zip-ctrl-label" data-zip-i18n="nextBtn">Tiếp tục</span>
-                    </button>
+                <!-- 1. Block mô tả các bước thực chiến (Nằm TRÊN) -->
+                <div class="zip-step-banner">
+                    <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                        <i class="fa-solid fa-flag-checkered"></i> <span id="zipStepLabel">--</span>
+                    </span>
+                    <span id="zipCheckpointProgress" style="font-weight:800; flex-shrink:0;">1/6</span>
                 </div>
+
+                <!-- 2. Block ẩn/hiện số thứ tự, nút mở nhanh tài liệu & tên chuyên gia (Nằm DƯỚI) -->
+               <div class="zip-controls">
+    <button type="button" class="zip-ctrl-btn" onclick="ZipGame.undo()">
+        <i class="fa-solid fa-rotate-left"></i> <span data-zip-i18n="undo">Lùi bước</span>
+    </button>
+    <button type="button" class="zip-ctrl-btn" onclick="ZipGame.hint()">
+        <i class="fa-regular fa-lightbulb"></i> <span data-zip-i18n="hint">Gợi ý</span>
+    </button>
+    <button type="button" class="zip-ctrl-btn" onclick="ZipGame.resetLevel()">
+        <i class="fa-solid fa-arrows-rotate"></i> <span data-zip-i18n="replay">Chơi lại</span>
+    </button>
+    <button type="button" id="zipToggleNumbersBtn" class="zip-ctrl-btn" onclick="ZipGame.toggleNumbers()">
+        <i class="fa-solid fa-hashtag"></i> <span id="zipToggleNumbersText">Hiện số</span>
+    </button>
+    <button type="button" id="zipDocBtn" class="zip-ctrl-btn" onclick="ZipGame.openRewardModal()">
+        <i class="fa-solid fa-file-lines"></i> <span data-zip-i18n="docBtn">Tài liệu</span>
+    </button>
+    <button type="button" id="zipNextLevelBtn" class="zip-ctrl-btn is-primary" onclick="ZipGame.nextLevel()">
+        <span data-zip-i18n="nextBtn">Tiếp tục</span> <i class="fa-solid fa-arrow-right"></i>
+    </button>
+</div>
 
                 <!-- Trạng thái chờ khi chưa có bài nào từ chuyên gia -->
                 <div id="zipEmptyState" class="hidden" style="text-align:center; padding:32px 18px; background:#F8FAFC; border:1.5px dashed #CBD5E1; border-radius:20px; margin-bottom:14px;">
@@ -4743,7 +4401,7 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                         </div>
                         <div class="zip-reward-title" id="zipRewardModalTitle">Tài liệu tổng kết quy trình</div>
                     </div>
-                    <button type="button" aria-label="Close" onclick="ZipGame.closeRewardModal()" style="border:none; background:#F1F5F9; width:32px; height:32px; border-radius:50%; color:#475569; cursor:pointer; flex-shrink:0;">
+                    <button type="button" onclick="ZipGame.closeRewardModal()" style="border:none; background:#F1F5F9; width:32px; height:32px; border-radius:50%; color:#475569; cursor:pointer; flex-shrink:0;">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -4758,11 +4416,12 @@ body.has-bottom-nav:has(#zip-game-page[style*="display: flex"]) .app {
                     </div>
                     <div class="zip-doc-info">
                         <div class="zip-doc-name" id="zipDocName">Tài liệu hướng dẫn quy trình.pdf</div>
-                        <div class="zip-doc-sub" data-zip-i18n="docBtn">Tài liệu</div>
+                        <div class="zip-doc-sub">Tài liệu</div>
                     </div>
-                    <a id="zipDocDownloadBtn" href="#" target="_blank" rel="noopener" class="zip-win-btn is-primary" style="text-decoration:none; flex-shrink:0;">
-                    <i class="fa-solid fa-download"></i> <span data-zip-i18n="btnDownload">Tải về</span>
-                </a>
+                    <!-- Sửa class="zip-win-btn is-primary" thành class="zip-doc-dl-btn" -->
+                    <a id="zipDocDownloadBtn" href="#" target="_blank" rel="noopener" class="zip-doc-dl-btn" style="text-decoration:none; flex-shrink:0;">
+                        <i class="fa-solid fa-download"></i> <span data-zip-i18n="btnDownload">Tải về</span>
+                    </a>
                 </div>
 
                 <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
@@ -8499,15 +8158,6 @@ for (let attempt = 1; attempt <= 3; attempt++) {
             return outputArray;
         }
 
-        // serviceWorker.ready KHÔNG BAO GIỜ resolve nếu chưa có SW nào được đăng ký
-        // (thiếu sw-v2.js, trình duyệt trong app, http...). Luôn bọc timeout.
-        function getSwReady(timeoutMs = 8000) {
-            return Promise.race([
-                navigator.serviceWorker.ready,
-                new Promise((_, reject) => setTimeout(() => reject(new Error('Service Worker chưa sẵn sàng')), timeoutMs))
-            ]);
-        }
-
         function isPushSupported() {
             return 'serviceWorker' in navigator &&
                    'PushManager' in window &&
@@ -8517,7 +8167,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
         async function isPushEnabled() {
             if (!isPushSupported()) return false;
             try {
-                const registration = await getSwReady();
+                const registration = await navigator.serviceWorker.ready;
                 const subscription = await registration.pushManager.getSubscription();
                 return subscription !== null;
             } catch (e) {
@@ -8577,7 +8227,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
                 }
 
                 // 2. Đợi Service Worker
-                const registration = await getSwReady();
+                const registration = await navigator.serviceWorker.ready;
 
                 // 3. Tạo hoặc lấy subscription
                 let subscription = await registration.pushManager.getSubscription();
@@ -8626,7 +8276,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
         async function updateAllPushTokensLanguage(lang) {
     if (!currentEmail) return;
     try {
-        const reg = await getSwReady();
+        const reg = await navigator.serviceWorker.ready;
         const sub = await reg.pushManager.getSubscription();
         if (!sub) return;
 
@@ -8648,7 +8298,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
 }
         async function unregisterPushNotifications() {
             try {
-                const registration = await getSwReady();
+                const registration = await navigator.serviceWorker.ready;
                 const subscription = await registration.pushManager.getSubscription();
                 if (subscription) {
                     const formData = new URLSearchParams();
@@ -8686,7 +8336,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
         }
 
         function updateNotifToggleUI(enabled) {
-            const toggle = document.getElementById('notifToggle');
+            const toggle = document.getElementById('notifMasterToggle');
             const status = document.getElementById('notifStatus');
             if (toggle) toggle.checked = enabled;
             if (status) {
@@ -8698,7 +8348,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
             // 1. Unregister push token TRƯỚC KHI logout
             try {
                 if (currentEmail) {
-                    const reg = await getSwReady();
+                    const reg = await navigator.serviceWorker.ready;
                     const sub = await reg.pushManager.getSubscription();
                     if (sub) {
                         await fetch(CLOUD_FUNCTION_URL, {
@@ -8933,6 +8583,7 @@ for (let attempt = 1; attempt <= 3; attempt++) {
                 const toggle = document.getElementById('toggleCcBtn');
                 if (toggle) toggle.innerHTML = t('add_cc_btn');
             }
+            if (toggle) toggle.innerHTML = `<i class="fa-solid fa-circle-plus"></i> ${t('add_cc_btn')}`;
             if (document.getElementById('ccEmail2')) document.getElementById('ccEmail2').value = '';
             recordBtn.classList.remove('recording');
             recordLabel.textContent = t('record_btn');
@@ -8941,7 +8592,6 @@ for (let attempt = 1; attempt <= 3; attempt++) {
             if (document.getElementById('clientEmailInput')) document.getElementById('clientEmailInput').value = '';
             if (document.getElementById('sendToClientCheckbox')) document.getElementById('sendToClientCheckbox').checked = false;
         }
-
         function stopAllTracks() {
             combinedStreamTracks.forEach(track => track.stop());
             combinedStreamTracks = [];
@@ -13747,8 +13397,7 @@ if (taskSearchBtn && taskSearchInput && searchInlineWrap) {
         let notifPrefsState = {
             record_done: true,
             task_overdue: true,
-            task_due_24h: true,
-            booking_end_reminder: true
+            task_due_24h: true
         };
 
         function renderNotifChildren() {
@@ -13848,94 +13497,66 @@ if (taskSearchBtn && taskSearchInput && searchInlineWrap) {
             }
         }
 
-        function notifWithTimeout(promise, ms, fallback) {
-            return Promise.race([
-                Promise.resolve(promise).catch(() => fallback),
-                new Promise(resolve => setTimeout(() => resolve(fallback), ms))
-            ]);
-        }
-
-        function syncNotifParentBox() {
-            const parentBox = document.getElementById('notifTypeAll');
-            if (parentBox) parentBox.checked = NOTIF_TYPES.every(item => notifPrefsState[item.key]);
-        }
-
         async function openNotifSettingsModal() {
             if (!currentEmail) {
                 alert(t('toast_login_required'));
                 return;
             }
-            const modal = document.getElementById('notifSettingsModal');
-            if (!modal) return;
-
-            // 1) Dựng giao diện bằng dữ liệu hiện có rồi MỞ NGAY (không chờ mạng / service worker)
-            try {
-                renderNotifChildren();
-                syncNotifParentBox();
-
-                const parentBox = document.getElementById('notifTypeAll');
-                if (parentBox) parentBox.onchange = onParentChange;   // gán 1 lần, không cộng dồn listener
-
-                const masterToggle = document.getElementById('notifMasterToggle');
-                if (masterToggle) {
-                    updateMasterToggleState();
-                    masterToggle.onchange = async function () {
-                        if (this.checked) {
-                            const ok = await registerPushNotifications(false);
-                            if (!ok) this.checked = false;
-                        } else {
-                            await unregisterPushNotifications();
-                        }
-                    };
-                }
-
-                const tgToggle = document.getElementById('notifTelegramToggle');
-                if (tgToggle) {
-                    tgToggle.onchange = async function () {
-                        if (this.checked) {
-                            const ok = await connectSalesTelegram();
-                            if (!ok) this.checked = false;
-                        } else {
-                            const confirmed = confirm('Ngắt kết nối Telegram? Bạn sẽ không nhận được thông báo hoàn tác qua Telegram nữa.');
-                            if (!confirmed) {
-                                this.checked = true;
-                                return;
-                            }
-                            await disconnectSalesTelegram();
-                        }
-                    };
-                }
-            } catch (e) {
-                console.warn('openNotifSettingsModal setup error:', e);
+            // Load prefs mới nhất
+            await loadNotifPrefs();
+            // Render children
+            renderNotifChildren();
+            // Set parent state
+            const parentBox = document.getElementById('notifTypeAll');
+            if (parentBox) {
+                parentBox.checked = NOTIF_TYPES.every(t => notifPrefsState[t.key]);
+                parentBox.addEventListener('change', onParentChange);
             }
-            modal.classList.add('active');
-
-            // 2) Đồng bộ trạng thái ngầm — mỗi việc có timeout riêng, lỗi cũng không làm hỏng modal
-            notifWithTimeout(loadNotifPrefs(), 8000, null).then(() => {
-                try {
-                    renderNotifChildren();
-                    syncNotifParentBox();
-                    updateMasterToggleState();
-                } catch (e) { console.warn(e); }
-            });
-
-            notifWithTimeout(isPushEnabled(), 5000, false).then(enabled => {
-                const masterToggle = document.getElementById('notifMasterToggle');
-                if (!masterToggle) return;
-                masterToggle.checked = !!enabled;
+            // Master toggle state
+            const masterToggle = document.getElementById('notifMasterToggle');
+            if (masterToggle) {
+                const pushEnabled = await isPushEnabled();
+                masterToggle.checked = pushEnabled;
                 updateMasterToggleState();
-            });
-
-            notifWithTimeout(loadSalesTelegramStatus(), 8000, null);
+                // Bind change (dùng once để tránh duplicate)
+                masterToggle.onchange = async function() {
+                    if (this.checked) {
+                        const ok = await registerPushNotifications(false);
+                        if (!ok) this.checked = false;
+                    } else {
+                        await unregisterPushNotifications();
+                    }
+                };
+            }
+            // Telegram toggle state
+            await loadSalesTelegramStatus();
+            const tgToggle = document.getElementById('notifTelegramToggle');
+            if (tgToggle) {
+                tgToggle.onchange = async function() {
+                    if (this.checked) {
+                        // Kết nối: mở Telegram flow
+                        const ok = await connectSalesTelegram();
+                        if (!ok) this.checked = false;
+                    } else {
+                        // Ngắt kết nối
+                        const confirmed = confirm('Ngắt kết nối Telegram? Bạn sẽ không nhận được thông báo hoàn tác qua Telegram nữa.');
+                        if (!confirmed) {
+                            this.checked = true;
+                            return;
+                        }
+                        await disconnectSalesTelegram();
+                    }
+                };
+            }
+            document.getElementById('notifSettingsModal').classList.add('active');
         }
 
         function closeNotifSettingsModal() {
-            const modal = document.getElementById('notifSettingsModal');
-            if (modal) modal.classList.remove('active');
+            document.getElementById('notifSettingsModal').classList.remove('active');
         }
 
-        // Bind events (chạy được cả khi DOM đã sẵn sàng)
-        function bindNotifSettingsEvents() {
+        // Bind events
+        document.addEventListener('DOMContentLoaded', function() {
             const notifCardBtn = document.getElementById('notifCard');
             if (notifCardBtn) notifCardBtn.addEventListener('click', openNotifSettingsModal);
 
@@ -13944,16 +13565,11 @@ if (taskSearchBtn && taskSearchInput && searchInlineWrap) {
 
             const modal = document.getElementById('notifSettingsModal');
             if (modal) {
-                modal.addEventListener('click', function (e) {
+                modal.addEventListener('click', function(e) {
                     if (e.target === modal) closeNotifSettingsModal();
                 });
             }
-        }
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', bindNotifSettingsEvents);
-        } else {
-            bindNotifSettingsEvents();
-        }
+        });
 
         // ========================================================================
         //  MODAL: KẾT NỐI ỨNG DỤNG (Connections)
@@ -15382,11 +14998,7 @@ window.addEventListener('message', async function(event) {
                 winCatchUpNotice: 'Chuyên gia vừa bổ sung {count} thử thách mới ở cấp trước:',
                 toastEndWithCatchUp: 'Bạn đã xong màn cuối! Có {count} thử thách mới từ chuyên gia ở cấp trước.',
                 toastAllCompleted: 'Chúc mừng! Bạn đã hoàn thành tất cả màn chơi hiện có.',
-                btnDone: 'Hoàn tất',
-                stepKicker: 'Bước tiếp theo',
-                coverageTitle: 'Ô đã đi',
-                noHint: 'Bài này chưa có đường gợi ý.',
-                toastFinishCurrent: 'Hãy hoàn thành màn hiện tại trước khi sang màn mới.'
+                btnDone: 'Hoàn tất'
             },
             en: {
                 loadingChallenges: 'Loading challenges...',
@@ -15432,11 +15044,7 @@ window.addEventListener('message', async function(event) {
                 winCatchUpNotice: 'Experts recently added {count} new challenge(s) in earlier levels:',
                 toastEndWithCatchUp: 'You finished the latest level! {count} new expert challenge(s) available below.',
                 toastAllCompleted: 'Congratulations! You have completed all available challenges.',
-                btnDone: 'Done',
-                stepKicker: 'Next step',
-                coverageTitle: 'Cells covered',
-                noHint: 'No hint path for this challenge.',
-                toastFinishCurrent: 'Finish the current level first.'
+                btnDone: 'Done'
             }
         };
 
@@ -15500,19 +15108,10 @@ window.addEventListener('message', async function(event) {
                 .replace(/^-+|-+$/g, '') || 'partner';
         }
 
-        function zipEsc(v) {
-            return String(v == null ? '' : v)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
-
         function normalizeZipLevel(rawLv, fallbackIdx) {
             const levelNum = Math.max(1, Math.min(25, Number(rawLv.levelNum || rawLv.lv) || 1));
-            const partnerName = String(rawLv.partnerName || rawLv.pn || '').trim() || zipT('expertFallback');
-            let rawTitle = String(rawLv.rawTitle || rawLv.rt || rawLv.name || zipT('processFallback')).trim();
+            const partnerName = (rawLv.partnerName || rawLv.pn || '').trim() || zipT('expertFallback');
+            let rawTitle = (rawLv.rawTitle || rawLv.rt || rawLv.name || zipT('processFallback')).trim();
 
             const dupPrefix = `${partnerName} · `;
             if (rawTitle.startsWith(dupPrefix)) {
@@ -15521,26 +15120,6 @@ window.addEventListener('message', async function(event) {
 
             const id = rawLv.id || `lv_${levelNum}_${slugifyPartner(partnerName)}_${slugifyPartner(rawTitle)}_${fallbackIdx || 0}`;
 
-            const isNum = v => v !== null && v !== '' && Number.isFinite(Number(v));
-            const isPair = p => Array.isArray(p) && p.length >= 2 && isNum(p[0]) && isNum(p[1]);
-
-            const checkpoints = (Array.isArray(rawLv.checkpoints) ? rawLv.checkpoints : [])
-                .filter(cp => cp && isNum(cp.r) && isNum(cp.c) && isNum(cp.num))
-                .map(cp => ({
-                    ...cp,
-                    r: Number(cp.r),
-                    c: Number(cp.c),
-                    num: Number(cp.num),
-                    shortLabel: cp.shortLabel == null ? '' : String(cp.shortLabel),
-                    label: cp.label == null ? '' : String(cp.label)
-                }));
-            const walls = (Array.isArray(rawLv.walls) ? rawLv.walls : [])
-                .filter(w => Array.isArray(w) && isPair(w[0]) && isPair(w[1]))
-                .map(w => [[Number(w[0][0]), Number(w[0][1])], [Number(w[1][0]), Number(w[1][1])]]);
-            const solution = (Array.isArray(rawLv.solution) ? rawLv.solution : [])
-                .filter(isPair)
-                .map(p => [Number(p[0]), Number(p[1])]);
-
             return {
                 ...rawLv,
                 id,
@@ -15548,42 +15127,15 @@ window.addEventListener('message', async function(event) {
                 partnerName,
                 rawTitle,
                 name: `${rawTitle} · ${partnerName}`,
-                isCustom: true,
-                size: Number(rawLv.size),
-                checkpoints,
-                walls,
-                solution
+                isCustom: true
             };
-        }
-
-        // Bài chơi được phải: lưới hợp lệ, checkpoint đánh số liên tục 1..n, không trùng ô, nằm trong lưới
-        function isValidZipLevel(lv) {
-            if (!lv || !Number.isInteger(lv.size) || lv.size < 2 || lv.size > 15) return false;
-            const n = lv.checkpoints.length;
-            if (n < 2) return false;
-            const nums = new Set();
-            const cells = new Set();
-            for (const cp of lv.checkpoints) {
-                if (!Number.isInteger(cp.r) || !Number.isInteger(cp.c) || !Number.isInteger(cp.num)) return false;
-                if (cp.r < 0 || cp.c < 0 || cp.r >= lv.size || cp.c >= lv.size) return false;
-                nums.add(cp.num);
-                cells.add(cp.r + ',' + cp.c);
-            }
-            if (nums.size !== n || cells.size !== n) return false;
-            for (let i = 1; i <= n; i++) if (!nums.has(i)) return false;
-            return true;
         }
 
         function buildMixedLevels(rawList) {
             const seed = getUserRandomSeed();
             const byId = new Map();
             (rawList || []).forEach((item, idx) => {
-                if (!item || typeof item !== 'object') return;
                 const norm = normalizeZipLevel(item, idx);
-                if (!isValidZipLevel(norm)) {
-                    console.warn('ZipGame: bỏ qua bài không hợp lệ', norm.id);
-                    return;
-                }
                 byId.set(norm.id, norm);
             });
 
@@ -15774,7 +15326,7 @@ window.addEventListener('message', async function(event) {
                     if (badge) {
                         badge.classList.remove('hidden');
                         badge.innerHTML = level.partnerName
-                            ? `<i class="fa-solid fa-user-tie"></i> [${zipEsc(level.displayCode)}] ${zipEsc(level.partnerName)}`
+                            ? `<i class="fa-solid fa-user-tie"></i> [${level.displayCode}] ${level.partnerName}`
                             : `<i class="fa-solid fa-award"></i> ${zipT('expertChallengeBadge')}`;
                     }
                     this.updateVisuals();
@@ -15850,26 +15402,13 @@ window.addEventListener('message', async function(event) {
                 return sharedLevelId;
             },
 
-            syncLevelsFromCloud() {
-                if (this._syncing) return this._syncing;
-                this._syncing = this._syncLevelsFromCloud().finally(() => { this._syncing = null; });
-                return this._syncing;
-            },
-
-            async _syncLevelsFromCloud() {
+            async syncLevelsFromCloud() {
                 const cloudUrl = extractZipParamFromUrl('cloud_url') || ZIP_CLOUD_SYNC_URL;
                 if (!cloudUrl) return;
                 try {
-                    const ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-                    const timer = ctrl ? setTimeout(() => ctrl.abort(), 10000) : null;
-                    let remoteLevels;
-                    try {
-                        const res = await fetch(cloudUrl, ctrl ? { signal: ctrl.signal } : undefined);
-                        if (!res.ok) return;
-                        remoteLevels = await res.json();
-                    } finally {
-                        if (timer) clearTimeout(timer);
-                    }
+                    const res = await fetch(cloudUrl);
+                    if (!res.ok) return;
+                    const remoteLevels = await res.json();
                     if (!Array.isArray(remoteLevels)) return;
 
                     const merged = [...remoteLevels];
@@ -15883,7 +15422,7 @@ window.addEventListener('message', async function(event) {
                     const activeLevel = ZIP_LEVELS[this.currentLevelIdx] || null;
                     const activeId = activeLevel ? activeLevel.id : '';
 
-                    try { localStorage.setItem(ZIP_STORAGE_KEY, JSON.stringify(merged)); } catch (e) {}
+                    localStorage.setItem(ZIP_STORAGE_KEY, JSON.stringify(merged));
                     ZIP_LEVELS = buildMixedLevels(merged);
                     this.recomputeMilestone();
                     this.saveProgress();
@@ -15901,7 +15440,7 @@ window.addEventListener('message', async function(event) {
                         const badge = document.getElementById('zipAssignedBadge');
                         const curLv = ZIP_LEVELS[sameIdx];
                         if (badge && curLv) {
-                            badge.innerHTML = `<i class="fa-solid fa-user-tie"></i> [${zipEsc(curLv.displayCode)}] ${zipEsc(curLv.partnerName)}`;
+                            badge.innerHTML = `<i class="fa-solid fa-user-tie"></i> [${curLv.displayCode}] ${curLv.partnerName}`;
                         }
                         if (this.isWon && curLv) {
                             this.renderWinCatchUpBox(curLv);
@@ -15963,7 +15502,7 @@ window.addEventListener('message', async function(event) {
 
                 const cur = ZIP_LEVELS[this.currentLevelIdx] || ZIP_LEVELS[0];
                 const curDone = this.isLevelCompleted(cur.id) ? '✓ ' : '';
-                triggerText.innerHTML = `${curDone}<strong>[${zipEsc(cur.displayCode)}]</strong> ${zipEsc(cur.rawTitle)} · ${zipEsc(cur.partnerName)}`;
+                triggerText.innerHTML = `${curDone}<strong>[${cur.displayCode}]</strong> ${cur.rawTitle} · ${cur.partnerName}`;
 
                 menuEl.innerHTML = ZIP_LEVELS.map((lv, idx) => {
                     const isSelected = idx === this.currentLevelIdx;
@@ -15971,11 +15510,11 @@ window.addEventListener('message', async function(event) {
                     return `
                         <button type="button" class="zip-select-option ${isSelected ? 'selected' : ''}" onclick="ZipGame.selectLevelFromMenu(${idx})">
                             <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                                <span class="zip-opt-code">${zipEsc(lv.displayCode)}</span>
-                                <span>${zipEsc(lv.rawTitle)}</span>
+                                <span class="zip-opt-code">${lv.displayCode}</span>
+                                <span>${lv.rawTitle}</span>
                             </span>
                             <span class="zip-opt-partner">
-                                ${isDone ? '<i class="fa-solid fa-circle-check" style="color:#16A34A; margin-right:4px;"></i>' : ''}${zipEsc(lv.partnerName)}
+                                ${isDone ? '<i class="fa-solid fa-circle-check" style="color:#16A34A; margin-right:4px;"></i>' : ''}${lv.partnerName}
                             </span>
                         </button>
                     `;
@@ -16067,8 +15606,8 @@ window.addEventListener('message', async function(event) {
                             ${visibleItems.map(({ lv, idx }) => `
                                 <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; background:#FFFFFF; border:1px solid #DBEAFE; border-radius:10px; padding:6px 10px;">
                                     <div style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; color:#1E293B;">
-                                        <strong style="color:var(--navy);">[${zipEsc(lv.displayCode)}]</strong> ${zipEsc(lv.rawTitle)}
-                                        <span style="color:#64748B; font-weight:600;">· ${zipEsc(lv.partnerName)}</span>
+                                        <strong style="color:var(--navy);">[${lv.displayCode}]</strong> ${lv.rawTitle}
+                                        <span style="color:#64748B; font-weight:600;">· ${lv.partnerName}</span>
                                     </div>
                                     <button type="button" onclick="ZipGame.loadLevel(${idx})" style="flex-shrink:0; border:none; background:var(--navy); color:#FFFFFF; font-family:inherit; font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:8px; cursor:pointer;">
                                         ${zipT('catchUpPlayNow')}
@@ -16089,31 +15628,31 @@ window.addEventListener('message', async function(event) {
                 if (emptyEl) emptyEl.classList.toggle('hidden', !isEmpty);
                 if (boardEl) boardEl.classList.toggle('hidden', isEmpty);
                 if (ctrlEl) ctrlEl.classList.toggle('hidden', isEmpty);
-                const winEl = document.getElementById('zipWinCard');
-                if (isEmpty && winEl) winEl.classList.add('hidden');
             },
 
             resetLevel() {
-                this.replayCurrentLevel();
-            },
+    this.loadLevel(this.currentLevelIdx, false);
+},
 
-            toggleNumbers() {
-                this.toggleHideNumbers();
-            },
+toggleNumbers() {
+    this.hideNumbers = !this.hideNumbers;
+    this.syncHideNumButton();
+    this.updateVisuals();
+},
 
             syncHideNumButton() {
-                const btn = document.getElementById('zipToggleNumbersBtn');
+                const btn = document.getElementById('zipHideNumBtn');
                 if (!btn) return;
-                const txt = document.getElementById('zipToggleNumbersText');
-                const ico = document.getElementById('zipToggleNumbersIcon');
-                btn.classList.toggle('active', !this.hideNumbers);
-                btn.setAttribute('aria-pressed', String(!this.hideNumbers));
-                if (txt) txt.textContent = this.hideNumbers ? zipT('showStepNumbers') : zipT('hideStepNumbers');
-                if (ico) ico.className = this.hideNumbers ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+                if (this.hideNumbers) {
+                    btn.classList.remove('active');
+                    btn.innerHTML = `<i class="fa-regular fa-eye"></i> <span>${zipT('showStepNumbers')}</span>`;
+                } else {
+                    btn.classList.add('active');
+                    btn.innerHTML = `<i class="fa-regular fa-eye-slash"></i> <span>${zipT('hideStepNumbers')}</span>`;
+                }
             },
 
             init() {
-                const wasInitialized = this.initialized;
                 if (!this.initialized) {
                     this.loadProgress();
                     const sharedId = this.loadSavedLevels();
@@ -16138,14 +15677,6 @@ window.addEventListener('message', async function(event) {
                     return;
                 }
                 this.renderEmptyState(false);
-                const resumable = wasInitialized && this.path.length > 1 && !this.isWon && !this.isReviewMode
-                    && ZIP_LEVELS[this.currentLevelIdx];
-                if (resumable) {
-                    this.isDragging = false;
-                    this.refreshLevelDropdown();
-                    this.updateVisuals();
-                    return;
-                }
                 this.loadLevel(this.currentLevelIdx);
             },
 
@@ -16181,7 +15712,7 @@ window.addEventListener('message', async function(event) {
                 if (badge) {
                     badge.classList.remove('hidden');
                     badge.innerHTML = level.partnerName
-                        ? `<i class="fa-solid fa-user-tie"></i> [${zipEsc(level.displayCode)}] ${zipEsc(level.partnerName)}`
+                        ? `<i class="fa-solid fa-user-tie"></i> [${level.displayCode}] ${level.partnerName}`
                         : `<i class="fa-solid fa-award"></i> ${zipT('expertChallengeBadge')}`;
                 }
 
@@ -16212,7 +15743,7 @@ window.addEventListener('message', async function(event) {
                     if (Array.isArray(level.solution) && level.solution.length) {
                         this.path = level.solution.map(([r, c]) => ({ r, c }));
                     } else {
-                        const startCp = level.checkpoints.find(cp => cp.num === 1) || level.checkpoints[0];
+                        const startCp = level.checkpoints.find(cp => cp.num === 1);
                         this.path = [{ r: startCp.r, c: startCp.c }];
                     }
 
@@ -16223,7 +15754,7 @@ window.addEventListener('message', async function(event) {
                     // CHẾ ĐỘ CHƠI MỚI / LUYỆN LẠI TỪ ĐẦU
                     this.isWon = false;
                     this.isReviewMode = false;
-                    const startCp = level.checkpoints.find(cp => cp.num === 1) || level.checkpoints[0];
+                    const startCp = level.checkpoints.find(cp => cp.num === 1);
                     this.path = [{ r: startCp.r, c: startCp.c }];
                     document.getElementById('zipWinCard').classList.add('hidden');
 
@@ -16243,11 +15774,10 @@ window.addEventListener('message', async function(event) {
                 };
                 updateClock();
                 this.timerInterval = setInterval(() => {
-                    if (this.isWon || document.hidden) return;
-                    const page = document.getElementById('zip-game-page');
-                    if (!page || page.classList.contains('hidden')) return;
-                    this.seconds++;
-                    updateClock();
+                    if (!this.isWon) {
+                        this.seconds++;
+                        updateClock();
+                    }
                 }, 1000);
             },
 
@@ -16281,7 +15811,7 @@ window.addEventListener('message', async function(event) {
                                 ? `<span class="zip-step-num">${String(cp.num).padStart(2, '0')}</span>`
                                 : '';
                             const roleClass = cp.num === 1 ? 'is-start' : (cp.num === totalCps ? 'is-end' : '');
-                            nodeHtml = `<div class="zip-node-step ${roleClass}">${numTag}<span>${zipEsc(cp.shortLabel || cp.num)}</span></div>`;
+                            nodeHtml = `<div class="zip-node-step ${roleClass}">${numTag}<span>${cp.shortLabel || cp.num}</span></div>`;
                         }
                         html += `<div class="zip-cell" data-r="${r}" data-c="${c}">${nodeHtml}</div>`;
                     }
@@ -16341,18 +15871,17 @@ window.addEventListener('message', async function(event) {
                     if (!this.isDragging || this.isWon) return;
                     const pos = getCellFromPoint(e.clientX, e.clientY);
                     if (!pos) return;
-                    this.dragTo(pos.r, pos.c);
+                    this.handleCellInteract(pos.r, pos.c);
                 });
 
-                const stopDrag = () => { this.isDragging = false; };
-                window.addEventListener('pointerup', stopDrag);
-                window.addEventListener('pointercancel', stopDrag);
-                window.addEventListener('blur', stopDrag);
+                window.addEventListener('pointerup', () => {
+                    this.isDragging = false;
+                });
             },
 
             handleCellInteract(r, c) {
                 const head = this.path[this.path.length - 1];
-                if (!head || (head.r === r && head.c === c)) return;
+                if (head.r === r && head.c === c) return;
 
                 if (this.path.length >= 2) {
                     const prev = this.path[this.path.length - 2];
@@ -16385,46 +15914,6 @@ window.addEventListener('message', async function(event) {
                 this.path.push({ r, c });
                 this.updateVisuals();
                 this.checkWin();
-            },
-
-            // Kéo nhanh có thể "nhảy" qua ô: đi lần lượt từng ô trên cùng hàng/cột để không bị đứng giữa chừng
-            dragTo(r, c) {
-                const head = this.path[this.path.length - 1];
-                if (!head) return;
-                const dr = r - head.r;
-                const dc = c - head.c;
-                if ((dr === 0) === (dc === 0)) {   // trùng ô hoặc đi chéo -> xử lý như cũ
-                    this.handleCellInteract(r, c);
-                    return;
-                }
-                const steps = Math.abs(dr) + Math.abs(dc);
-                const sr = Math.sign(dr);
-                const sc = Math.sign(dc);
-                for (let i = 1; i <= steps; i++) {
-                    const nr = head.r + sr * i;
-                    const nc = head.c + sc * i;
-                    this.handleCellInteract(nr, nc);
-                    const cur = this.path[this.path.length - 1];
-                    if (this.isWon || !cur || cur.r !== nr || cur.c !== nc) break;   // bị chặn (tường / sai thứ tự) thì dừng
-                }
-            },
-
-            levelHasMaterials(level) {
-                if (!level) return false;
-                return Boolean(String(level.videoUrl || '').trim() || String(level.docUrl || '').trim());
-            },
-
-            // Bật/tắt (disabled) các nút theo trạng thái ván chơi
-            syncControlStates() {
-                const level = ZIP_LEVELS[this.currentLevelIdx];
-                const setDisabled = (id, disabled) => {
-                    const b = document.getElementById(id);
-                    if (b) b.disabled = Boolean(disabled);
-                };
-                setDisabled('zipUndoBtn', this.isWon || this.path.length <= 1);
-                setDisabled('zipHintBtn', this.isWon || !level || !Array.isArray(level.solution) || !level.solution.length);
-                setDisabled('zipToggleNumbersBtn', this.isReviewMode);
-                setDisabled('zipDocBtn', !this.levelHasMaterials(level));
             },
 
             getHighestVisitedCheckpoint() {
@@ -16482,19 +15971,6 @@ window.addEventListener('message', async function(event) {
     const cpProgEl = document.getElementById('zipCheckpointProgress');
     if (cpProgEl) cpProgEl.textContent = `${highestCp}/${level.checkpoints.length}`;
 
-    const dotsEl = document.getElementById('zipStepDots');
-    if (dotsEl) {
-        let dots = '';
-        for (let i = 1; i <= level.checkpoints.length; i++) {
-            const cls = i <= highestCp ? 'done' : (i === nextCpNum && !this.isWon ? 'current' : '');
-            dots += `<span class="zip-dot ${cls}"></span>`;
-        }
-        dotsEl.innerHTML = dots;
-    }
-
-    const heroEl = document.getElementById('zipHero');
-    if (heroEl) heroEl.classList.toggle('is-won', Boolean(this.isWon));
-
     const stepLabelEl = document.getElementById('zipStepLabel');
     if (stepLabelEl) {
         if (this.isReviewMode) {
@@ -16503,11 +15979,9 @@ window.addEventListener('message', async function(event) {
             stepLabelEl.innerHTML = zipT('practiceStepPrompt', { next: nextCpNum, total: level.checkpoints.length });
         } else {
             const targetCp = level.checkpoints.find(cp => cp.num === nextCpNum) || level.checkpoints[level.checkpoints.length - 1];
-            stepLabelEl.innerHTML = zipT('nextStepPrompt', { label: zipEsc(targetCp ? targetCp.label : '') });
+            stepLabelEl.innerHTML = zipT('nextStepPrompt', { label: targetCp ? targetCp.label : '' });
         }
     }
-
-    this.syncControlStates();
 },
 
             renderWinCatchUpBox(level) {
@@ -16531,8 +16005,8 @@ window.addEventListener('message', async function(event) {
                         </div>
                         <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; background:#FFFFFF; border:1px solid #DBEAFE; border-radius:9px; padding:6px 10px;">
                             <div style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; color:#1E293B;">
-                                <strong style="color:var(--navy);">[${zipEsc(first.lv.displayCode)}]</strong> ${zipEsc(first.lv.rawTitle)}
-                                <span style="color:#64748B;">· ${zipEsc(first.lv.partnerName)}</span>
+                                <strong style="color:var(--navy);">[${first.lv.displayCode}]</strong> ${first.lv.rawTitle}
+                                <span style="color:#64748B;">· ${first.lv.partnerName}</span>
                             </div>
                             <button type="button" onclick="ZipGame.loadLevel(${first.idx})" style="flex-shrink:0; border:none; background:var(--navy); color:#FFFFFF; font-family:inherit; font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:8px; cursor:pointer;">
                                 ${zipT('catchUpPlayNow')}
@@ -16571,9 +16045,6 @@ window.addEventListener('message', async function(event) {
 
                 this.renderWinCatchUpBox(level);
                 winCard.classList.remove('hidden');
-                if (!this.isReviewMode) {
-                    try { winCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
-                }
             },
 
             async checkWin() {
@@ -16687,15 +16158,11 @@ window.addEventListener('message', async function(event) {
             hint() {
                 if (this.isWon || !ZIP_LEVELS.length) return;
                 const level = ZIP_LEVELS[this.currentLevelIdx];
-                const sol = level && Array.isArray(level.solution) ? level.solution : [];
-                if (!sol.length) {
-                    if (typeof showToast === 'function') showToast(zipT('noHint'), false);
-                    return;
-                }
+                const sol = level.solution;
+                if (!sol || !sol.length) return;
                 let divergeIdx = this.path.length;
                 for (let i = 0; i < this.path.length; i++) {
-                    const step = sol[i];
-                    if (!step || this.path[i].r !== step[0] || this.path[i].c !== step[1]) {
+                    if (this.path[i].r !== sol[i][0] || this.path[i].c !== sol[i][1]) {
                         divergeIdx = i;
                         break;
                     }
@@ -16705,62 +16172,51 @@ window.addEventListener('message', async function(event) {
                     this.updateVisuals();
                 }
                 const nextStep = sol[this.path.length];
-                if (!nextStep) return;
-                const targetCell = document.querySelector(`#zipGrid .zip-cell[data-r="${nextStep[0]}"][data-c="${nextStep[1]}"]`);
-                if (targetCell) {
-                    targetCell.classList.remove('hint-flash');
-                    void targetCell.offsetWidth;
-                    targetCell.classList.add('hint-flash');
+                if (nextStep) {
+                    const targetCell = document.querySelector(`#zipGrid .zip-cell[data-r="${nextStep[0]}"][data-c="${nextStep[1]}"]`);
+                    if (targetCell) {
+                        targetCell.classList.remove('hint-flash');
+                        void targetCell.offsetWidth;
+                        targetCell.classList.add('hint-flash');
+                    }
                 }
             },
 
             async nextLevel() {
-                if (!ZIP_LEVELS.length || this._navigating) return;
-                this._navigating = true;
-                const btn = document.getElementById('zipNextLevelBtn');
-                if (btn) btn.classList.add('is-loading');
-                try {
-                    // Đồng bộ nhanh Cloud trước khi điều hướng để không bỏ lỡ bài mới
-                    await this.syncLevelsFromCloud();
-                    if (!ZIP_LEVELS.length) return;
+                if (!ZIP_LEVELS.length) return;
 
-                    // 1. Tìm màn CHƯA GIẢI nằm phía sau màn hiện tại
-                    for (let i = this.currentLevelIdx + 1; i < ZIP_LEVELS.length; i++) {
-                        if (!this.isLevelCompleted(ZIP_LEVELS[i].id)) {
-                            this.loadLevel(i);
-                            return;
-                        }
-                    }
+                // Đồng bộ nhanh Cloud trước khi điều hướng để không bỏ lỡ bài mới
+                await this.syncLevelsFromCloud();
 
-                    const curLv = ZIP_LEVELS[this.currentLevelIdx];
-
-                    // 2. Màn hiện tại còn dang dở và không còn màn nào phía sau
-                    if (curLv && !this.isLevelCompleted(curLv.id)) {
-                        if (typeof showToast === 'function') showToast(zipT('toastFinishCurrent'), false);
+                // 1. Chỉ tìm màn CHƯA GIẢI nằm phía sau màn hiện tại (bỏ qua toàn bộ màn đã có tick xanh)
+                for (let i = this.currentLevelIdx + 1; i < ZIP_LEVELS.length; i++) {
+                    if (!this.isLevelCompleted(ZIP_LEVELS[i].id)) {
+                        this.loadLevel(i);
                         return;
                     }
+                }
 
-                    // 3. Đã xong hết phía sau -> nhấn mạnh đề xuất thử thách mới ở cấp trước
-                    this.renderCatchUpBanner(true);
-                    const { list: catchUpList } = this.getCatchUpCandidates(curLv);
-                    if (curLv && this.isWon) {
-                        this.renderWinCatchUpBox(curLv);
+                // 2. Không còn màn chưa giải phía sau -> giữ nguyên vị trí, làm nổi bật đề xuất thử thách mới ở cấp trước
+                this.renderCatchUpBanner(true);
+
+                const curLv = ZIP_LEVELS[this.currentLevelIdx];
+                const { list: catchUpList } = this.getCatchUpCandidates(curLv);
+                if (curLv && this.isWon) {
+                    this.renderWinCatchUpBox(curLv);
+                }
+
+                const msg = catchUpList.length > 0
+                    ? zipT('toastEndWithCatchUp', { count: catchUpList.length })
+                    : zipT('toastAllCompleted');
+
+                if (typeof showToast === 'function') {
+                    showToast(msg);
+                }
+                if (catchUpList.length > 0) {
+                    const banner = document.getElementById('zipCatchUpBanner');
+                    if (banner && banner.style.display !== 'none') {
+                        banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
-
-                    const msg = catchUpList.length > 0
-                        ? zipT('toastEndWithCatchUp', { count: catchUpList.length })
-                        : zipT('toastAllCompleted');
-                    if (typeof showToast === 'function') showToast(msg);
-
-                    if (catchUpList.length > 0) {
-                        const banner = document.getElementById('zipCatchUpBanner');
-                        if (banner && banner.style.display !== 'none') {
-                            banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                    }
-                } finally {
-                    this._navigating = false;
-                    if (btn) btn.classList.remove('is-loading');
                 }
             }
         };
